@@ -15,7 +15,9 @@ struct ContentView: View {
             }, label: {
                 Text("Tap me!")
             })
+            .frame(width: 100, height: 30, alignment: .center)
             .background(Color.red)
+            .cornerRadius(20)
         }
     }
 }
