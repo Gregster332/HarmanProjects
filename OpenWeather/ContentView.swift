@@ -11,7 +11,7 @@ struct ContentView: View {
     var body: some View {
         VStack {
             Button(action: {
-                
+                print("Hello")
             }, label: {
                 Text("Tap me!")
             })
