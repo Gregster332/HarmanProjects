@@ -10,27 +10,32 @@ import SwiftUI
 struct MainView: View {
      let k = "c302a638f8f46f6a557e143a3a483647"
     
-    @ObservedObject var arrayCity = WeatherViewModel()
+    @ObservedObject var vm = WeatherViewModel()
     @State var showAddView: Bool = false
+    @State var cities: [Welcome] = []
     
     var body: some View {
         NavigationView {
             
             ScrollView(.vertical, showsIndicators: false){
                 
-                ForEach(arrayCity.array.indices, id: \.self) { index in
+                ForEach(vm.citiesWelcome.indices, id: \.self) { index in
                             NavigationLink(
-                                destination: DetailView(weatherDetails: arrayCity.array[index]),
+                                destination: DetailView(weatherDetails: vm.citiesWelcome[index]),
                                 label: {
-                                    WeatherPreview(city: arrayCity.array[index].name,
-                                                   temp: Int(arrayCity.array[index].main.temp) - 273,
-                                                   max: Int(arrayCity.array[index].main.tempMax) - 273,
-                                                   min: Int(arrayCity.array[index].main.tempMin) - 273)
+                                    WeatherPreview(city: vm.citiesWelcome[index].name,
+                                                   temp: Int(vm.citiesWelcome[index].main.temp) - 273,
+                                                   max: Int(vm.citiesWelcome[index].main.tempMax) - 273,
+                                                   min: Int(vm.citiesWelcome[index].main.tempMin) - 273)
                                 })
                                 .buttonStyle(PlainButtonStyle())
                                 .contextMenu(ContextMenu(menuItems: {
                                     Button(action: {
-                                        arrayCity.array.remove(at: index)
+                                        withAnimation(.easeIn) {
+                                            vm.citiesWelcome.remove(at: index)
+                                            vm.deleteData(object: vm.cities[index])
+                                        }
+                                        print(vm.cities)
                                     }, label: {
                                         Text("Delete")
                                     })
@@ -48,13 +53,12 @@ struct MainView: View {
         }
         .blur(radius: showAddView ? 2 : 0)
         .overlay(AddCityView(showThisView: $showAddView)
-                    .environmentObject(arrayCity)
+                    .environmentObject(vm)
                     .offset(y: showAddView ? 0 : -UIScreen.main.bounds.height))
         .onAppear {
-            DispatchQueue.main.async {
-                arrayCity.add(name: "Sochi")
-                arrayCity.add(name: "Chili")
-            }
+            vm.fetchData()
+            vm.addCurrentCityCityInArray(name: nil)
+            print(vm.cities)
         }
     }
     

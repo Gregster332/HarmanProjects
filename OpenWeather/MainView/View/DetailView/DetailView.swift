@@ -12,6 +12,7 @@ struct DetailView: View {
     let weatherDetails: Welcome?
 
     var body: some View {
+        
         ScrollView(.vertical, showsIndicators: false) {
             
             VStack(alignment: .center, spacing: 10) {
@@ -20,7 +21,7 @@ struct DetailView: View {
                 Text("\(Int(weatherDetails!.main.temp) -  273)º")
                     .font(.system(size: UIScreen.main.bounds.height / 21))
                     .fontWeight(.bold)
-                Text("\(weatherDetails!.weather.first!.weatherDescription)")
+                Text("\(weatherDetails!.weather.first!.main)")
                     .font(.system(size: UIScreen.main.bounds.height / 30))
                 Text("Макс: \(Int(weatherDetails!.main.tempMax) - 273)º, мин: \(Int(weatherDetails!.main.tempMin) - 273)º")
             }

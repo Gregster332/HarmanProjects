@@ -19,14 +19,14 @@ struct WeatherPreview: View, Hashable {
             LinearGradient(gradient: Gradient(colors: [Color(#colorLiteral(red: 0.2588235438, green: 0.7568627596, blue: 0.9686274529, alpha: 1)).opacity(0.8), Color(#colorLiteral(red: 0.2588235438, green: 0.7568627596, blue: 0.9686274529, alpha: 1)).opacity(0.8), Color(#colorLiteral(red: 0.9686274529, green: 0.78039217, blue: 0.3450980484, alpha: 1)).opacity(0.7)]), startPoint: .bottomLeading, endPoint: .topTrailing)
                 .blur(radius: 1.1)
             
-            HStack(alignment: .top, spacing: UIScreen.main.bounds.width / 6.5){
+            HStack(alignment: .top){
                    
                 ZStack {
                     Text("\(city)")
-                        .font(.system(size: (UIScreen.main.bounds.height / 45) + 2))
+                        .font(.system(size: (UIScreen.main.bounds.height / 40) + 2))
                         .fontWeight(.bold)
                         .lineLimit(1)
-                        .offset(x: -(UIScreen.main.bounds.width / 2.4), y: -(UIScreen.main.bounds.height / 50))
+                        .offset(x: -(UIScreen.main.bounds.width / 3), y: -(UIScreen.main.bounds.height / 50))
                         .padding(.trailing, -10)
                     //.padding([.top, .leading], 6)
                     
@@ -36,7 +36,7 @@ struct WeatherPreview: View, Hashable {
                         Text("Макс.: \(max)º, мин.: \(min)º")
                             .font(.system(size: 18))
                     }
-                    .padding(.trailing, 10)
+                    .padding(.trailing, 20)
                 }
             }
             
@@ -51,7 +51,7 @@ struct WeatherPreview: View, Hashable {
 struct WeatherPreview_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            WeatherPreview(city: "", temp: 7, max: 11, min: 11)
+            WeatherPreview(city: "Нижний Новгород", temp: 7, max: 11, min: 11)
             WeatherPreview(city: "", temp: 8, max: 11, min: 11).previewDevice("iPhone 12")
         }
     }

@@ -17,10 +17,11 @@ class NetworkService {
         let task = URLSession.shared.dataTask(with: url) { data, response, error in
             guard error == nil else { return }
             guard let data = data else { return }
-            guard let json = try? JSONDecoder().decode(Welcome.self, from: data) else { return }
-            
-            DispatchQueue.main.async {
-                completion(json)
+            if let json = try? JSONDecoder().decode(Welcome.self, from: data) {
+                print(json)
+                DispatchQueue.main.async {
+                    completion(json)
+                }
             }
             
         }
