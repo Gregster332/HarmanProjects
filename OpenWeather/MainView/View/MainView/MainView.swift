@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import RealmSwift
 
 struct MainView: View {
      let k = "c302a638f8f46f6a557e143a3a483647"
@@ -32,10 +33,12 @@ struct MainView: View {
                                 .contextMenu(ContextMenu(menuItems: {
                                     Button(action: {
                                         withAnimation(.easeIn) {
-                                            vm.citiesWelcome.remove(at: index)
                                             vm.deleteData(object: vm.cities[index])
+                                            vm.fetchData()
+                                            vm.citiesWelcome.remove(at: index)
                                         }
                                         print(vm.cities)
+                                        print(vm.citiesWelcome)
                                     }, label: {
                                         Text("Delete")
                                     })
@@ -56,9 +59,10 @@ struct MainView: View {
                     .environmentObject(vm)
                     .offset(y: showAddView ? 0 : -UIScreen.main.bounds.height))
         .onAppear {
+            //vm.deleteAll()
             vm.fetchData()
-            vm.addCurrentCityCityInArray(name: nil)
             print(vm.cities)
+            vm.addCurrentCityCityInArray()
         }
     }
     

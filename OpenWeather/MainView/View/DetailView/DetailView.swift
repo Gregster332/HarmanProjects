@@ -10,6 +10,7 @@ import SwiftUI
 struct DetailView: View {
     
     let weatherDetails: Welcome?
+    @EnvironmentObject var arrayCity: WeatherViewModel
 
     var body: some View {
         
@@ -27,8 +28,11 @@ struct DetailView: View {
             }
             
             VStack {
-                FragmentView(description: "Ощущается как", index: Int(weatherDetails!.main.feelsLike) - 273, imageName: "thermometer", metric: "º")
-                FragmentView(description: "Влажность", index: Int(weatherDetails!.main.humidity), imageName: "drop.fill", metric: "%")
+                FragmentView(description: "Ощущается как", index: "\(Int(weatherDetails!.main.feelsLike) - 273)", imageName: "thermometer", metric: "º")
+                FragmentView(description: "Влажность", index: "\(Int(weatherDetails!.main.humidity))", imageName: "drop.fill", metric: "%")
+                FragmentView(description: "Давление", index: "\(Int(weatherDetails!.main.pressure))", imageName: "dial.min", metric: " мм рт. ст.")
+                FragmentView(description: "Рассвет", index: "\(Date(timeIntervalSince1970: TimeInterval(weatherDetails!.sys.sunrise)).timeIn24HourFormat())", imageName: "sunrise.fill", metric: "")
+                FragmentView(description: "Закат", index: "\(Date(timeIntervalSince1970: TimeInterval(weatherDetails!.sys.sunset)).timeIn24HourFormat())", imageName: "sunset.fill", metric: "")
             }
         }
         .padding()

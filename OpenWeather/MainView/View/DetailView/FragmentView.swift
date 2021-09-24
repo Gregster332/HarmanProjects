@@ -10,7 +10,7 @@ import SwiftUI
 struct FragmentView: View {
     
     var description: String
-    var index: Int
+    var index: String
     var imageName: String
     var metric: String
     
@@ -34,7 +34,7 @@ struct FragmentView: View {
 
 struct FragmentView_Previews: PreviewProvider {
     static var previews: some View {
-        FragmentView(description: "Ощущается как", index: 7, imageName: "thermometer", metric: "º")
+        FragmentView(description: "Ощущается как", index: "7", imageName: "thermometer", metric: "º")
             .previewLayout(.sizeThatFits)
     }
 }

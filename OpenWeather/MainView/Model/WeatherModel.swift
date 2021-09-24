@@ -8,34 +8,18 @@
 import Foundation
 
 struct Welcome: Codable {
-    let coord: Coord
     let weather: [Weather]
-    let base: String
     let main: Main
     let visibility: Int
-    let wind: Wind
-    let clouds: Clouds
-    let dt: Int
     let sys: Sys
     let timezone, id: Int
     let name: String
-    let cod: Int
-}
-
-// MARK: - Clouds
-struct Clouds: Codable {
-    let all: Int
-}
-
-// MARK: - Coord
-struct Coord: Codable {
-    let lon, lat: Double
 }
 
 // MARK: - Main
 struct Main: Codable {
     let temp, feelsLike, tempMin, tempMax: Double
-    let pressure, humidity, seaLevel, grndLevel: Int
+    let pressure, humidity: Int
 
     enum CodingKeys: String, CodingKey {
         case temp
@@ -43,14 +27,11 @@ struct Main: Codable {
         case tempMin = "temp_min"
         case tempMax = "temp_max"
         case pressure, humidity
-        case seaLevel = "sea_level"
-        case grndLevel = "grnd_level"
     }
 }
 
 // MARK: - Sys
 struct Sys: Codable {
-    let country: String
     let sunrise, sunset: Int
 }
 
@@ -66,9 +47,3 @@ struct Weather: Codable {
     }
 }
 
-// MARK: - Wind
-struct Wind: Codable {
-    let speed: Double
-    let deg: Int
-    let gust: Double
-}

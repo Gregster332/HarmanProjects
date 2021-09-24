@@ -31,17 +31,30 @@ struct AddCityView: View {
             .cornerRadius(15)
             
             Button(action: {
-               
                     arrayCity.addData()
-                    arrayCity.addCurrentCityCityInArray(name: arrayCity.cityName)
+                    arrayCity.addCurrentCityCityInArray()
                     showThisView.toggle()
-                    arrayCity.cityName = ""
-                
+                    //arrayCity.cityName = ""
             }, label: {
                 Text("Search")
                     .font(.system(size: 23))
                     .fontWeight(.semibold)
                     .foregroundColor(.black)
+                    .padding()
+                    .frame(width: UIScreen.main.bounds.width / 3, height: UIScreen.main.bounds.height / 15, alignment: .center)
+                    .background(Color.blue.opacity(0.3))
+                    .cornerRadius(15)
+            })
+            Button(action: {
+                    showThisView.toggle()
+                    arrayCity.cityName = ""
+                    print(arrayCity.cities)
+                    print(arrayCity.citiesWelcome)
+            }, label: {
+                Text("Cancel")
+                    .font(.system(size: 23))
+                    .fontWeight(.semibold)
+                    .foregroundColor(.red.opacity(0.5))
                     .padding()
                     .frame(width: UIScreen.main.bounds.width / 3, height: UIScreen.main.bounds.height / 15, alignment: .center)
                     .background(Color.blue.opacity(0.3))
