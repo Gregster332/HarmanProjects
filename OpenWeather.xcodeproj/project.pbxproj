@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		D053B37326FC7CB800307F56 /* DBModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D053B37226FC7CB800307F56 /* DBModel.swift */; };
+		D053B37626FCB38800307F56 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D053B37526FCB38800307F56 /* Date+Extension.swift */; };
+		D053B37826FE22DB00307F56 /* OrientationInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = D053B37726FE22DB00307F56 /* OrientationInfo.swift */; };
+		D053B37A26FF46EF00307F56 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D053B37926FF46EF00307F56 /* LocationManager.swift */; };
 		D0550AE226FB4D01007E2625 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0550AE126FB4D01007E2625 /* AppDelegate.swift */; };
 		D0550AE426FB4D01007E2625 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0550AE326FB4D01007E2625 /* SceneDelegate.swift */; };
 		D0550AE626FB4D01007E2625 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0550AE526FB4D01007E2625 /* MainView.swift */; };
@@ -27,6 +30,9 @@
 
 /* Begin PBXFileReference section */
 		D053B37226FC7CB800307F56 /* DBModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBModel.swift; sourceTree = "<group>"; };
+		D053B37526FCB38800307F56 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
+		D053B37726FE22DB00307F56 /* OrientationInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrientationInfo.swift; sourceTree = "<group>"; };
+		D053B37926FF46EF00307F56 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		D0550ADE26FB4D01007E2625 /* OpenWeather.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenWeather.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0550AE126FB4D01007E2625 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D0550AE326FB4D01007E2625 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -57,6 +63,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D053B37426FCB37600307F56 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				D053B37526FCB38800307F56 /* Date+Extension.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		D0550AD526FB4D01007E2625 = {
 			isa = PBXGroup;
 			children = (
@@ -79,6 +93,7 @@
 			children = (
 				D0550AE126FB4D01007E2625 /* AppDelegate.swift */,
 				D0550AE326FB4D01007E2625 /* SceneDelegate.swift */,
+				D053B37426FCB37600307F56 /* Extensions */,
 				D0550AFA26FB6808007E2625 /* MainView */,
 				D0550AE726FB4D02007E2625 /* Assets.xcassets */,
 				D0550AEC26FB4D02007E2625 /* LaunchScreen.storyboard */,
@@ -137,6 +152,8 @@
 			isa = PBXGroup;
 			children = (
 				D0550B0326FB81FE007E2625 /* NetworkService.swift */,
+				D053B37726FE22DB00307F56 /* OrientationInfo.swift */,
+				D053B37926FF46EF00307F56 /* LocationManager.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -249,9 +266,12 @@
 				D0550AFF26FB68A2007E2625 /* WeatherPreview.swift in Sources */,
 				D0550B1A26FBC707007E2625 /* FragmentView.swift in Sources */,
 				D0550AE426FB4D01007E2625 /* SceneDelegate.swift in Sources */,
+				D053B37626FCB38800307F56 /* Date+Extension.swift in Sources */,
 				D0550B1C26FBD1CE007E2625 /* AddCityView.swift in Sources */,
 				D0550B0626FB843B007E2625 /* WeatherViewModel.swift in Sources */,
 				D0550AE626FB4D01007E2625 /* MainView.swift in Sources */,
+				D053B37826FE22DB00307F56 /* OrientationInfo.swift in Sources */,
+				D053B37A26FF46EF00307F56 /* LocationManager.swift in Sources */,
 				D0550B0426FB81FE007E2625 /* NetworkService.swift in Sources */,
 				D053B37326FC7CB800307F56 /* DBModel.swift in Sources */,
 				D0550B0126FB81B8007E2625 /* WeatherModel.swift in Sources */,
