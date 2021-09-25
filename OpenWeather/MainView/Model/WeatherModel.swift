@@ -10,9 +10,7 @@ import Foundation
 struct Welcome: Codable {
     let weather: [Weather]
     let main: Main
-    let visibility: Int
     let sys: Sys
-    let timezone, id: Int
     let name: String
 }
 
@@ -37,13 +35,11 @@ struct Sys: Codable {
 
 // MARK: - Weather
 struct Weather: Codable {
-    let id: Int
-    let main, weatherDescription, icon: String
+    let main: String
 
     enum CodingKeys: String, CodingKey {
-        case id, main
-        case weatherDescription = "description"
-        case icon
+        case main
+        
     }
 }
 
