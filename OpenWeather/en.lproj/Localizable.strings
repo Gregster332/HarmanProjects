@@ -1,0 +1,35 @@
+/* 
+  Localizable.strings
+  OpenWeather
+
+  Created by Grigory Zenkov on 26.09.2021.
+  
+*/
+
+"Cities" = "Cities";
+"Feels like" = "Feels like";
+"Humidity" = "Humidity";
+"Pressure" = "Pressure";
+"Enter city name" = "Enter city name";
+"Sunrise" = "Sunrise";
+"Sunset" = "Sunset";
+"Name..." = "Name...";
+"Search" = "Search";
+"Cancel" = "Cancel";
+"Max:" = "Max:";
+"Min:" = "Min:";
+"Current Info" = "Current Info";
+"Clouds" = "Clouds";
+"Clear" = "Clear";
+"Mist" = "Mist";
+"Smoke" = "Smoke";
+"Haze" = "Haze";
+"Dust" = "Dust";
+"Fog" = "Fog";
+"Sand" = "Sand";
+"Ash" = "Ash";
+"Squall" = "Squall";
+"Tornado" = "Tornado";
+"Snow" = "Snow";
+"Rain" = "Rain";
+

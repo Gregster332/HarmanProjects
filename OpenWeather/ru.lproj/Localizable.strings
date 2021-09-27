@@ -1,0 +1,34 @@
+/* 
+  Localizable.strings
+  OpenWeather
+
+  Created by Grigory Zenkov on 26.09.2021.
+  
+*/
+
+"Cities" = "Список городов";
+"Feels like" = "Ощущается как";
+"Humidity" = "Влажность";
+"Pressure" = "Давление";
+"Enter city name" = "Введите название города";
+"Sunrise" = "Рассвет";
+"Sunset" = "Закат";
+"Name..." = "Название...";
+"Search" = "Поиск";
+"Cancel" = "Отмена";
+"Max:" = "Макс.:";
+"Min:" = "Мин.:";
+"Current Info" = "Подробнее";
+"Clouds" = "Облачно";
+"Clear" = "Чисто";
+"Mist" = "Пыль";
+"Smoke" = "Смог";
+"Haze" = "Туман";
+"Dust" = "Пыль";
+"Fog" = "Туман";
+"Sand" = "Песчаный ветер";
+"Ash" = "Пепел";
+"Squall" = "Шквал";
+"Tornado" = "Торнадо";
+"Snow" = "Снег";
+"Rain" = "Дождь";

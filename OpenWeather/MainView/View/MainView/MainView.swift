@@ -21,6 +21,7 @@ struct MainView: View {
     @State var showAddView: Bool = false
     @State var cities: [Welcome] = []
     
+    let timer = Timer.publish(every: 2, on: .main, in: .common).autoconnect()
     
     var body: some View {
         
@@ -28,12 +29,10 @@ struct MainView: View {
         
       return NavigationView {
 
-        
-        
             ScrollView(.vertical, showsIndicators: false){
                 
                         NavigationLink(
-                            destination: DetailView(weatherDetails: getCityFromWelcome(welcome: userFromLocation!) == nil ? vm.cities.first : getCityFromWelcome(welcome: userFromLocation!)),
+                            destination: DetailView(weatherDetails: getCityFromWelcome(welcome: userFromLocation!)?.name == nil ? vm.cities.first : getCityFromWelcome(welcome: userFromLocation!)),
                             label: {
                                 WeatherPreview(city: userFromLocation!.name, temp: Int((userFromLocation?.main.temp)!) - 273, max: Int((userFromLocation?.main.tempMax)!) - 273, min: Int((userFromLocation?.main.tempMin)!) - 273)
                             })
@@ -55,7 +54,7 @@ struct MainView: View {
                                             vm.fetchData()
                                             //vm.cities.remove(at: index)
                                         }
-                                        print(vm.cities)
+                                        //print(vm.cities)
                                         //print(vm.citiesWelcome)
                                     }, label: {
                                         Text("Delete")
@@ -64,7 +63,7 @@ struct MainView: View {
                                 .disabled(showAddView)
                     }
             }
-            .navigationBarTitle("Список городов")
+            .navigationBarTitle(LocalizedStringKey("Cities"))
             .navigationBarItems(trailing: Button(action: {
                 withAnimation(.easeIn) {
                     showAddView.toggle()
@@ -74,6 +73,8 @@ struct MainView: View {
             }))
             .disabled(showAddView)
         }
+        .padding(1)
+        .navigationViewStyle(StackNavigationViewStyle())
         .blur(radius: showAddView ? 2 : 0)
         .overlay(AddCityView(showThisView: $showAddView)
                     .environmentObject(vm)
@@ -86,11 +87,27 @@ struct MainView: View {
                     self.userFromLocation = item
                 }
             }
-            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                print(vm.cities)
+            
+        }
+      .onReceive(timer, perform: { _ in
+        getCurrnetWeather()
+        //print("hello")
+      })
+        //TODO: - onReceive
+    }
+    
+    private func getCurrnetWeather() {
+        let coordinate = self.locationManager.location != nil ? self.locationManager.location?.coordinate : CLLocationCoordinate2D()
+        let service = NetworkService()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            service.getDataByCoordinates(lat: coordinate?.latitude ?? 0, lon: coordinate?.longitude ?? 0) { item in
+                self.userFromLocation = item
             }
         }
-        //TODO: - onReceive
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            vm.getNewData()
+            print("gg")
+        }
     }
     
     private func getCityFromWelcome(welcome: Welcome?) -> City? {

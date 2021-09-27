@@ -28,17 +28,17 @@ struct WeatherPreview: View {
                    
                 ZStack {
                     Text("\(city)")
-                        .font(.system(size: heightClass == .regular ? 23 : 35))
+                        .font(.system(size: calculateFont()))
                         .fontWeight(.bold)
                         .lineLimit(1)
-                        .offset(x: heightClass == .regular ? -110 : -220, y: -20)
+                        .offset(x: calculateOffset(), y: -20)
                         .padding(.trailing, -10)
                     //.padding([.top, .leading], 6)
                     
                     VStack(alignment: .trailing, spacing: 20) {
                         Text("\(temp)º")
                             .font(.system(size: 40))
-                        Text("Макс.: \(max)º, мин.: \(min)º")
+                        Text("Max.: \(max)º, min.: \(min)º")
                             .font(.system(size: 18))
                     }
                     .padding(.trailing, 20)
@@ -46,24 +46,94 @@ struct WeatherPreview: View {
             }
             
         }
-        .frame(width: calculateWidth(), height: 150)
+        .frame(width: calculateWidth(), height: 140)
         .cornerRadius(20)
+        
     }
     
     private func calculateWidth() -> CGFloat {
-        if heightClass == .regular && device.contains("iPhone") {
+        //print(device)
+        if heightClass == .regular && (device == "iPhone 12" ||
+                                        device == "iPhone 12 Pro" ||
+                                        device == "iPhone 12 Pro Max" ||
+                                        device == "iPhone 11" ||
+                                        device == "iPhone 11 Pro" ||
+                                        device == "iPhone 11 Pro Max" ||
+                                        device == "iPhone XS" ||
+                                        device == "iPhone XS Max" ||
+                                        device == "iPhone Xr" ||
+                                        device == "iPhone X" ||
+                                        device == "iPhone 8 Plus" ||
+                                        device == "iPhone 7 Plus"){
             return 380
-        } else if heightClass == .regular && device.contains("iPhone 8"){
+        } else if heightClass == .regular && (device == "iPhone 8" || device == "iPhone 7" || device == "iPhone SE (2nd generation)"){
             return 350
         } else if heightClass == .compact && device.contains("iPhone") {
             return 600
         } else if heightClass == .regular && device.contains("iPad") {
-            return 300
+            return 500
+        } else if heightClass == .compact && device.contains("iPad") {
+            return 500
         } else {
             return 300
         }
     }
     
+    private func calculateFont() -> CGFloat {
+        //print(device)
+        if heightClass == .regular && (device == "iPhone 12" ||
+                                        device == "iPhone 12 Pro" ||
+                                        device == "iPhone 12 Pro Max" ||
+                                        device == "iPhone 11" ||
+                                        device == "iPhone 11 Pro" ||
+                                        device == "iPhone 11 Pro Max" ||
+                                        device == "iPhone XS" ||
+                                        device == "iPhone XS Max" ||
+                                        device == "iPhone Xr" ||
+                                        device == "iPhone X" ||
+                                        device == "iPhone 8 Plus" ||
+                                        device == "iPhone 7 Plus"){
+            return 25
+        } else if heightClass == .regular && (device == "iPhone 8" || device == "iPhone 7" || device == "iPhone SE (2nd generation)"){
+            return 23
+        } else if heightClass == .compact && device.contains("iPhone") {
+            return 35
+        } else if heightClass == .regular && device.contains("iPad") {
+            return 40
+        } else if heightClass == .compact && device.contains("iPad") {
+            return 50
+        } else {
+            return 25
+        }
+    }
+    
+    private func calculateOffset() -> CGFloat {
+        //print(device)
+        if heightClass == .regular && (device == "iPhone 12" ||
+                                        device == "iPhone 12 Pro" ||
+                                        device == "iPhone 12 Pro Max" ||
+                                        device == "iPhone 11" ||
+                                        device == "iPhone 11 Pro" ||
+                                        device == "iPhone 11 Pro Max" ||
+                                        device == "iPhone XS" ||
+                                        device == "iPhone XS Max" ||
+                                        device == "iPhone Xr" ||
+                                        device == "iPhone X" ||
+                                        device == "iPhone 8 Plus" ||
+                                        device == "iPhone 7 Plus"){
+            return -110
+        } else if heightClass == .regular && (device == "iPhone 8" || device == "iPhone 7" || device == "iPhone SE (2nd generation)"){
+            return -110
+        } else if heightClass == .compact && device.contains("iPhone") {
+            return -220
+        } else if heightClass == .regular && device.contains("iPad") {
+            return -220
+        } else if heightClass == .compact && device.contains("iPad") {
+            return -220
+        } else {
+            return -110
+        }
+    }
     
 }
 
