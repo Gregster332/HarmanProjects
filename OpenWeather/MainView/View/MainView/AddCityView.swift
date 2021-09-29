@@ -102,7 +102,7 @@ struct AddCityView: View {
     
     private func checkSymbols(str: String) -> Bool {
            for chr in str {
-              if (!(chr >= "a" && chr <= "z") && !(chr >= "A" && chr <= "Z") ) {
+              if (!(chr >= "a" && chr <= "z") && !(chr >= "A" && chr <= "Z") && chr != " " && chr != "-") {
                  return false
               }
            }

@@ -18,51 +18,75 @@ struct MainView: View {
     @ObservedObject var locationManager = LocationManager()
     
     @State private var userFromLocation: Welcome? = Welcome(weather: [Weather(main: "")], main: Main(temp: 3, feelsLike: 3, tempMin: 3, tempMax: 3, pressure: 3, humidity: 3), sys: Sys(sunrise: 22, sunset: 22), name: "")
+    @State private var city: City? = nil
     @State var showAddView: Bool = false
+    @State var showSheet: Bool = false
     @State var cities: [Welcome] = []
     
     let timer = Timer.publish(every: 2, on: .main, in: .common).autoconnect()
     
     var body: some View {
         
-      let coordinate = self.locationManager.location != nil ? self.locationManager.location?.coordinate : CLLocationCoordinate2D()
+        let coordinate = self.locationManager.location != nil ? self.locationManager.location?.coordinate : CLLocationCoordinate2D()
         
-      return NavigationView {
-
+        return NavigationView {
+            
             ScrollView(.vertical, showsIndicators: false){
                 
-                        NavigationLink(
-                            destination: DetailView(weatherDetails: getCityFromWelcome(welcome: userFromLocation!)?.name == nil ? vm.cities.first : getCityFromWelcome(welcome: userFromLocation!)),
-                            label: {
-                                WeatherPreview(city: userFromLocation!.name, temp: Int((userFromLocation?.main.temp)!) - 273, max: Int((userFromLocation?.main.tempMax)!) - 273, min: Int((userFromLocation?.main.tempMin)!) - 273)
-                            })
-                            .buttonStyle(PlainButtonStyle())
-                            .disabled(showAddView)
+                NavigationLink(
+                    destination: DetailView(weatherDetails: getCityFromWelcome(welcome: userFromLocation!)?.name == nil ? vm.cities.first : getCityFromWelcome(welcome: userFromLocation!), isNavigationLink: true),
+                    label: {
+                        WeatherPreview(city: userFromLocation!.name, temp: Int((userFromLocation?.main.temp)!) - 273, max: Int((userFromLocation?.main.tempMax)!) - 273, min: Int((userFromLocation?.main.tempMin)!) - 273)
+                    })
+                    .buttonStyle(PlainButtonStyle())
+                    .disabled(showAddView)
                 
                 
                 ForEach(vm.cities.indices, id: \.self) { index in
-                            NavigationLink(
-                                destination: DetailView(weatherDetails: vm.cities[index]),
-                                label: {
-                                    WeatherPreview(city: vm.cities[index].name, temp: Int(vm.cities[index].temp) - 273, max: Int(vm.cities[index].tempMax) - 273, min: Int(vm.cities[index].tempMin) - 273)
+                    //                            NavigationLink(
+                    //                                destination: DetailView(weatherDetails: vm.cities[index]),
+                    //                                label: {
+                    Button {
+                        city = vm.cities[index]
+                        //DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                        showSheet.toggle()
+                        //}
+                    } label: {
+                        WeatherPreview(city: vm.cities[index].name,
+                                       temp: Int(vm.cities[index].temp) - 273,
+                                       max: Int(vm.cities[index].tempMax) - 273,
+                                       min: Int(vm.cities[index].tempMin) - 273)
+                        //})
+                            .contextMenu(ContextMenu(menuItems: {
+                                Button(action: {
+                                    withAnimation(.easeIn) {
+                                        vm.deleteData(object: vm.cities[index])
+                                        vm.fetchData()
+                                        //vm.cities.remove(at: index)
+                                    }
+                                    //print(vm.cities)
+                                    //print(vm.citiesWelcome)
+                                }, label: {
+                                    Text("Delete")
                                 })
-                                .buttonStyle(PlainButtonStyle())
-                                .contextMenu(ContextMenu(menuItems: {
-                                    Button(action: {
-                                        withAnimation(.easeIn) {
-                                            vm.deleteData(object: vm.cities[index])
-                                            vm.fetchData()
-                                            //vm.cities.remove(at: index)
-                                        }
-                                        //print(vm.cities)
-                                        //print(vm.citiesWelcome)
-                                    }, label: {
-                                        Text("Delete")
-                                    })
-                                }))
-                                .disabled(showAddView)
+                            }))
+                            .disabled(showAddView)
                     }
+                    .buttonStyle(PlainButtonStyle())
+                    
+                    
+                }
+                
             }
+            .sheet(isPresented: $showSheet) {
+                if city != nil {
+                    DetailView(weatherDetails: city, isNavigationLink: false)
+                } else {
+                    ProgressView()
+                        .progressViewStyle(CircularProgressViewStyle())
+                }
+            }
+            
             .navigationBarTitle(LocalizedStringKey("Cities"))
             .navigationBarItems(trailing: Button(action: {
                 withAnimation(.easeIn) {
@@ -80,6 +104,7 @@ struct MainView: View {
                     .environmentObject(vm)
                     .offset(y: showAddView ? 0 : -1000))
         .onAppear {
+            print("gg")
             let service = NetworkService()
             vm.fetchData()
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
@@ -89,11 +114,10 @@ struct MainView: View {
             }
             
         }
-      .onReceive(timer, perform: { _ in
-        getCurrnetWeather()
-        //print("hello")
-      })
-        //TODO: - onReceive
+        .onReceive(timer, perform: { _ in
+            getCurrnetWeather()
+            //print("hello")
+        })
     }
     
     private func getCurrnetWeather() {
@@ -106,7 +130,6 @@ struct MainView: View {
         }
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             vm.getNewData()
-            print("gg")
         }
     }
     
@@ -115,7 +138,7 @@ struct MainView: View {
         let city = City()
         city.feelsLike = welcome.main.feelsLike
         city.humidity = welcome.main.humidity
-        city.main = welcome.weather.first!.main
+        city.main = welcome.weather.last!.main
         city.name = welcome.name
         city.pressure = welcome.main.pressure
         city.sunrise = welcome.sys.sunrise
@@ -126,14 +149,14 @@ struct MainView: View {
         return city
     }
     
-    }
-    
+}
+
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         MainView()
         MainView().previewDevice("iPhone 8").previewLayout(.fixed(width: 667 , height: 375))
         MainView().previewDevice("iPhone 12").previewLayout(.fixed(width: 844, height: 390))
-//        MainView().previewDevice("iPhone 12 Pro Max")
+        //        MainView().previewDevice("iPhone 12 Pro Max")
     }
 }

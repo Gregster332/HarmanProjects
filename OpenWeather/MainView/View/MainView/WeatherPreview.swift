@@ -52,86 +52,77 @@ struct WeatherPreview: View {
     }
     
     private func calculateWidth() -> CGFloat {
-        //print(device)
-        if heightClass == .regular && (device == "iPhone 12" ||
-                                        device == "iPhone 12 Pro" ||
-                                        device == "iPhone 12 Pro Max" ||
-                                        device == "iPhone 11" ||
-                                        device == "iPhone 11 Pro" ||
-                                        device == "iPhone 11 Pro Max" ||
-                                        device == "iPhone XS" ||
-                                        device == "iPhone XS Max" ||
-                                        device == "iPhone Xr" ||
-                                        device == "iPhone X" ||
-                                        device == "iPhone 8 Plus" ||
-                                        device == "iPhone 7 Plus"){
-            return 380
-        } else if heightClass == .regular && (device == "iPhone 8" || device == "iPhone 7" || device == "iPhone SE (2nd generation)"){
-            return 350
-        } else if heightClass == .compact && device.contains("iPhone") {
-            return 600
-        } else if heightClass == .regular && device.contains("iPad") {
-            return 500
-        } else if heightClass == .compact && device.contains("iPad") {
-            return 500
+        print("\(UIScreen.main.bounds.height) height")
+        print("\(UIScreen.main.bounds.width) width")
+        if heightClass == .regular {
+            if (900..<1000).contains(UIScreen.main.bounds.height) {
+                return 390
+            } else if (800..<900).contains(UIScreen.main.bounds.height) {
+                return 370
+            } else if  (600..<700).contains(UIScreen.main.bounds.height) {
+                return 350
+            } else if (700..<800).contains(UIScreen.main.bounds.height) {
+                return 370
+            } else if (1000..<1400).contains(UIScreen.main.bounds.height) {
+                return 500
+            } else {
+                return 300
+            }
         } else {
-            return 300
+            if (300..<1000).contains(UIScreen.main.bounds.height) {
+                return 600
+            } else {
+                return 500
+            }
         }
+       
     }
     
     private func calculateFont() -> CGFloat {
-        //print(device)
-        if heightClass == .regular && (device == "iPhone 12" ||
-                                        device == "iPhone 12 Pro" ||
-                                        device == "iPhone 12 Pro Max" ||
-                                        device == "iPhone 11" ||
-                                        device == "iPhone 11 Pro" ||
-                                        device == "iPhone 11 Pro Max" ||
-                                        device == "iPhone XS" ||
-                                        device == "iPhone XS Max" ||
-                                        device == "iPhone Xr" ||
-                                        device == "iPhone X" ||
-                                        device == "iPhone 8 Plus" ||
-                                        device == "iPhone 7 Plus"){
-            return 25
-        } else if heightClass == .regular && (device == "iPhone 8" || device == "iPhone 7" || device == "iPhone SE (2nd generation)"){
-            return 23
-        } else if heightClass == .compact && device.contains("iPhone") {
-            return 35
-        } else if heightClass == .regular && device.contains("iPad") {
-            return 40
-        } else if heightClass == .compact && device.contains("iPad") {
-            return 50
+        if heightClass == .regular {
+            if (900..<1000).contains(UIScreen.main.bounds.height) {
+                return 28
+            } else if (800..<900).contains(UIScreen.main.bounds.height) {
+                return 25
+            } else if  (600..<700).contains(UIScreen.main.bounds.height) {
+                return 23
+            } else if (700..<800).contains(UIScreen.main.bounds.height) {
+                return 24
+            } else if (1000..<1400).contains(UIScreen.main.bounds.height) {
+                return 35
+            } else {
+                return 23
+            }
         } else {
-            return 25
+            if (300..<1000).contains(UIScreen.main.bounds.height) {
+                return 35
+            } else {
+                return 50
+            }
         }
     }
     
     private func calculateOffset() -> CGFloat {
-        //print(device)
-        if heightClass == .regular && (device == "iPhone 12" ||
-                                        device == "iPhone 12 Pro" ||
-                                        device == "iPhone 12 Pro Max" ||
-                                        device == "iPhone 11" ||
-                                        device == "iPhone 11 Pro" ||
-                                        device == "iPhone 11 Pro Max" ||
-                                        device == "iPhone XS" ||
-                                        device == "iPhone XS Max" ||
-                                        device == "iPhone Xr" ||
-                                        device == "iPhone X" ||
-                                        device == "iPhone 8 Plus" ||
-                                        device == "iPhone 7 Plus"){
-            return -110
-        } else if heightClass == .regular && (device == "iPhone 8" || device == "iPhone 7" || device == "iPhone SE (2nd generation)"){
-            return -110
-        } else if heightClass == .compact && device.contains("iPhone") {
-            return -220
-        } else if heightClass == .regular && device.contains("iPad") {
-            return -220
-        } else if heightClass == .compact && device.contains("iPad") {
-            return -220
+        if heightClass == .regular {
+            if (900..<1000).contains(UIScreen.main.bounds.height) {
+                return -160
+            } else if (800..<900).contains(UIScreen.main.bounds.height) {
+                return -145
+            } else if  (600..<700).contains(UIScreen.main.bounds.height) {
+                return -110
+            } else if (700..<800).contains(UIScreen.main.bounds.height) {
+                return -135
+            } else if (1000..<1400).contains(UIScreen.main.bounds.height) {
+                return -202
+            } else {
+                return -100
+            }
         } else {
-            return -110
+            if (300..<1000).contains(UIScreen.main.bounds.height) {
+                return -200
+            } else {
+                return -220
+            }
         }
     }
     

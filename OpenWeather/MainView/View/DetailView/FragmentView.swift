@@ -36,28 +36,30 @@ struct FragmentView: View {
     }
     
     private func calculateWidth() -> CGFloat {
-        //print(device)
-        if heightClass == .regular && (device == "iPhone 12" ||
-                                        device == "iPhone 12 Pro" ||
-                                        device == "iPhone 12 Pro Max" ||
-                                        device == "iPhone 11" ||
-                                        device == "iPhone 11 Pro" ||
-                                        device == "iPhone 11 Pro Max" ||
-                                        device == "iPhone XS" ||
-                                        device == "iPhone XS Max" ||
-                                        device == "iPhone Xr" ||
-                                        device == "iPhone X" ||
-                                        device == "Alexandr’s iPhone") {
-            return 380
-        } else if heightClass == .regular && (device == "iPhone 8" || device == "iPhone 7" || device == "iPhone SE (2nd generation)"){
-            return 370
-        } else if heightClass == .compact && device.contains("iPhone") {
-            return 600
-        } else if heightClass == .regular && device.contains("iPad") {
-            return 300
+        print("\(UIScreen.main.bounds.height) height")
+        print("\(UIScreen.main.bounds.width) width")
+        if heightClass == .regular {
+            if (900..<1000).contains(UIScreen.main.bounds.height) {
+                return 390
+            } else if (800..<900).contains(UIScreen.main.bounds.height) {
+                return 370
+            } else if  (600..<700).contains(UIScreen.main.bounds.height) {
+                return 350
+            } else if (700..<800).contains(UIScreen.main.bounds.height) {
+                return 370
+            } else if (1000..<1400).contains(UIScreen.main.bounds.height) {
+                return 500
+            } else {
+                return 300
+            }
         } else {
-            return 300
+            if (300..<1000).contains(UIScreen.main.bounds.height) {
+                return 600
+            } else {
+                return 500
+            }
         }
+       
     }
     
 }
