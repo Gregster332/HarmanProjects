@@ -28,6 +28,7 @@
 		D0550B1C26FBD1CE007E2625 /* AddCityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0550B1B26FBD1CE007E2625 /* AddCityView.swift */; };
 		D064A4E12700778C00C5A1B1 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = D064A4E32700778C00C5A1B1 /* Localizable.strings */; };
 		D064A4E6270084F100C5A1B1 /* UIDevice+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D064A4E5270084F100C5A1B1 /* UIDevice+Extension.swift */; };
+		D0C8191C2704FABC00ECC355 /* CustomListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C8191B2704FABC00ECC355 /* CustomListCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -54,6 +55,7 @@
 		D064A4E22700778C00C5A1B1 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		D064A4E42700779700C5A1B1 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		D064A4E5270084F100C5A1B1 /* UIDevice+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIDevice+Extension.swift"; sourceTree = "<group>"; };
+		D0C8191B2704FABC00ECC355 /* CustomListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomListCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -179,6 +181,7 @@
 				D0550AE526FB4D01007E2625 /* MainView.swift */,
 				D0550B1B26FBD1CE007E2625 /* AddCityView.swift */,
 				D0550AFE26FB68A2007E2625 /* WeatherPreview.swift */,
+				D0C8191B2704FABC00ECC355 /* CustomListCell.swift */,
 			);
 			path = MainView;
 			sourceTree = "<group>";
@@ -277,6 +280,7 @@
 				D0550B1A26FBC707007E2625 /* FragmentView.swift in Sources */,
 				D0550AE426FB4D01007E2625 /* SceneDelegate.swift in Sources */,
 				D053B37626FCB38800307F56 /* Date+Extension.swift in Sources */,
+				D0C8191C2704FABC00ECC355 /* CustomListCell.swift in Sources */,
 				D0550B1C26FBD1CE007E2625 /* AddCityView.swift in Sources */,
 				D0550B0626FB843B007E2625 /* WeatherViewModel.swift in Sources */,
 				D0550AE626FB4D01007E2625 /* MainView.swift in Sources */,
@@ -438,7 +442,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"OpenWeather/Preview Content\"";
-				DEVELOPMENT_TEAM = 6N53WC3364;
+				DEVELOPMENT_TEAM = 84DMLXTAK2;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = OpenWeather/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
@@ -446,7 +450,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.zenkovgreg.OpenWeather;
+				PRODUCT_BUNDLE_IDENTIFIER = com.harman.OpenWeather;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -460,7 +464,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"OpenWeather/Preview Content\"";
-				DEVELOPMENT_TEAM = 6N53WC3364;
+				DEVELOPMENT_TEAM = 84DMLXTAK2;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = OpenWeather/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
@@ -468,7 +472,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.zenkovgreg.OpenWeather;
+				PRODUCT_BUNDLE_IDENTIFIER = com.harman.OpenWeather;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

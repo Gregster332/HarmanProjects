@@ -17,13 +17,15 @@ struct MainView: View {
     @ObservedObject var vm = WeatherViewModel()
     @ObservedObject var locationManager = LocationManager()
     
-    @State private var userFromLocation: Welcome? = Welcome(weather: [Weather(main: "")], main: Main(temp: 3, feelsLike: 3, tempMin: 3, tempMax: 3, pressure: 3, humidity: 3), sys: Sys(sunrise: 22, sunset: 22), name: "")
+    @State private var userFromLocation: Welcome? = Welcome(weather: [Weather(main: "")], main: Main(temp: 333, feelsLike: 3, tempMin: 3, tempMax: 3, pressure: 3, humidity: 3), sys: Sys(sunrise: 22, sunset: 22), name: "")
     @State private var city: City? = nil
     @State var showAddView: Bool = false
     @State var showSheet: Bool = false
     @State var cities: [Welcome] = []
+    @State var emoji = ""
     
     let timer = Timer.publish(every: 2, on: .main, in: .common).autoconnect()
+    var emojis = ["Clear":"☀️", "Rain":"🌧", "Tornado":"🌪", "Mist":"🌫", "Snow":"❄️", "Clouds":"☁️"]
     
     var body: some View {
         
@@ -31,12 +33,17 @@ struct MainView: View {
         
         return NavigationView {
             
-            ScrollView(.vertical, showsIndicators: false){
-                
+            //ScrollView(.vertical, showsIndicators: false){
+            List {
                 NavigationLink(
                     destination: DetailView(weatherDetails: getCityFromWelcome(welcome: userFromLocation!)?.name == nil ? vm.cities.first : getCityFromWelcome(welcome: userFromLocation!), isNavigationLink: true),
                     label: {
-                        WeatherPreview(city: userFromLocation!.name, temp: Int((userFromLocation?.main.temp)!) - 273, max: Int((userFromLocation?.main.tempMax)!) - 273, min: Int((userFromLocation?.main.tempMin)!) - 273)
+//                        WeatherPreview(city: userFromLocation!.name, temp: Int((userFromLocation?.main.temp)!) - 273, max: Int((userFromLocation?.main.tempMax)!) - 273, min: Int((userFromLocation?.main.tempMin)!) - 273)
+                        if userFromLocation != nil || userFromLocation?.main.temp == 333 {
+                            Cell(city: userFromLocation!.name, temp: Int((userFromLocation?.main.temp)!) - 273, max: Int((userFromLocation?.main.tempMax)!) - 273, min: Int((userFromLocation?.main.tempMin)!) - 273, main: emojis[(userFromLocation?.weather.last!.main) ?? "Rain"] ?? "")
+                        } else {
+                            ProgressView().progressViewStyle(CircularProgressViewStyle())
+                        }
                     })
                     .buttonStyle(PlainButtonStyle())
                     .disabled(showAddView)
@@ -52,10 +59,11 @@ struct MainView: View {
                         showSheet.toggle()
                         //}
                     } label: {
-                        WeatherPreview(city: vm.cities[index].name,
-                                       temp: Int(vm.cities[index].temp) - 273,
-                                       max: Int(vm.cities[index].tempMax) - 273,
-                                       min: Int(vm.cities[index].tempMin) - 273)
+//                        WeatherPreview(city: vm.cities[index].name,
+//                                       temp: Int(vm.cities[index].temp) - 273,
+//                                       max: Int(vm.cities[index].tempMax) - 273,
+//                                       min: Int(vm.cities[index].tempMin) - 273)
+                        Cell(city: vm.cities[index].name, temp: Int(vm.cities[index].temp) - 273, max: Int(vm.cities[index].tempMax) - 273, min: Int(vm.cities[index].tempMin) - 273, main: emojis[vm.cities[index].main]!)
                         //})
                             .contextMenu(ContextMenu(menuItems: {
                                 Button(action: {
@@ -78,6 +86,11 @@ struct MainView: View {
                 }
                 
             }
+            .refreshable {
+                print("REf")
+                getCurrnetWeather()
+            }
+            .listStyle(InsetListStyle())
             .sheet(isPresented: $showSheet) {
                 if city != nil {
                     DetailView(weatherDetails: city, isNavigationLink: false)
@@ -86,6 +99,7 @@ struct MainView: View {
                         .progressViewStyle(CircularProgressViewStyle())
                 }
             }
+            
             
             .navigationBarTitle(LocalizedStringKey("Cities"))
             .navigationBarItems(trailing: Button(action: {
@@ -148,6 +162,22 @@ struct MainView: View {
         city.tempMin = welcome.main.tempMin
         return city
     }
+    
+//    private func getCurrentEmoji() -> String {
+//        if userFromLocation?.weather.first?.main == "Clear" {
+//           return emojis[0]
+//        } else if userFromLocation?.weather.first?.main == "Clouds" {
+//            return emojis[5]
+//        } else if userFromLocation?.weather.first?.main == "Snow" {
+//            return emojis[4]
+//        } else if userFromLocation?.weather.first?.main == "Rain" {
+//            return emojis[1]
+//        } else if userFromLocation?.weather.first?.main == "Tornado" ||     userFromLocation?.weather.first?.main == "Squall" {
+//            return emojis[3]
+//        } else {
+//            return emojis[3]
+//        }
+//    }
     
 }
 

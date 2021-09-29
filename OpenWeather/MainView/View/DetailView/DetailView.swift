@@ -71,30 +71,26 @@ struct DetailView: View {
     }
     
     private func calculateFont() -> CGFloat {
-        //print(device)
-        if heightClass == .regular && (device == "iPhone 12" ||
-                                        device == "iPhone 12 Pro" ||
-                                        device == "iPhone 12 Pro Max" ||
-                                        device == "iPhone 11" ||
-                                        device == "iPhone 11 Pro" ||
-                                        device == "iPhone 11 Pro Max" ||
-                                        device == "iPhone XS" ||
-                                        device == "iPhone XS Max" ||
-                                        device == "iPhone Xr" ||
-                                        device == "iPhone X" ||
-                                        device == "iPhone 8 Plus" ||
-                                        device == "iPhone 7 Plus"){
-            return 25
-        } else if heightClass == .regular && (device == "iPhone 8" || device == "iPhone 7" || device == "iPhone SE (2nd generation)"){
-            return 23
-        } else if heightClass == .compact && device.contains("iPhone") {
-            return 35
-        } else if heightClass == .regular && device.contains("iPad") {
-            return 40
-        } else if heightClass == .compact && device.contains("iPad") {
-            return 50
+        if heightClass == .regular {
+            if (900..<1000).contains(UIScreen.main.bounds.height) {
+                return 28
+            } else if (800..<900).contains(UIScreen.main.bounds.height) {
+                return 25
+            } else if  (600..<700).contains(UIScreen.main.bounds.height) {
+                return 23
+            } else if (700..<800).contains(UIScreen.main.bounds.height) {
+                return 24
+            } else if (1000..<1400).contains(UIScreen.main.bounds.height) {
+                return 35
+            } else {
+                return 23
+            }
         } else {
-            return 25
+            if (300..<650).contains(UIScreen.main.bounds.height) {
+                return 35
+            } else {
+                return 50
+            }
         }
     }
 }

@@ -22,7 +22,7 @@ class NetworkService {
                 //print("statusCode: \(httpResponse.statusCode)")
 //                if httpResponse.statusCode != 404 {
                     if let json = try? JSONDecoder().decode(Welcome.self, from: data) {
-                        print(json)
+                       // print(json)
                         DispatchQueue.main.async {
                             completion(json)
                         }

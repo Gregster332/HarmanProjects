@@ -30,7 +30,7 @@ struct FragmentView: View {
         }
         .padding()
         .frame(width: calculateWidth(), height: 140)
-        .background(Color.black.opacity(0.2))
+        .background(Color.gray)
         .cornerRadius(15)
         
     }
