@@ -9,12 +9,12 @@ import SwiftUI
 
 struct FragmentView: View {
     
-    var description: String
+    var description: LocalizedStringKey
     var index: String
     var imageName: String
     var metric: String
     
-    @State private var device = UIDevice.current.name
+    @State private var device = UIDevice.modelName
     @Environment(\.verticalSizeClass) var heightClass: UserInterfaceSizeClass?
     @Environment(\.horizontalSizeClass) var widthClass: UserInterfaceSizeClass?
     
@@ -36,16 +36,32 @@ struct FragmentView: View {
     }
     
     private func calculateWidth() -> CGFloat {
-            if heightClass == .regular && device.contains("iPhone") {
-                return 300
-            } else if heightClass == .compact && device.contains("iPhone") {
+        print("\(UIScreen.main.bounds.height) height")
+        print("\(UIScreen.main.bounds.width) width")
+        if heightClass == .regular {
+            if (900..<1000).contains(UIScreen.main.bounds.height) {
+                return 390
+            } else if (800..<900).contains(UIScreen.main.bounds.height) {
+                return 370
+            } else if  (600..<700).contains(UIScreen.main.bounds.height) {
+                return 350
+            } else if (700..<800).contains(UIScreen.main.bounds.height) {
+                return 370
+            } else if (1000..<1400).contains(UIScreen.main.bounds.height) {
                 return 500
-            } else if heightClass == .regular && device.contains("iPad") {
-                return 400
             } else {
-                return 400
+                return 300
+            }
+        } else {
+            if (300..<1000).contains(UIScreen.main.bounds.height) {
+                return 600
+            } else {
+                return 500
             }
         }
+       
+    }
+    
 }
 
 struct FragmentView_Previews: PreviewProvider {

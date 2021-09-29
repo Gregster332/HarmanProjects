@@ -117,6 +117,26 @@ class WeatherViewModel: ObservableObject {
         })
     }
     
+    func getNewData() {
+        self.cities.indices.forEach { city in
+            let service = NetworkService()
+            service.getData(cityName: cities[city].name) { item in
+                guard let item = item else { return }
+                self.deleteData(object: self.cities[city])
+                self.addData(name: item.name,
+                             feelsLike: item.main.feelsLike,
+                             sunrise: item.sys.sunrise,
+                             sunset: item.sys.sunset,
+                             temp: item.main.temp,
+                             tempMin: item.main.tempMin,
+                             tempMax: item.main.tempMax,
+                             pressure: item.main.pressure,
+                             humidity: item.main.humidity,
+                             main: item.weather.first!.main)
+            }
+        }
+    }
+    
     func fetchData() {
         guard let dbRef = try? Realm() else { return }
         let results = dbRef.objects(City.self)

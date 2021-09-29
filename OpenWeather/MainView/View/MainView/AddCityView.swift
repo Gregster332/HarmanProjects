@@ -10,15 +10,17 @@ import SwiftUI
 struct AddCityView: View {
     
     @Binding var showThisView: Bool
-    @ObservedObject var orientationInfo = OrientationInfo()
+    //@ObservedObject var orientationInfo = OrientationInfo()
     @EnvironmentObject var arrayCity: WeatherViewModel
     @Environment(\.verticalSizeClass) var heightClass: UserInterfaceSizeClass?
     @Environment(\.horizontalSizeClass) var widthClass: UserInterfaceSizeClass?
     
+    @State private var showingAlert: Bool = false
+    
     var body: some View {
         VStack(alignment: .center, spacing: 20) {
             
-            Text("Введите название города")
+            Text(LocalizedStringKey("Enter city name"))
                 .multilineTextAlignment(.center)
                 .lineLimit(nil)
                 .font(.system(size: 30))
@@ -33,7 +35,9 @@ struct AddCityView: View {
             .background(Color.blue.opacity(0.3))
             .cornerRadius(15)
             
+            
             Button(action: {
+                if checkSymbols(str: arrayCity.cityName) {
                 let service = NetworkService()
                 service.getData(cityName: arrayCity.cityName) { item in
                     //print(item)
@@ -49,12 +53,12 @@ struct AddCityView: View {
                                       humidity: item.main.humidity,
                                       main: item.weather.first!.main)
                 }
-//                    arrayCity.addData()
-//                    arrayCity.addCurrentCityCityInArray()
-                    //arrayCity.checkEmptyElements()
                     showThisView.toggle()
-                    print(arrayCity.cities)
+//                    print(arrayCity.cities)
                     arrayCity.cityName = ""
+                } else {
+                    showingAlert = true
+                }
             }, label: {
                 Text("Search")
                     .font(.system(size: 23))
@@ -65,10 +69,17 @@ struct AddCityView: View {
                     .background(Color.blue.opacity(0.3))
                     .cornerRadius(15)
             })
+            .alert(isPresented: $showingAlert) {
+                Alert(title: Text("Вводите название на английском"), message: nil, dismissButton: .some(.cancel(Text("OK"), action: {
+                    showingAlert = false
+                })))
+            }
+            
+            
             Button(action: {
                     showThisView.toggle()
                     arrayCity.cityName = ""
-                    print(arrayCity.cities)
+                    //print(arrayCity.cities)
                     //print(arrayCity.citiesWelcome)
             }, label: {
                 Text("Cancel")
@@ -88,6 +99,15 @@ struct AddCityView: View {
         .cornerRadius(15)
         
     }
+    
+    private func checkSymbols(str: String) -> Bool {
+           for chr in str {
+              if (!(chr >= "a" && chr <= "z") && !(chr >= "A" && chr <= "Z") && chr != " " && chr != "-") {
+                 return false
+              }
+           }
+           return true
+        }
 }
 
 struct AddCityView_Previews: PreviewProvider {
