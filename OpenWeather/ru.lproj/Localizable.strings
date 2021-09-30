@@ -8,6 +8,7 @@
 
 "Cities" = "Список городов";
 "Feels like" = "Ощущается как";
+"Temperature" = "Температура";
 "Humidity" = "Влажность";
 "Pressure" = "Давление";
 "Enter city name" = "Введите название города";

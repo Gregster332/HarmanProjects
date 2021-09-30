@@ -70,7 +70,7 @@ struct DetailView: View {
                     FragmentView(description: LocalizedStringKey("Sunset"), index: "\(Date(timeIntervalSince1970: TimeInterval(weatherDetails!.sunset)).timeIn24HourFormat())", imageName: "sunset.fill", metric: "")
                 }
             }
-                .padding()
+            .padding()
         }
         .padding()
         

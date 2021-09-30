@@ -30,18 +30,23 @@ struct Cell: View {
                 Text(city)
                     .font(.system(size: calculateFont() - 3))
                     .fontWeight(.bold)
-                Text("Temperature: \(temp)")
-                    .font(.system(size: 20))
-                    .fontWeight(.semibold)
-                HStack {
-                HStack {
-                    Text("Max: ")
-                    Text("\(max),")
+                HStack(alignment: .center, spacing: 0) {
+                    Text(LocalizedStringKey("Temperature"))
+                        .font(.system(size: 20))
+                        .fontWeight(.semibold)
+                    Text(": \(temp)")
+                        .font(.system(size: 20))
+                        .fontWeight(.semibold)
                 }
                 HStack {
-                    Text("min: ")
-                    Text("\(min)")
-                }
+                    HStack(alignment: .center, spacing: 0) {
+                        Text(LocalizedStringKey("Max:"))
+                        Text(" \(max),")
+                    }
+                    HStack(alignment: .center, spacing: 0) {
+                        Text(LocalizedStringKey("Min:"))
+                        Text(" \(min)")
+                    }
                 }
             }
         }

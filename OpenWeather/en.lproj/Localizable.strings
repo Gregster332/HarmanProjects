@@ -8,6 +8,7 @@
 
 "Cities" = "Cities";
 "Feels like" = "Feels like";
+"Temperature" = "Temperature";
 "Humidity" = "Humidity";
 "Pressure" = "Pressure";
 "Enter city name" = "Enter city name";
