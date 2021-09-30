@@ -9,16 +9,21 @@ import SwiftUI
 
 struct FragmentView: View {
     
+    //MARK: - Variables
     var description: LocalizedStringKey
     var index: String
     var imageName: String
     var metric: String
     
+    //MARK: - Private observables
     @State private var device = UIDevice.modelName
+    
+    //MARK: - Global observables
     @Environment(\.verticalSizeClass) var heightClass: UserInterfaceSizeClass?
     @Environment(\.horizontalSizeClass) var widthClass: UserInterfaceSizeClass?
     
     var body: some View {
+        //MARK: - View
         VStack(alignment: .center,spacing: 30) {
             HStack {
                 Image(systemName: imageName)
@@ -35,6 +40,7 @@ struct FragmentView: View {
         
     }
     
+    //MARK: - Private functions
     private func calculateWidth() -> CGFloat {
         print("\(UIScreen.main.bounds.height) height")
         print("\(UIScreen.main.bounds.width) width")

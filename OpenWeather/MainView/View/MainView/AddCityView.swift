@@ -9,15 +9,17 @@ import SwiftUI
 
 struct AddCityView: View {
     
+    //MARK: - Private observables
     @Binding var showThisView: Bool
-    //@ObservedObject var orientationInfo = OrientationInfo()
+    @State private var showingAlert: Bool = false
+    
+    //MARK: - Global observables
     @EnvironmentObject var arrayCity: WeatherViewModel
     @Environment(\.verticalSizeClass) var heightClass: UserInterfaceSizeClass?
     @Environment(\.horizontalSizeClass) var widthClass: UserInterfaceSizeClass?
     
-    @State private var showingAlert: Bool = false
-    
     var body: some View {
+        //MARK: - View
         VStack(alignment: .center, spacing: 20) {
             
             Text(LocalizedStringKey("Enter city name"))
@@ -28,7 +30,11 @@ struct AddCityView: View {
             HStack {
                 Image(systemName: "magnifyingglass.circle.fill")
                     .font(.system(size: 25))
-                TextField("Name...", text: $arrayCity.cityName)
+                TextField("Name...", text: $arrayCity.cityName, onCommit:  {
+                    addNewData()
+                    UIApplication.shared.endEditing()
+                })
+                    
             }
             .padding()
             .frame(width: heightClass == .regular ? 290 : 500, height: heightClass == .regular ? 100 : 100, alignment: .center)
@@ -37,28 +43,7 @@ struct AddCityView: View {
             
             
             Button(action: {
-                if checkSymbols(str: arrayCity.cityName) {
-                let service = NetworkService()
-                service.getData(cityName: arrayCity.cityName) { item in
-                    //print(item)
-                    guard let item = item else { return }
-                    arrayCity.addData(name: item.name,
-                                      feelsLike: item.main.feelsLike,
-                                      sunrise: item.sys.sunrise,
-                                      sunset: item.sys.sunset,
-                                      temp: item.main.temp,
-                                      tempMin: item.main.tempMin,
-                                      tempMax: item.main.tempMax,
-                                      pressure: item.main.pressure,
-                                      humidity: item.main.humidity,
-                                      main: item.weather.first!.main)
-                }
-                    showThisView.toggle()
-//                    print(arrayCity.cities)
-                    arrayCity.cityName = ""
-                } else {
-                    showingAlert = true
-                }
+                addNewData()
             }, label: {
                 Text("Search")
                     .font(.system(size: 23))
@@ -79,8 +64,6 @@ struct AddCityView: View {
             Button(action: {
                     showThisView.toggle()
                     arrayCity.cityName = ""
-                    //print(arrayCity.cities)
-                    //print(arrayCity.citiesWelcome)
             }, label: {
                 Text("Cancel")
                     .font(.system(size: 23))
@@ -98,6 +81,33 @@ struct AddCityView: View {
         .background(Color.gray)
         .cornerRadius(15)
         
+    }
+    
+    //MARK: - Private functions
+    private func addNewData() {
+        if checkSymbols(str: arrayCity.cityName) {
+            let service = NetworkService()
+            
+            service.getData(cityName: arrayCity.cityName) { item in
+                //print(item)
+                guard let item = item else { return }
+                arrayCity.addData(name: item.name,
+                                  feelsLike: item.main.feelsLike,
+                                  sunrise: item.sys.sunrise,
+                                  sunset: item.sys.sunset,
+                                  temp: item.main.temp,
+                                  tempMin: item.main.tempMin,
+                                  tempMax: item.main.tempMax,
+                                  pressure: item.main.pressure,
+                                  humidity: item.main.humidity,
+                                  main: item.weather.first!.main)
+            }
+            showThisView.toggle()
+            arrayCity.cityName = ""
+            UIApplication.shared.endEditing()
+        } else {
+            showingAlert = true
+        }
     }
     
     private func checkSymbols(str: String) -> Bool {

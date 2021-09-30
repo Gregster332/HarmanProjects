@@ -9,16 +9,23 @@ import SwiftUI
 
 struct DetailView: View {
     
+    //MARK: - Variables
     var weatherDetails: City?
     let isNavigationLink: Bool
+    
+    //MARK: - Global observables
     @Environment(\.verticalSizeClass) var heightClass: UserInterfaceSizeClass?
     @Environment(\.horizontalSizeClass) var widthClass: UserInterfaceSizeClass?
     @Environment(\.presentationMode) var presentationMode
+    
+    //MARK: - Private observables
     @State private var device = UIDevice.current.name
+    @Binding var hideSheet: Bool
     
 
     var body: some View {
-        
+        //MARK: - View
+        if weatherDetails != nil {
         ScrollView(.vertical, showsIndicators: false) {
             
             if isNavigationLink == false {
@@ -27,7 +34,7 @@ struct DetailView: View {
                         .foregroundColor(Color(#colorLiteral(red: 0.2588235438, green: 0.7568627596, blue: 0.9686274529, alpha: 1)))
                         .font(.system(size: calculateFont()))
                         .onTapGesture {
-                            presentationMode.wrappedValue.dismiss()
+                            hideSheet.toggle()
                         }
                     
                     Text(LocalizedStringKey("Current Info"))
@@ -66,10 +73,14 @@ struct DetailView: View {
                 .padding()
         }
         .padding()
-        //.frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height / 1.1)
+        
         .navigationBarTitle(LocalizedStringKey("Current Info"))
+        } else {
+            ProgressView().progressViewStyle(CircularProgressViewStyle())
+        }
     }
     
+    //MARK: - Private functions
     private func calculateFont() -> CGFloat {
         if heightClass == .regular {
             if (900..<1000).contains(UIScreen.main.bounds.height) {
@@ -97,7 +108,7 @@ struct DetailView: View {
 
 struct DetailView_Previews: PreviewProvider {
     static var previews: some View {
-        DetailView(weatherDetails: nil, isNavigationLink: true)
-        DetailView(weatherDetails: nil, isNavigationLink: true).previewDevice("iPhone 12 Pro Max")
+        DetailView(weatherDetails: nil, isNavigationLink: true, hideSheet: .constant(true))
+        DetailView(weatherDetails: nil, isNavigationLink: true, hideSheet: .constant(true)).previewDevice("iPhone 12 Pro Max")
     }
 }

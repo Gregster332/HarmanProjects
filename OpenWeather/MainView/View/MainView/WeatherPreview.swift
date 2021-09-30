@@ -33,7 +33,6 @@ struct WeatherPreview: View {
                         .lineLimit(1)
                         .offset(x: calculateOffset(), y: -20)
                         .padding(.trailing, -10)
-                    //.padding([.top, .leading], 6)
                     
                     VStack(alignment: .trailing, spacing: 20) {
                         Text("\(temp)º")

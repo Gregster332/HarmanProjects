@@ -9,16 +9,19 @@ import SwiftUI
 
 struct Cell: View {
 
+    //MARK: Variables
     var city: String
     var temp: Int
     var max: Int
     var min: Int
     var main: String
     
+    //MARK: - Global Variables
     @Environment(\.verticalSizeClass) var heightClass: UserInterfaceSizeClass?
     @Environment(\.horizontalSizeClass) var widthClass: UserInterfaceSizeClass?
    
     var body: some View {
+        //MARK: - View
         HStack(alignment: .center, spacing: 50) {
             Text(main)
                 .font(.system(size: calculateFont() + 30))
@@ -45,6 +48,7 @@ struct Cell: View {
         
     }
     
+    //MARK: - Private functions
     private func calculateFont() -> CGFloat {
         if heightClass == .regular {
             if (900..<1000).contains(UIScreen.main.bounds.height) {

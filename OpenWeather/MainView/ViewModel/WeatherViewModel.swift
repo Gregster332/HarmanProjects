@@ -10,93 +10,19 @@ import RealmSwift
 
 class WeatherViewModel: ObservableObject {
     
+    //MARK: - Published vars
     @Published var cityName: String = ""
     @Published var cities: [City] = []
+    
+    //MARK: - Lets
     let service = NetworkService()
     
+    //MARK: - Init
     init() {
         fetchData()
     }
     
-//    func checkEmptyElements() {
-//        citiesWelcome.indices.forEach { item in
-//            cities.indices.forEach { itemString in
-//                if citiesWelcome[itemString].name == cities[item].name {
-//                    self.deleteData(object: self.cities[itemString])
-//                    DispatchQueue.main.async {
-//                        self.cities.remove(at: itemString)
-//                    }
-//                    self.fetchData()
-//                }
-//            }
-//        }
-//    }
-//
-//    func addCurrentCityCityInArray() {
-//        if cityName != "" {
-//            for city in cities.indices {
-//                let _ = NetworkService().getData(cityName: cityName) { (item) in
-//                        var index = 0
-//                        guard let item = item else { return }
-//                        if self.cities[city].name == item.name {
-//                            index = city
-//                            DispatchQueue.main.async {
-//                                //self.citiesWelcome.insert(item, at: index)
-//                                self.citiesWelcome.append(item)
-//                            }
-//
-//                        }
-//                    
-//                }
-//            }
-//            citiesWelcome = citiesWelcome.sorted { $0.name < $1.name }
-//        } else {
-//            self.cities.indices.forEach { city in
-//                let _ = NetworkService().getData(cityName: cities[city].name) { (item) in
-//                    var index = 0
-//                    guard let item = item else { return }
-//
-//                    DispatchQueue.main.async {
-//                        self.citiesWelcome.append(item)
-//                    }
-//                    //self.citiesWelcome.append(item
-//                }
-//            }
-//        }
-//        //cityName = ""
-//
-//        //        if name != nil {
-////            let _ = NetworkService().getData(cityName: name!) { item, response in
-////                if response == 200 {
-////                    self.addData()
-////                    self.cities.indices.forEach { city in
-////                        DispatchQueue.main.async {
-////                            guard let item = item else { return }
-////                            if self.cities[city].name == item.name {
-////                                self.citiesWelcome.append(item)
-////                            }
-////                        }
-////                    }
-////
-////                }
-////            }
-////        } else {
-////            self.cities.indices.forEach { index in
-////                let _ = NetworkService().getData(cityName: cities[index].name) { item, response in
-////                    if response == 200 {
-////                        guard let item = item else { return }
-////                        if self.cities[index].name == item.name {
-////                            DispatchQueue.main.async {
-////                                self.citiesWelcome.append(item)
-////                            }
-////                        }
-////                    }
-////                }
-////            }
-////        }
-//    }
-//
-    
+    //MARK: - Functions for working with databse
     func addData(name: String, feelsLike: Double, sunrise: Int, sunset: Int, temp: Double, tempMin: Double, tempMax: Double, pressure: Int, humidity: Int, main: String) {
         let city = City()
         city.name = name
