@@ -14,9 +14,10 @@ struct AddCityView: View {
     @State private var showingAlert: Bool = false
     
     //MARK: - Global observables
-    @EnvironmentObject var arrayCity: WeatherViewModel
+    @EnvironmentObject var realmService: RealMService
     @Environment(\.verticalSizeClass) var heightClass: UserInterfaceSizeClass?
     @Environment(\.horizontalSizeClass) var widthClass: UserInterfaceSizeClass?
+    @ObservedObject var model = AddCityViewModel()
     
     var body: some View {
         //MARK: - View
@@ -30,10 +31,10 @@ struct AddCityView: View {
             HStack {
                 Image(systemName: "magnifyingglass.circle.fill")
                     .font(.system(size: 25))
-                TextField("Name...", text: $arrayCity.cityName, onCommit:  {
-                    addNewData()
+                TextField("Name...", text: $realmService.cityName, onCommit:  {
+                    model.addNewData(realmService: realmService, showingAlert: &showingAlert, showThisView: &showThisView)
                     UIApplication.shared.endEditing()
-                })
+                }).accessibilityIdentifier("AddCityTextFireld")
                     
             }
             .padding()
@@ -43,7 +44,11 @@ struct AddCityView: View {
             
             
             Button(action: {
-                addNewData()
+                if Reachability.isConnectedToNetwork() {
+                    model.addNewData(realmService: realmService, showingAlert: &showingAlert, showThisView: &showThisView)
+                } else {
+                    showingAlert.toggle()
+                }
             }, label: {
                 Text("Search")
                     .font(.system(size: 23))
@@ -54,8 +59,9 @@ struct AddCityView: View {
                     .background(Color.blue.opacity(0.3))
                     .cornerRadius(15)
             })
+            .accessibilityIdentifier("searchButton")
             .alert(isPresented: $showingAlert) {
-                Alert(title: Text("Вводите название на английском"), message: nil, dismissButton: .some(.cancel(Text("OK"), action: {
+                Alert(title: Text("Что-то не так🤨"), message: Text(Reachability.isConnectedToNetwork() ? "Вводите название города на английском" : "Нет соединения с сетью"), dismissButton: .some(.cancel(Text("OK"), action: {
                     showingAlert = false
                 })))
             }
@@ -63,7 +69,7 @@ struct AddCityView: View {
             
             Button(action: {
                     showThisView.toggle()
-                    arrayCity.cityName = ""
+                    realmService.cityName = ""
             }, label: {
                 Text("Cancel")
                     .font(.system(size: 23))
@@ -73,7 +79,7 @@ struct AddCityView: View {
                     .frame(width: 140, height: 50, alignment: .center)
                     .background(Color.blue.opacity(0.3))
                     .cornerRadius(15)
-            })
+            }).accessibilityIdentifier("cancelButton")
             
         }
         .frame(width: heightClass == .regular ? 300 : 500, height: heightClass == .regular ? 400 : 300)
@@ -82,42 +88,6 @@ struct AddCityView: View {
         .cornerRadius(15)
         
     }
-    
-    //MARK: - Private functions
-    private func addNewData() {
-        if checkSymbols(str: arrayCity.cityName) {
-            let service = NetworkService()
-            
-            service.getData(cityName: arrayCity.cityName) { item in
-                //print(item)
-                guard let item = item else { return }
-                arrayCity.addData(name: item.name,
-                                  feelsLike: item.main.feelsLike,
-                                  sunrise: item.sys.sunrise,
-                                  sunset: item.sys.sunset,
-                                  temp: item.main.temp,
-                                  tempMin: item.main.tempMin,
-                                  tempMax: item.main.tempMax,
-                                  pressure: item.main.pressure,
-                                  humidity: item.main.humidity,
-                                  main: item.weather.first!.main)
-            }
-            showThisView.toggle()
-            arrayCity.cityName = ""
-            UIApplication.shared.endEditing()
-        } else {
-            showingAlert = true
-        }
-    }
-    
-    private func checkSymbols(str: String) -> Bool {
-           for chr in str {
-              if (!(chr >= "a" && chr <= "z") && !(chr >= "A" && chr <= "Z") && chr != " " && chr != "-") {
-                 return false
-              }
-           }
-           return true
-        }
 }
 
 struct AddCityView_Previews: PreviewProvider {

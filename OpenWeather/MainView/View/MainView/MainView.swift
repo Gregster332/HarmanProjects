@@ -14,18 +14,19 @@ struct MainView: View {
     //MARK: - Global observables
     @Environment(\.verticalSizeClass) var heightClass: UserInterfaceSizeClass?
     @Environment(\.horizontalSizeClass) var widthClass: UserInterfaceSizeClass?
-    @ObservedObject var vm = WeatherViewModel()
+    @ObservedObject var realmService = RealMService()
     @ObservedObject var locationManager = LocationManager()
+    @ObservedObject var model = MainViewModel()
     
     //MARK: - Private observables
     @State private var userFromLocation: Welcome? = Welcome(weather: [Weather(main: "")], main: Main(temp: 333, feelsLike: 3, tempMin: 3, tempMax: 3, pressure: 3, humidity: 3), sys: Sys(sunrise: 22, sunset: 22), name: "")
     @State private var city: City? = nil
     @State private var showAddView: Bool = false
     @State private var showSheet: Bool = false
+    @State private var showAttentionLabel: Bool = false
 
     //MARK: - Variables
     let timer = Timer.publish(every: 2, on: .main, in: .common).autoconnect()
-   
     //MARK: - Init
     init() {
             UITableView.appearance().showsVerticalScrollIndicator = false
@@ -38,26 +39,30 @@ struct MainView: View {
         return NavigationView {
             //MARK: - View
             List {
+                if Reachability.isConnectedToNetwork() {
                 NavigationLink(
-                    destination: DetailView(weatherDetails: getCityFromWelcome(welcome: userFromLocation!)?.name == nil ? vm.cities.first : getCityFromWelcome(welcome: userFromLocation!), isNavigationLink: true, hideSheet: $showSheet),
+                    destination: DetailView(weatherDetails: model.currentCity, isNavigationLink: true, hideSheet: $showSheet),
                     label: {
-                        if userFromLocation != nil || userFromLocation?.main.temp == 333 {
-                            Cell(city: userFromLocation!.name,
-                                 temp: Int((userFromLocation?.main.temp)!) - 273,
-                                 max: Int((userFromLocation?.main.tempMax)!) - 273,
-                                 min: Int((userFromLocation?.main.tempMin)!) - 273,
-                                 main: emojis[(userFromLocation?.weather.last!.main) ?? "Rain"] ?? "")
+                        if model.currentCity != nil  {
+                            Cell(city: model.currentCity!.name,
+                                 temp: Int(model.currentCity!.temp) - Constants.toCelsius,
+                                 max: Int(model.currentCity!.tempMax) - Constants.toCelsius,
+                                 min: Int(model.currentCity!.tempMin) - Constants.toCelsius,
+                                 main: emojis[model.currentCity?.main ?? "Rain"] ?? "")
                         } else {
-                            ProgressView().progressViewStyle(CircularProgressViewStyle())
+                                ProgressView().progressViewStyle(CircularProgressViewStyle())
                         }
                     })
                     .buttonStyle(PlainButtonStyle())
-                    .disabled(showAddView)
+                    .disabled(showAddView || showAttentionLabel)
+                } else {
+                    Text(LocalizedStringKey("No internet"))
+                }
                 
                 
-                ForEach(vm.cities.indices, id: \.self) { index in
+                ForEach(realmService.cities.indices, id: \.self) { index in
                     Button {
-                        city = vm.cities[index]
+                        city = realmService.cities[index]
                         DispatchQueue.main.asyncAfter(deadline: .now()) {
                             //print(city)
                             if city != nil {
@@ -67,32 +72,39 @@ struct MainView: View {
                             }
                         }
                     } label: {
-                        Cell(city: vm.cities[index].name,
-                             temp: Int(vm.cities[index].temp) - 273,
-                             max: Int(vm.cities[index].tempMax) - 273,
-                             min: Int(vm.cities[index].tempMin) - 273,
-                             main: emojis[vm.cities[index].main]!)
+                        Cell(city: realmService.cities[index].name,
+                             temp: Int(realmService.cities[index].temp) - Constants.toCelsius,
+                             max: Int(realmService.cities[index].tempMax) - Constants.toCelsius,
+                             min: Int(realmService.cities[index].tempMin) - Constants.toCelsius,
+                             main: emojis[realmService.cities[index].main]!)
                             .contextMenu(ContextMenu(menuItems: {
                                 Button(action: {
                                     withAnimation(.easeIn) {
-                                        vm.deleteData(object: vm.cities[index])
-                                        vm.fetchData()
+                                        realmService.deleteData(object: realmService.cities[index])
+                                        realmService.fetchData()
                                     }
                                 }, label: {
-                                    Text("Delete")
+                                    Text(LocalizedStringKey("Delete"))
                                 })
                             }))
-                            .disabled(showAddView)
+                            .disabled(showAddView || showAttentionLabel)
                     }
+                    .accessibilityIdentifier("\(realmService.cities[index].name)")
                     .buttonStyle(PlainButtonStyle())
                     
                     
                 }
                 
             }
+            .accessibilityIdentifier("list")
             .refreshable {
-                print("REf")
-                getCurrnetWeather()
+                if Reachability.isConnectedToNetwork() {
+                    getCurrnetWeather()
+                } else {
+                    withAnimation(.easeInOut) {
+                        showAttentionLabel.toggle()
+                    }
+                }
             }
             .listStyle(InsetListStyle())
             .sheet(isPresented: $showSheet) {
@@ -101,6 +113,9 @@ struct MainView: View {
                 } else {
                     ProgressView()
                         .progressViewStyle(CircularProgressViewStyle())
+                        .onReceive(timer) { _ in
+                            showSheet.toggle()
+                        }
                 }
             }
             
@@ -112,31 +127,35 @@ struct MainView: View {
                 }
             }, label: {
                 Image(systemName: "plus")
-            }))
-            .disabled(showAddView)
+            }).accessibilityIdentifier("showCityButton"))
+            .disabled(showAddView || showAttentionLabel)
         }
         .padding(1)
         .navigationViewStyle(StackNavigationViewStyle())
-        .blur(radius: showAddView ? 2 : 0)
+        .blur(radius: showAddView || showAttentionLabel ? 2 : 0)
         .overlay(AddCityView(showThisView: $showAddView)
-                    .environmentObject(vm)
+                    .environmentObject(realmService)
                     .offset(y: showAddView ? 0 : -1000))
+        .overlay(AttentionView(showAttentionLabel: $showAttentionLabel)
+                    .offset(y: showAttentionLabel ? 0 : -1000))
         //MARK: - Lifecycle
         .onAppear {
             print("gg")
             let service = NetworkService()
-            vm.fetchData()
-            DispatchQueue.main.asyncAfter(deadline: .now()) {
+            realmService.fetchData()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                 service.getDataByCoordinates(lat: coordinate?.latitude ?? 0, lon: coordinate?.longitude ?? 0) { item in
-                    self.userFromLocation = item
+                    switch(item) {
+                    case .success(let result):
+                        model.getCityFromWelcome(welcome: result)
+                    case .failure(let error):
+                        print(error.localizedDescription)
+                    }
                 }
             }
             
             
         }
-        .onReceive(timer, perform: { _ in
-            getCurrnetWeather()
-        })
     }
     
     //MARK: - Private functions
@@ -145,29 +164,19 @@ struct MainView: View {
         let service = NetworkService()
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             service.getDataByCoordinates(lat: coordinate?.latitude ?? 0, lon: coordinate?.longitude ?? 0) { item in
-                self.userFromLocation = item
+                switch(item) {
+                case .success(let result):
+                    model.getCityFromWelcome(welcome: result)
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
             }
         }
         DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-            vm.getNewData()
+            realmService.getNewData()
         }
     }
     
-    private func getCityFromWelcome(welcome: Welcome?) -> City? {
-        guard let welcome = welcome else { return nil }
-        let city = City()
-        city.feelsLike = welcome.main.feelsLike
-        city.humidity = welcome.main.humidity
-        city.main = welcome.weather.last!.main
-        city.name = welcome.name
-        city.pressure = welcome.main.pressure
-        city.sunrise = welcome.sys.sunrise
-        city.sunset = welcome.sys.sunset
-        city.temp = welcome.main.temp
-        city.tempMax = welcome.main.tempMax
-        city.tempMin = welcome.main.tempMin
-        return city
-    }
 }
 
 

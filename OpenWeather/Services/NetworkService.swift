@@ -7,26 +7,28 @@
 
 import Foundation
 
+enum NetworkError: Error {
+    case badURL
+}
 
 class NetworkService {
     
     //MARK: - Get data by city name
-    func getData(cityName: String, completion: @escaping (Welcome?) -> ()) {
-        let urlString = "https://api.openweathermap.org/data/2.5/weather?q=\(cityName)&appid=c302a638f8f46f6a557e143a3a483647"
+    func getData(cityName: String, completion: @escaping (Result<Welcome?, NetworkError>) -> ()) {
+        let urlString = "https://api.openweathermap.org/data/2.5/weather?q=\(cityName)&appid=\(Constants.apiKey)"
         guard let url = URL(string: urlString) else { return }
-        
         let task = URLSession.shared.dataTask(with: url) { data, response, error in
             guard error == nil else { return }
             if (response as! HTTPURLResponse).statusCode == 200 {
                 guard let data = data else { return }
                 if let json = try? JSONDecoder().decode(Welcome.self, from: data) {
                     DispatchQueue.main.async {
-                        completion(json)
+                        completion(.success(json))
                     }
                 }
             } else {
                 DispatchQueue.main.async {
-                    completion(nil)
+                    completion(.failure(.badURL))
                 }
             }
         }
@@ -34,8 +36,8 @@ class NetworkService {
     }
     
     //MARK: - Get data by coordinates
-    func getDataByCoordinates(lat: Double, lon: Double, completion: @escaping (Welcome?) -> ()) {
-        let urlString = "https://api.openweathermap.org/data/2.5/weather?lat=\(lat)&lon=\(lon)&appid=c302a638f8f46f6a557e143a3a483647"
+    func getDataByCoordinates(lat: Double, lon: Double, completion: @escaping (Result<Welcome?, NetworkError>) -> ()) {
+        let urlString = "https://api.openweathermap.org/data/2.5/weather?lat=\(lat)&lon=\(lon)&appid=\(Constants.apiKey)"
         guard let url = URL(string: urlString) else { return }
         let task = URLSession.shared.dataTask(with: url) { data, response, error in
             guard error == nil else { return }
@@ -43,12 +45,12 @@ class NetworkService {
                 guard let data = data else { return }
                 if let json = try? JSONDecoder().decode(Welcome.self, from: data) {
                     DispatchQueue.main.async {
-                        completion(json)
+                        completion(.success(json))
                     }
                 }
             } else {
                 DispatchQueue.main.async {
-                    completion(nil)
+                    completion(.failure(.badURL))
                 }
             }
         }

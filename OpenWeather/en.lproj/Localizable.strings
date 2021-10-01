@@ -7,6 +7,10 @@
 */
 
 "Cities" = "Cities";
+"Delete" = "Delete";
+"No internet" = "No internet";
+"Attention!" = "Attention!";
+"Refresh is not possible without network connection" = "Refresh is not possible without network connection";
 "Feels like" = "Feels like";
 "Temperature" = "Temperature";
 "Humidity" = "Humidity";

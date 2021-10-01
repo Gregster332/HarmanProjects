@@ -8,6 +8,10 @@
 
 "Cities" = "Список городов";
 "Feels like" = "Ощущается как";
+"Delete" = "Удалить";
+"No internet" = "Нет сети";
+"Attention!" = "Внимание!";
+"Refresh is not possible without network connection" = "Нельзя обновить данные без сетевого подключения";
 "Temperature" = "Температура";
 "Humidity" = "Влажность";
 "Pressure" = "Давление";

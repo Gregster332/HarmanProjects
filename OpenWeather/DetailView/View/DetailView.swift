@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import RealmSwift
 
 struct DetailView: View {
     
@@ -16,8 +17,8 @@ struct DetailView: View {
     //MARK: - Global observables
     @Environment(\.verticalSizeClass) var heightClass: UserInterfaceSizeClass?
     @Environment(\.horizontalSizeClass) var widthClass: UserInterfaceSizeClass?
-    @Environment(\.presentationMode) var presentationMode
-    
+    //@ObservedObject var model = DetailViewModel()
+    //@Environment(\.presentationMode) var presentationMode
     //MARK: - Private observables
     @State private var device = UIDevice.current.name
     @Binding var hideSheet: Bool
