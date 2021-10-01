@@ -18,6 +18,8 @@
 		D00C34652706FCE500FE6BCF /* AddCityViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00C34642706FCE500FE6BCF /* AddCityViewModel.swift */; };
 		D00C34672707068E00FE6BCF /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00C34662707068E00FE6BCF /* Reachability.swift */; };
 		D00C346927070A9E00FE6BCF /* AttentionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00C346827070A9E00FE6BCF /* AttentionView.swift */; };
+		D0192CF02707146D00C1C1DE /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = D0192CEF2707146D00C1C1DE /* Realm */; };
+		D0192CF22707146D00C1C1DE /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = D0192CF12707146D00C1C1DE /* RealmSwift */; };
 		D053B37326FC7CB800307F56 /* DBModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D053B37226FC7CB800307F56 /* DBModel.swift */; };
 		D053B37626FCB38800307F56 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D053B37526FCB38800307F56 /* Date+Extension.swift */; };
 		D053B37A26FF46EF00307F56 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D053B37926FF46EF00307F56 /* LocationManager.swift */; };
@@ -31,8 +33,6 @@
 		D0550B0126FB81B8007E2625 /* WeatherModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0550B0026FB81B8007E2625 /* WeatherModel.swift */; };
 		D0550B0426FB81FE007E2625 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0550B0326FB81FE007E2625 /* NetworkService.swift */; };
 		D0550B0626FB843B007E2625 /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0550B0526FB843B007E2625 /* MainViewModel.swift */; };
-		D0550B0B26FBC1DA007E2625 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = D0550B0A26FBC1DA007E2625 /* Realm */; };
-		D0550B0D26FBC1DA007E2625 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = D0550B0C26FBC1DA007E2625 /* RealmSwift */; };
 		D0550B1826FBC539007E2625 /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0550B1726FBC539007E2625 /* DetailView.swift */; };
 		D0550B1A26FBC707007E2625 /* FragmentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0550B1926FBC707007E2625 /* FragmentView.swift */; };
 		D0550B1C26FBD1CE007E2625 /* AddCityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0550B1B26FBD1CE007E2625 /* AddCityView.swift */; };
@@ -101,8 +101,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D0550B0D26FBC1DA007E2625 /* RealmSwift in Frameworks */,
-				D0550B0B26FBC1DA007E2625 /* Realm in Frameworks */,
+				D0192CF22707146D00C1C1DE /* RealmSwift in Frameworks */,
+				D0192CF02707146D00C1C1DE /* Realm in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -335,8 +335,8 @@
 			);
 			name = OpenWeather;
 			packageProductDependencies = (
-				D0550B0A26FBC1DA007E2625 /* Realm */,
-				D0550B0C26FBC1DA007E2625 /* RealmSwift */,
+				D0192CEF2707146D00C1C1DE /* Realm */,
+				D0192CF12707146D00C1C1DE /* RealmSwift */,
 			);
 			productName = OpenWeather;
 			productReference = D0550ADE26FB4D01007E2625 /* OpenWeather.app */;
@@ -731,12 +731,12 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		D0550B0A26FBC1DA007E2625 /* Realm */ = {
+		D0192CEF2707146D00C1C1DE /* Realm */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = D0550AF526FB676C007E2625 /* XCRemoteSwiftPackageReference "realm-cocoa" */;
 			productName = Realm;
 		};
-		D0550B0C26FBC1DA007E2625 /* RealmSwift */ = {
+		D0192CF12707146D00C1C1DE /* RealmSwift */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = D0550AF526FB676C007E2625 /* XCRemoteSwiftPackageReference "realm-cocoa" */;
 			productName = RealmSwift;

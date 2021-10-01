@@ -101,8 +101,10 @@ struct MainView: View {
                 if Reachability.isConnectedToNetwork() {
                     getCurrnetWeather()
                 } else {
-                    withAnimation(.easeInOut) {
-                        showAttentionLabel.toggle()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        withAnimation(.easeInOut) {
+                            showAttentionLabel.toggle()
+                        }
                     }
                 }
             }

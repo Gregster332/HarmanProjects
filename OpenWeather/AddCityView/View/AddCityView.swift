@@ -61,7 +61,7 @@ struct AddCityView: View {
             })
             .accessibilityIdentifier("searchButton")
             .alert(isPresented: $showingAlert) {
-                Alert(title: Text("Что-то не так🤨"), message: Text(Reachability.isConnectedToNetwork() ? "Вводите название города на английском" : "Нет соединения с сетью"), dismissButton: .some(.cancel(Text("OK"), action: {
+                Alert(title: Text(LocalizedStringKey("Something wrong🤨")), message: Text(Reachability.isConnectedToNetwork() ? LocalizedStringKey("Please, enter the city name in English") : LocalizedStringKey("No internet")), dismissButton: .some(.cancel(Text("OK"), action: {
                     showingAlert = false
                 })))
             }
@@ -70,6 +70,7 @@ struct AddCityView: View {
             Button(action: {
                     showThisView.toggle()
                     realmService.cityName = ""
+                    UIApplication.shared.endEditing()
             }, label: {
                 Text("Cancel")
                     .font(.system(size: 23))

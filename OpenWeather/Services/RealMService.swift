@@ -1,14 +1,14 @@
 //
-//  WeatherViewModel.swift
+//  RealMService.swift
 //  OpenWeather
 //
-//  Created by Grigory Zenkov on 22.09.2021.
+//  Created by Grigory Zenkov on 30.09.2021.
 //
 
 import Foundation
 import RealmSwift
 
-class WeatherViewModel: ObservableObject {
+class RealMService: ObservableObject {
     
     //MARK: - Published vars
     @Published var cityName: String = ""
@@ -47,18 +47,22 @@ class WeatherViewModel: ObservableObject {
         self.cities.indices.forEach { city in
             let service = NetworkService()
             service.getData(cityName: cities[city].name) { item in
-                guard let item = item else { return }
                 self.deleteData(object: self.cities[city])
-                self.addData(name: item.name,
-                             feelsLike: item.main.feelsLike,
-                             sunrise: item.sys.sunrise,
-                             sunset: item.sys.sunset,
-                             temp: item.main.temp,
-                             tempMin: item.main.tempMin,
-                             tempMax: item.main.tempMax,
-                             pressure: item.main.pressure,
-                             humidity: item.main.humidity,
-                             main: item.weather.first!.main)
+                switch(item) {
+                case .success(let result):
+                    self.addData(name: result!.name,
+                                 feelsLike: result!.main.feelsLike,
+                                 sunrise: result!.sys.sunrise,
+                                 sunset: result!.sys.sunset,
+                                 temp: result!.main.temp,
+                                 tempMin: result!.main.tempMin,
+                                 tempMax: result!.main.tempMax,
+                                 pressure: result!.main.pressure,
+                                 humidity: result!.main.humidity,
+                                 main: result!.weather.first!.main)
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
             }
         }
     }

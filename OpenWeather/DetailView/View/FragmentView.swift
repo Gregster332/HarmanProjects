@@ -15,12 +15,10 @@ struct FragmentView: View {
     var imageName: String
     var metric: String
     
-    //MARK: - Private observables
-    @State private var device = UIDevice.modelName
-    
     //MARK: - Global observables
     @Environment(\.verticalSizeClass) var heightClass: UserInterfaceSizeClass?
     @Environment(\.horizontalSizeClass) var widthClass: UserInterfaceSizeClass?
+    @ObservedObject var model = DetailViewModel()
     
     var body: some View {
         //MARK: - View
@@ -34,40 +32,11 @@ struct FragmentView: View {
                 .font(.system(size: 40))
         }
         .padding()
-        .frame(width: calculateWidth(), height: 140)
+        .frame(width: model.calculateWidth(heightClass: heightClass), height: 140)
         .background(Color.gray)
         .cornerRadius(15)
         
     }
-    
-    //MARK: - Private functions
-    private func calculateWidth() -> CGFloat {
-        print("\(UIScreen.main.bounds.height) height")
-        print("\(UIScreen.main.bounds.width) width")
-        if heightClass == .regular {
-            if (900..<1000).contains(UIScreen.main.bounds.height) {
-                return 390
-            } else if (800..<900).contains(UIScreen.main.bounds.height) {
-                return 370
-            } else if  (600..<700).contains(UIScreen.main.bounds.height) {
-                return 350
-            } else if (700..<800).contains(UIScreen.main.bounds.height) {
-                return 370
-            } else if (1000..<1400).contains(UIScreen.main.bounds.height) {
-                return 500
-            } else {
-                return 300
-            }
-        } else {
-            if (300..<1000).contains(UIScreen.main.bounds.height) {
-                return 600
-            } else {
-                return 500
-            }
-        }
-       
-    }
-    
 }
 
 struct FragmentView_Previews: PreviewProvider {
