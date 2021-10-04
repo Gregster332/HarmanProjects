@@ -10,7 +10,7 @@ import Foundation
 extension Date {
     func timeIn24HourFormat() -> String {
            let formatter = DateFormatter()
-        formatter.timeZone = TimeZone.current
+           formatter.timeZone = TimeZone.current
            formatter.dateStyle = .none
            formatter.dateFormat = "HH:mm"
            return formatter.string(from: self)

@@ -6,6 +6,7 @@
 //
 
 import XCTest
+import SwiftUI
 
 class TestDetailScreen: XCTestCase {
 
@@ -13,7 +14,26 @@ class TestDetailScreen: XCTestCase {
         let app = XCUIApplication()
         app.launch()
         
-        //let locationCell = app.buttons["navlocation"]
+        sleep(3)
+        
+        let locationCell = app.buttons["navlocation"]
+        locationCell.tap()
+        
+        let cityLabel = app.staticTexts["cityLabel"]
+        let celsiusLabel = app.staticTexts["celsiusLabel"]
+        let descriptionLabel = app.staticTexts["descriptionLabel"]
+        let celsiusMaxLabel = app.staticTexts["celsiusMaxLabel"]
+        let celsiusMinLabel = app.staticTexts["celsiusMinLabel"]
+        let backImage = app.staticTexts["backImage"]
+        let currentInfo = app.staticTexts["currentInfo"]
+        
+        XCTAssertTrue(cityLabel.exists)
+        XCTAssertTrue(celsiusLabel.exists)
+        XCTAssertTrue(descriptionLabel.exists)
+        XCTAssertTrue(celsiusMaxLabel.exists)
+        XCTAssertTrue(celsiusMinLabel.exists)
+        XCTAssertFalse(backImage.exists)
+        XCTAssertFalse(currentInfo.exists)
     }
     
 }

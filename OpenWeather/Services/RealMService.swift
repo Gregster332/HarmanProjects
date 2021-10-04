@@ -62,6 +62,7 @@ class RealMService: ObservableObject {
                                  main: result!.weather.first!.main)
                 case .failure(let error):
                     print(error.localizedDescription)
+                    return
                 }
             }
         }

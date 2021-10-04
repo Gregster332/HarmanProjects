@@ -22,7 +22,6 @@ struct DetailView: View {
     
     
     //MARK: - Private observables
-    @State private var device = UIDevice.current.name
     @Binding var hideSheet: Bool
     
 
@@ -34,6 +33,7 @@ struct DetailView: View {
             if isNavigationLink == false {
                 HStack {
                     Image(systemName: "backward.fill")
+                        .accessibilityIdentifier("backImage")
                         .foregroundColor(Color(#colorLiteral(red: 0.2588235438, green: 0.7568627596, blue: 0.9686274529, alpha: 1)))
                         .font(.system(size: model.calculateFont(heightClass: heightClass)))
                         .onTapGesture {
@@ -43,24 +43,31 @@ struct DetailView: View {
                     Text(LocalizedStringKey("Current Info"))
                         .font(.system(size: model.calculateFont(heightClass: heightClass)))
                         .fontWeight(.bold)
+                        .accessibilityIdentifier("currentInfo")
                 }
             }
             
             VStack {
                 VStack(alignment: .center, spacing: 10) {
                     Text("\(weatherDetails!.name)")
+                        .accessibilityIdentifier("cityLabel")
                         .font(.system(size: model.calculateFont(heightClass: heightClass)))
                     Text("\(Int(weatherDetails!.temp) -  Constants.toCelsius)º")
                         .font(.system(size: model.calculateFont(heightClass: heightClass)))
                         .fontWeight(.bold)
+                        .accessibilityIdentifier("celsiusLabel")
                     Text(LocalizedStringKey(weatherDetails!.main))
+                        .accessibilityIdentifier("descriptionLabel")
                         .font(.system(size: model.calculateFont(heightClass: heightClass)))
+                        //.accessibilityIdentifier("descriptionLabel")
                     HStack {
                         Text(LocalizedStringKey("Max:"))
                         Text("\(Int(weatherDetails!.tempMax) - Constants.toCelsius)º")
+                            .accessibilityIdentifier("celsiusMaxLabel")
                         Text(", ")
                         Text(LocalizedStringKey("Min:"))
                         Text("\(Int(weatherDetails!.tempMin) - Constants.toCelsius)º")
+                            .accessibilityIdentifier("celsiusMinLabel")
                     }
                 }
                 .padding()
@@ -78,9 +85,7 @@ struct DetailView: View {
         .padding()
         
         .navigationBarTitle(LocalizedStringKey("Current Info"))
-        } else {
-            ProgressView().progressViewStyle(CircularProgressViewStyle())
-        }
+        } 
     }
     
    

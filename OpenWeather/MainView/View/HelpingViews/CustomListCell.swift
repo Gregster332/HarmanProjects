@@ -19,16 +19,17 @@ struct Cell: View {
     //MARK: - Global Variables
     @Environment(\.verticalSizeClass) var heightClass: UserInterfaceSizeClass?
     @Environment(\.horizontalSizeClass) var widthClass: UserInterfaceSizeClass?
+    @ObservedObject var model = MainViewModel()
    
     var body: some View {
         //MARK: - View
         HStack(alignment: .center, spacing: 50) {
             Text(main)
-                .font(.system(size: calculateFont() + 30))
+                .font(.system(size: model.calculateFont(heightClass: heightClass) + 30))
             
             VStack(alignment: .leading) {
                 Text(city)
-                    .font(.system(size: calculateFont() - 3))
+                    .font(.system(size: model.calculateFont(heightClass: heightClass) - 3))
                     .fontWeight(.bold)
                 HStack(alignment: .center, spacing: 0) {
                     Text(LocalizedStringKey("Temperature"))
@@ -52,32 +53,6 @@ struct Cell: View {
         }
         
     }
-    
-    //MARK: - Private functions
-    private func calculateFont() -> CGFloat {
-        if heightClass == .regular {
-            if (900..<1000).contains(UIScreen.main.bounds.height) {
-                return 28
-            } else if (800..<900).contains(UIScreen.main.bounds.height) {
-                return 25
-            } else if  (600..<700).contains(UIScreen.main.bounds.height) {
-                return 23
-            } else if (700..<800).contains(UIScreen.main.bounds.height) {
-                return 24
-            } else if (1000..<1400).contains(UIScreen.main.bounds.height) {
-                return 35
-            } else {
-                return 23
-            }
-        } else {
-            if (300..<1000).contains(UIScreen.main.bounds.height) {
-                return 35
-            } else {
-                return 50
-            }
-        }
-    }
-    
 }
 
 struct Cell_Previews: PreviewProvider {

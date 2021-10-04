@@ -6,8 +6,9 @@
 //
 
 import XCTest
+import SwiftUI
 
-class when_add_new_city_screen_is_presented: XCTestCase {
+class a_when_add_new_city_screen_is_presented: XCTestCase {
     
     func test_should_add_screen_displayed() {
         let app = XCUIApplication()
@@ -68,10 +69,12 @@ class when_add_new_city_screen_is_presented: XCTestCase {
         textField.tap()
         textField.typeText("Moscow")
         
-        let cancelButton = app.buttons["cancelButton"]
-        cancelButton.tap()
+        let pointBelowPassword = textField.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 2))
+        pointBelowPassword.press(forDuration: 0.1)
         
-        let elementButton = app.buttons["Egypt"]
+        sleep(3)
+        
+        let elementButton = app.buttons["Moscow"]
         XCTAssertTrue(elementButton.exists)
     }
 }

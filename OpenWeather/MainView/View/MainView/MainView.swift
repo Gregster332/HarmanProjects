@@ -19,7 +19,7 @@ struct MainView: View {
     @ObservedObject var model = MainViewModel()
     
     //MARK: - Private observables
-    @State private var userFromLocation: Welcome? = Welcome(weather: [Weather(main: "")], main: Main(temp: 333, feelsLike: 3, tempMin: 3, tempMax: 3, pressure: 3, humidity: 3), sys: Sys(sunrise: 22, sunset: 22), name: "")
+//    @State private var userFromLocation: Welcome? = Welcome(weather: [Weather(main: "")], main: Main(temp: 333, feelsLike: 3, tempMin: 3, tempMax: 3, pressure: 3, humidity: 3), sys: Sys(sunrise: 22, sunset: 22), name: "")
     @State private var city: City? = nil
     @State private var showAddView: Bool = false
     @State private var showSheet: Bool = false
@@ -53,6 +53,7 @@ struct MainView: View {
                                 ProgressView().progressViewStyle(CircularProgressViewStyle())
                         }
                     })
+                    .accessibilityIdentifier("navlocation")
                     .buttonStyle(PlainButtonStyle())
                     .disabled(showAddView || showAttentionLabel)
                 } else {
@@ -118,6 +119,7 @@ struct MainView: View {
                         .onReceive(timer) { _ in
                             showSheet.toggle()
                         }
+                        .accessibilityIdentifier("progress")
                 }
             }
             

@@ -36,6 +36,7 @@ class AddCityViewModel: ObservableObject {
             UIApplication.shared.endEditing()
         } else {
             showingAlert = true
+            realmService.cityName = ""
         }
     }
     
