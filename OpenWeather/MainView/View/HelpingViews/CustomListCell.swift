@@ -25,11 +25,11 @@ struct Cell: View {
         //MARK: - View
         HStack(alignment: .center, spacing: 50) {
             Text(main)
-                .font(.system(size: model.calculateFont(heightClass: heightClass) + 30))
+                .font(.system(size: model.calculateFont(heightClass: heightClass, screenHeight: UIScreen.main.bounds.height) + 20))
             
             VStack(alignment: .leading) {
                 Text(city)
-                    .font(.system(size: model.calculateFont(heightClass: heightClass) - 3))
+                    .font(.system(size: model.calculateFont(heightClass: heightClass, screenHeight: UIScreen.main.bounds.height) - 3))
                     .fontWeight(.bold)
                 HStack(alignment: .center, spacing: 0) {
                     Text(LocalizedStringKey("Temperature"))
@@ -55,9 +55,9 @@ struct Cell: View {
     }
 }
 
-struct Cell_Previews: PreviewProvider {
-    static var previews: some View {
-        Cell(city: "Miami", temp: 30, max: 32, min: 27, main: "Mist")
-    }
-}
+//struct Cell_Previews: PreviewProvider {
+//    static var previews: some View {
+//        Cell(city: "Miami", temp: 30, max: 32, min: 27, main: "Mist")
+//    }
+//}
 

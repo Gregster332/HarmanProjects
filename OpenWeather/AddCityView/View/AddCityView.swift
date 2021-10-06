@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import UIKit
 
 struct AddCityView: View {
     
@@ -67,6 +68,7 @@ struct AddCityView: View {
             }
             
             
+            
             Button(action: {
                     showThisView.toggle()
                     realmService.cityName = ""
@@ -91,8 +93,3 @@ struct AddCityView: View {
     }
 }
 
-struct AddCityView_Previews: PreviewProvider {
-    static var previews: some View {
-        AddCityView(showThisView: .constant(false))
-    }
-}

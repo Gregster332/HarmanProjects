@@ -6,9 +6,11 @@
 //
 
 import XCTest
+@testable import OpenWeather
 
 class OpenWeatherUITestsLaunchTests: XCTestCase {
 
+    
     override class var runsForEachTargetApplicationUIConfiguration: Bool {
         true
     }
@@ -16,6 +18,7 @@ class OpenWeatherUITestsLaunchTests: XCTestCase {
     override func setUpWithError() throws {
         continueAfterFailure = false
     }
+    
 
     func testLaunch() throws {
         let app = XCUIApplication()

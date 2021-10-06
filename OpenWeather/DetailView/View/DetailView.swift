@@ -11,7 +11,7 @@ import RealmSwift
 struct DetailView: View {
     
     //MARK: - Variables
-    var weatherDetails: City?
+    @State var weatherDetails: City? = nil
     let isNavigationLink: Bool
     
     //MARK: - Global observables
@@ -35,13 +35,14 @@ struct DetailView: View {
                     Image(systemName: "backward.fill")
                         .accessibilityIdentifier("backImage")
                         .foregroundColor(Color(#colorLiteral(red: 0.2588235438, green: 0.7568627596, blue: 0.9686274529, alpha: 1)))
-                        .font(.system(size: model.calculateFont(heightClass: heightClass)))
+                        .font(.system(size: model.calculateFont(heightClass: heightClass, screenHeight: UIScreen.main.bounds.height)))
                         .onTapGesture {
                             hideSheet.toggle()
+                            weatherDetails = nil
                         }
                     
                     Text(LocalizedStringKey("Current Info"))
-                        .font(.system(size: model.calculateFont(heightClass: heightClass)))
+                        .font(.system(size: model.calculateFont(heightClass: heightClass, screenHeight: UIScreen.main.bounds.height)))
                         .fontWeight(.bold)
                         .accessibilityIdentifier("currentInfo")
                 }
@@ -51,14 +52,14 @@ struct DetailView: View {
                 VStack(alignment: .center, spacing: 10) {
                     Text("\(weatherDetails!.name)")
                         .accessibilityIdentifier("cityLabel")
-                        .font(.system(size: model.calculateFont(heightClass: heightClass)))
+                        .font(.system(size: model.calculateFont(heightClass: heightClass, screenHeight: UIScreen.main.bounds.height)))
                     Text("\(Int(weatherDetails!.temp) -  Constants.toCelsius)º")
-                        .font(.system(size: model.calculateFont(heightClass: heightClass)))
+                        .font(.system(size: model.calculateFont(heightClass: heightClass, screenHeight: UIScreen.main.bounds.height)))
                         .fontWeight(.bold)
                         .accessibilityIdentifier("celsiusLabel")
                     Text(LocalizedStringKey(weatherDetails!.main))
                         .accessibilityIdentifier("descriptionLabel")
-                        .font(.system(size: model.calculateFont(heightClass: heightClass)))
+                        .font(.system(size: model.calculateFont(heightClass: heightClass, screenHeight: UIScreen.main.bounds.height)))
                         //.accessibilityIdentifier("descriptionLabel")
                     HStack {
                         Text(LocalizedStringKey("Max:"))

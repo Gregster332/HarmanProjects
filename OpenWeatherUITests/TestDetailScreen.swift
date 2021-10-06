@@ -36,4 +36,17 @@ class TestDetailScreen: XCTestCase {
         XCTAssertFalse(currentInfo.exists)
     }
     
+    func test_should_displayed_fragmentView() {
+        let app = XCUIApplication()
+        app.launch()
+        
+        sleep(3)
+        
+        let locationCell = app.buttons["navlocation"]
+        locationCell.tap()
+        
+        let feelsLikeLabel = app.staticTexts["DescText"]
+        XCTAssertTrue(feelsLikeLabel.exists)
+    }
+    
 }

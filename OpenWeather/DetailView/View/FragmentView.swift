@@ -26,22 +26,23 @@ struct FragmentView: View {
             HStack {
                 Image(systemName: imageName)
                 Text(description)
-                    .font(.system(size: 22))
+                    .accessibilityIdentifier("DescText")
+                    .font(.system(size: model.calculateFont(heightClass: heightClass, screenHeight: UIScreen.main.bounds.height)))
             }
             Text("\(index)\(metric)")
-                .font(.system(size: 40))
+                .font(.system(size: model.calculateFont(heightClass: heightClass, screenHeight: UIScreen.main.bounds.height)))
         }
         .padding()
-        .frame(width: model.calculateWidth(heightClass: heightClass), height: 140)
+        .frame(width: model.calculateWidth(heightClass: heightClass, screenHeight: UIScreen.main.bounds.height), height: 140)
         .background(Color.gray)
         .cornerRadius(15)
         
     }
 }
 
-struct FragmentView_Previews: PreviewProvider {
-    static var previews: some View {
-        FragmentView(description: "Ощущается как", index: "7", imageName: "thermometer", metric: "º")
-            
-    }
-}
+//struct FragmentView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        FragmentView(description: "Ощущается как", index: "7", imageName: "thermometer", metric: "º")
+//            
+//    }
+//}

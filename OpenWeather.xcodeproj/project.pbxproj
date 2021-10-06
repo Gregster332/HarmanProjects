@@ -18,8 +18,8 @@
 		D00C34652706FCE500FE6BCF /* AddCityViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00C34642706FCE500FE6BCF /* AddCityViewModel.swift */; };
 		D00C34672707068E00FE6BCF /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00C34662707068E00FE6BCF /* Reachability.swift */; };
 		D00C346927070A9E00FE6BCF /* AttentionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00C346827070A9E00FE6BCF /* AttentionView.swift */; };
-		D0192CF02707146D00C1C1DE /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = D0192CEF2707146D00C1C1DE /* Realm */; };
-		D0192CF22707146D00C1C1DE /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = D0192CF12707146D00C1C1DE /* RealmSwift */; };
+		D0192CF02707146D00C1C1DE /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = D0192CEF2707146D00C1C1DE /* Realm */; settings = {ATTRIBUTES = (Required, ); }; };
+		D0192CF22707146D00C1C1DE /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = D0192CF12707146D00C1C1DE /* RealmSwift */; settings = {ATTRIBUTES = (Required, ); }; };
 		D0192CFB270B00B200C1C1DE /* TestAddCityViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0192CFA270B00B200C1C1DE /* TestAddCityViewModel.swift */; };
 		D0192D04270B119800C1C1DE /* TestDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0192D03270B119800C1C1DE /* TestDetailViewModel.swift */; };
 		D0192D06270B166900C1C1DE /* TestDateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0192D05270B166900C1C1DE /* TestDateExtension.swift */; };
@@ -40,6 +40,11 @@
 		D0550B1A26FBC707007E2625 /* FragmentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0550B1926FBC707007E2625 /* FragmentView.swift */; };
 		D0550B1C26FBD1CE007E2625 /* AddCityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0550B1B26FBD1CE007E2625 /* AddCityView.swift */; };
 		D064A4E12700778C00C5A1B1 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = D064A4E32700778C00C5A1B1 /* Localizable.strings */; };
+		D06A0641270D7EED00E05CDA /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = D06A0640270D7EED00E05CDA /* Realm */; settings = {ATTRIBUTES = (Weak, ); }; };
+		D06A0643270D7EED00E05CDA /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = D06A0642270D7EED00E05CDA /* RealmSwift */; settings = {ATTRIBUTES = (Weak, ); }; };
+		D06A0648270DA45800E05CDA /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06A0647270DA45800E05CDA /* SettingsViewModel.swift */; };
+		D06A064A270DA46100E05CDA /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06A0649270DA46100E05CDA /* SettingsView.swift */; };
+		D06A064C270DC0EB00E05CDA /* TestSettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06A064B270DC0EB00E05CDA /* TestSettingsViewModel.swift */; };
 		D0B4735E270B261600D04485 /* TestMainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B4735D270B261600D04485 /* TestMainViewModel.swift */; };
 		D0B47360270B276F00D04485 /* TestNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B4735F270B276F00D04485 /* TestNetworkService.swift */; };
 		D0C8191C2704FABC00ECC355 /* CustomListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C8191B2704FABC00ECC355 /* CustomListCell.swift */; };
@@ -100,6 +105,9 @@
 		D064A4DE270075AD00C5A1B1 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		D064A4E22700778C00C5A1B1 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		D064A4E42700779700C5A1B1 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		D06A0647270DA45800E05CDA /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
+		D06A0649270DA46100E05CDA /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		D06A064B270DC0EB00E05CDA /* TestSettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestSettingsViewModel.swift; sourceTree = "<group>"; };
 		D0B4735D270B261600D04485 /* TestMainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestMainViewModel.swift; sourceTree = "<group>"; };
 		D0B4735F270B276F00D04485 /* TestNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestNetworkService.swift; sourceTree = "<group>"; };
 		D0C8191B2704FABC00ECC355 /* CustomListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomListCell.swift; sourceTree = "<group>"; };
@@ -110,6 +118,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D06A0643270D7EED00E05CDA /* RealmSwift in Frameworks */,
+				D06A0641270D7EED00E05CDA /* Realm in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -240,6 +250,7 @@
 				D0192D07270B180B00C1C1DE /* TestRealmService.swift */,
 				D0B4735D270B261600D04485 /* TestMainViewModel.swift */,
 				D0B4735F270B276F00D04485 /* TestNetworkService.swift */,
+				D06A064B270DC0EB00E05CDA /* TestSettingsViewModel.swift */,
 			);
 			path = OpenWeatherUnitTests;
 			sourceTree = "<group>";
@@ -285,6 +296,7 @@
 				D053B37426FCB37600307F56 /* Extensions */,
 				D0550AFA26FB6808007E2625 /* MainView */,
 				D0550AE726FB4D02007E2625 /* Assets.xcassets */,
+				D06A0644270DA43400E05CDA /* SettingsView */,
 				D00C34612706FCC000FE6BCF /* AddCityView */,
 				D00C3455270616FF00FE6BCF /* DetailView */,
 				D0550AEC26FB4D02007E2625 /* LaunchScreen.storyboard */,
@@ -344,6 +356,31 @@
 			path = MainView;
 			sourceTree = "<group>";
 		};
+		D06A0644270DA43400E05CDA /* SettingsView */ = {
+			isa = PBXGroup;
+			children = (
+				D06A0646270DA44500E05CDA /* View */,
+				D06A0645270DA43F00E05CDA /* ViewModel */,
+			);
+			path = SettingsView;
+			sourceTree = "<group>";
+		};
+		D06A0645270DA43F00E05CDA /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				D06A0647270DA45800E05CDA /* SettingsViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		D06A0646270DA44500E05CDA /* View */ = {
+			isa = PBXGroup;
+			children = (
+				D06A0649270DA46100E05CDA /* SettingsView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -361,6 +398,10 @@
 				D00C344C2706079C00FE6BCF /* PBXTargetDependency */,
 			);
 			name = OpenWeatherUITests;
+			packageProductDependencies = (
+				D06A0640270D7EED00E05CDA /* Realm */,
+				D06A0642270D7EED00E05CDA /* RealmSwift */,
+			);
 			productName = OpenWeatherUITests;
 			productReference = D00C34452706079B00FE6BCF /* OpenWeatherUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
@@ -394,6 +435,8 @@
 			buildRules = (
 			);
 			dependencies = (
+				D03CD424270CEDA2006DA670 /* PBXTargetDependency */,
+				D03CD426270CEDA2006DA670 /* PBXTargetDependency */,
 			);
 			name = OpenWeather;
 			packageProductDependencies = (
@@ -497,6 +540,7 @@
 				D0192D06270B166900C1C1DE /* TestDateExtension.swift in Sources */,
 				D0B47360270B276F00D04485 /* TestNetworkService.swift in Sources */,
 				D0192D04270B119800C1C1DE /* TestDetailViewModel.swift in Sources */,
+				D06A064C270DC0EB00E05CDA /* TestSettingsViewModel.swift in Sources */,
 				D0B4735E270B261600D04485 /* TestMainViewModel.swift in Sources */,
 				D0192D08270B180B00C1C1DE /* TestRealmService.swift in Sources */,
 			);
@@ -507,6 +551,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D00C34402705A12B00FE6BCF /* Emojis.swift in Sources */,
+				D06A064A270DA46100E05CDA /* SettingsView.swift in Sources */,
 				D0550AE226FB4D01007E2625 /* AppDelegate.swift in Sources */,
 				D00C345C270617EB00FE6BCF /* RealMService.swift in Sources */,
 				D0550B1826FBC539007E2625 /* DetailView.swift in Sources */,
@@ -525,6 +570,7 @@
 				D0550B0426FB81FE007E2625 /* NetworkService.swift in Sources */,
 				D00C34672707068E00FE6BCF /* Reachability.swift in Sources */,
 				D053B37326FC7CB800307F56 /* DBModel.swift in Sources */,
+				D06A0648270DA45800E05CDA /* SettingsViewModel.swift in Sources */,
 				D0550B0126FB81B8007E2625 /* WeatherModel.swift in Sources */,
 				D00C346927070A9E00FE6BCF /* AttentionView.swift in Sources */,
 			);
@@ -542,6 +588,14 @@
 			isa = PBXTargetDependency;
 			target = D0550ADD26FB4D01007E2625 /* OpenWeather */;
 			targetProxy = D0192CFC270B00B200C1C1DE /* PBXContainerItemProxy */;
+		};
+		D03CD424270CEDA2006DA670 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			productRef = D03CD423270CEDA2006DA670 /* Realm */;
+		};
+		D03CD426270CEDA2006DA670 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			productRef = D03CD425270CEDA2006DA670 /* RealmSwift */;
 		};
 /* End PBXTargetDependency section */
 
@@ -886,6 +940,26 @@
 			productName = Realm;
 		};
 		D0192CF12707146D00C1C1DE /* RealmSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D0550AF526FB676C007E2625 /* XCRemoteSwiftPackageReference "realm-cocoa" */;
+			productName = RealmSwift;
+		};
+		D03CD423270CEDA2006DA670 /* Realm */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D0550AF526FB676C007E2625 /* XCRemoteSwiftPackageReference "realm-cocoa" */;
+			productName = Realm;
+		};
+		D03CD425270CEDA2006DA670 /* RealmSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D0550AF526FB676C007E2625 /* XCRemoteSwiftPackageReference "realm-cocoa" */;
+			productName = RealmSwift;
+		};
+		D06A0640270D7EED00E05CDA /* Realm */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D0550AF526FB676C007E2625 /* XCRemoteSwiftPackageReference "realm-cocoa" */;
+			productName = Realm;
+		};
+		D06A0642270D7EED00E05CDA /* RealmSwift */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = D0550AF526FB676C007E2625 /* XCRemoteSwiftPackageReference "realm-cocoa" */;
 			productName = RealmSwift;

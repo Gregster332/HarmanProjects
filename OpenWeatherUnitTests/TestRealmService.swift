@@ -8,6 +8,7 @@
 import XCTest
 @testable import OpenWeather
 
+
 class TestRealmService: XCTestCase {
 
     var sut: RealMService!
@@ -29,157 +30,99 @@ class TestRealmService: XCTestCase {
     
     override func setUp() {
         sut = RealMService()
+        sut.deleteAll()
     }
 
     override func tearDown() {
-        sut = nil
         sut.deleteAll()
-    }
-    
-    func test_RealMService_addData_method() {
-        sut.deleteAll()
-        
-        sut.addData(name: "Samara",
-                    feelsLike: 12,
-                    sunrise: 8787,
-                    sunset: 8787,
-                    temp: 12,
-                    tempMin: 12,
-                    tempMax: 12,
-                    pressure: 12,
-                    humidity: 12,
-                    main: "Clear")
-        
         sleep(2)
-        
+        sut = nil
+    }
+    
+    func test_A_RealMService_addData_method() {
+       // XCTAssertTrue(sut.cities.isEmpty)
+        print("11")
+        sut.addData(name: "Moscow",
+                    feelsLike: 100,
+                    sunrise: 100,
+                    sunset: 100,
+                    temp: 100,
+                    tempMin: 100,
+                    tempMax: 100,
+                    pressure: 100,
+                    humidity: 100,
+                    main: "Clear")
+        sut.addData(name: "Samara",
+                    feelsLike: 100,
+                    sunrise: 100,
+                    sunset: 100,
+                    temp: 100,
+                    tempMin: 100,
+                    tempMax: 100,
+                    pressure: 100,
+                    humidity: 100,
+                    main: "Clear")
         XCTAssertTrue(!sut.cities.isEmpty)
+        XCTAssertEqual(sut.cities.count, 2)
     }
     
-    func test_RealMService_deleteData_method() {
-        sut.cities.forEach { city in
-            sut.deleteData(object: city)
-        }
-        XCTAssertTrue(sut.cities.isEmpty)
-    }
-    
-    func test_RealMService_fetchData_method() {
-        sut.deleteAll()
-        sut.addData(name: "Samara",
-                    feelsLike: 12,
-                    sunrise: 8787,
-                    sunset: 8787,
-                    temp: 12,
-                    tempMin: 12,
-                    tempMax: 12,
-                    pressure: 12,
-                    humidity: 12,
-                    main: "Clear")
-        sut.addData(name: "Atlanta",
-                    feelsLike: 12,
-                    sunrise: 8787,
-                    sunset: 8787,
-                    temp: 12,
-                    tempMin: 12,
-                    tempMax: 12,
-                    pressure: 12,
-                    humidity: 12,
-                    main: "Clear")
+    func test_RealMService_deleteObject_method() {
+        print("22")
         sut.addData(name: "Moscow",
-                    feelsLike: 12,
-                    sunrise: 8787,
-                    sunset: 8787,
-                    temp: 12,
-                    tempMin: 12,
-                    tempMax: 12,
-                    pressure: 12,
-                    humidity: 12,
+                    feelsLike: 100,
+                    sunrise: 100,
+                    sunset: 100,
+                    temp: 100,
+                    tempMin: 100,
+                    tempMax: 100,
+                    pressure: 100,
+                    humidity: 100,
                     main: "Clear")
-        sut.fetchData()
-        sleep(3)
-        XCTAssertEqual(sut.cities.count, 3)
-        XCTAssertTrue(sut.cities[0].name == "Atlanta")
-        XCTAssertTrue(sut.cities[1].name == "Moscow")
-        XCTAssertTrue(sut.cities[2].name == "Samara")
-    }
-    
-    func test_RealMService_getNewData_method() {
-        sut.deleteAll()
         sut.addData(name: "Samara",
-                    feelsLike: 12,
-                    sunrise: 8787,
-                    sunset: 8787,
-                    temp: 12,
-                    tempMin: 12,
-                    tempMax: 12,
-                    pressure: 12,
-                    humidity: 12,
+                    feelsLike: 100,
+                    sunrise: 100,
+                    sunset: 100,
+                    temp: 100,
+                    tempMin: 100,
+                    tempMax: 100,
+                    pressure: 100,
+                    humidity: 100,
                     main: "Clear")
-        sut.addData(name: "Atlanta",
-                    feelsLike: 12,
-                    sunrise: 8787,
-                    sunset: 8787,
-                    temp: 12,
-                    tempMin: 12,
-                    tempMax: 12,
-                    pressure: 12,
-                    humidity: 12,
-                    main: "Clear")
-        sut.addData(name: "Moscow",
-                    feelsLike: 12,
-                    sunrise: 8787,
-                    sunset: 8787,
-                    temp: 12,
-                    tempMin: 12,
-                    tempMax: 12,
-                    pressure: 12,
-                    humidity: 12,
-                    main: "Clear")
-        sut.fetchData()
-        sut.getNewData()
-        sleep(3)
-        XCTAssertEqual(sut.cities.count, 3)
-        XCTAssertTrue(sut.cities[0].feelsLike > -20 && sut.cities[0].feelsLike < 40)
-        XCTAssertTrue(sut.cities[1].feelsLike > -20 && sut.cities[1].feelsLike < 40)
-        XCTAssertTrue(sut.cities[2].feelsLike > -20 && sut.cities[2].feelsLike < 40)
+        print(sut.cities)
+        sut.deleteData(object: sut.cities.last!)
+        XCTAssertTrue(!sut.cities.isEmpty)
+        XCTAssertEqual(sut.cities.count, 1)
     }
     
-    func test_RealMService_getNewData_method_with_bad_cities() {
-        sut.deleteAll()
-        sut.addData(name: "S@m1ra",
-                    feelsLike: 12,
-                    sunrise: 8787,
-                    sunset: 8787,
-                    temp: 12,
-                    tempMin: 12,
-                    tempMax: 12,
-                    pressure: 12,
-                    humidity: 12,
-                    main: "Clear")
-        sut.addData(name: "@tl&n+a",
-                    feelsLike: 12,
-                    sunrise: 8787,
-                    sunset: 8787,
-                    temp: 12,
-                    tempMin: 12,
-                    tempMax: 12,
-                    pressure: 12,
-                    humidity: 12,
-                    main: "Clear")
-        sut.addData(name: "M0sc0w",
-                    feelsLike: 12,
-                    sunrise: 8787,
-                    sunset: 8787,
-                    temp: 12,
-                    tempMin: 12,
-                    tempMax: 12,
-                    pressure: 12,
-                    humidity: 12,
-                    main: "Clear")
-        sut.fetchData()
-        sut.getNewData()
-        sleep(3)
-        XCTAssertEqual(sut.cities.count, 3)
-        
-    }
     
+    //    func test_RealMService_getNewData_method() {
+//        print("33")
+//        sut.addData(name: "Moscow",
+//                    feelsLike: 100,
+//                    sunrise: 100,
+//                    sunset: 100,
+//                    temp: 100,
+//                    tempMin: 100,
+//                    tempMax: 100,
+//                    pressure: 100,
+//                    humidity: 100,
+//                    main: "Clear")
+//        sut.addData(name: "Samara",
+//                    feelsLike: 100,
+//                    sunrise: 100,
+//                    sunset: 100,
+//                    temp: 100,
+//                    tempMin: 100,
+//                    tempMax: 100,
+//                    pressure: 100,
+//                    humidity: 100,
+//                    main: "Clear")
+//        print(sut.cities)
+//        sut.getNewData()
+//        //print(sut.cities)
+//        sleep(5)
+//        sut.cities.forEach { city in
+//            XCTAssertNotEqual(city.temp, 100)
+//        }
+//    }
 }

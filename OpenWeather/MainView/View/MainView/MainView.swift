@@ -19,14 +19,16 @@ struct MainView: View {
     @ObservedObject var model = MainViewModel()
     
     //MARK: - Private observables
-//    @State private var userFromLocation: Welcome? = Welcome(weather: [Weather(main: "")], main: Main(temp: 333, feelsLike: 3, tempMin: 3, tempMax: 3, pressure: 3, humidity: 3), sys: Sys(sunrise: 22, sunset: 22), name: "")
     @State private var city: City? = nil
     @State private var showAddView: Bool = false
+    @State private var showSetiingsView: Bool = false
     @State private var showSheet: Bool = false
     @State private var showAttentionLabel: Bool = false
+    @State private var isThisNoInternetAttentionView: Bool = true
 
     //MARK: - Variables
     let timer = Timer.publish(every: 2, on: .main, in: .common).autoconnect()
+    
     //MARK: - Init
     init() {
             UITableView.appearance().showsVerticalScrollIndicator = false
@@ -34,7 +36,7 @@ struct MainView: View {
     
     var body: some View {
         
-        let coordinate = self.locationManager.location != nil ? self.locationManager.location?.coordinate : CLLocationCoordinate2D()
+        //let coordinate = self.locationManager.location != nil ? self.locationManager.location?.coordinate : CLLocationCoordinate2D()
         
         return NavigationView {
             //MARK: - View
@@ -55,7 +57,7 @@ struct MainView: View {
                     })
                     .accessibilityIdentifier("navlocation")
                     .buttonStyle(PlainButtonStyle())
-                    .disabled(showAddView || showAttentionLabel)
+                    .disabled(showAddView || showAttentionLabel || showSetiingsView)
                 } else {
                     Text(LocalizedStringKey("No internet"))
                 }
@@ -88,7 +90,7 @@ struct MainView: View {
                                     Text(LocalizedStringKey("Delete"))
                                 })
                             }))
-                            .disabled(showAddView || showAttentionLabel)
+                            .disabled(showAddView || showAttentionLabel || showSetiingsView)
                     }
                     .accessibilityIdentifier("\(realmService.cities[index].name)")
                     .buttonStyle(PlainButtonStyle())
@@ -100,7 +102,9 @@ struct MainView: View {
             .accessibilityIdentifier("list")
             .refreshable {
                 if Reachability.isConnectedToNetwork() {
-                    getCurrnetWeather()
+                    print("ghgh")
+                    await model.getCurrnetWeather()
+                    realmService.getNewData()
                 } else {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                         withAnimation(.easeInOut) {
@@ -118,6 +122,10 @@ struct MainView: View {
                         .progressViewStyle(CircularProgressViewStyle())
                         .onReceive(timer) { _ in
                             showSheet.toggle()
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                                showAttentionLabel = true
+                                isThisNoInternetAttentionView = false
+                            }
                         }
                         .accessibilityIdentifier("progress")
                 }
@@ -125,61 +133,75 @@ struct MainView: View {
             
             
             .navigationBarTitle(LocalizedStringKey("Cities"))
-            .navigationBarItems(trailing: Button(action: {
+            .navigationBarItems(leading: Button(action: {
+                withAnimation(.easeInOut) {
+                    showSetiingsView.toggle()
+                }
+            }, label: {
+                Image(systemName: "gear")
+            }), trailing: Button(action: {
                 withAnimation(.easeIn) {
                     showAddView.toggle()
                 }
             }, label: {
                 Image(systemName: "plus")
             }).accessibilityIdentifier("showCityButton"))
-            .disabled(showAddView || showAttentionLabel)
+            .disabled(showAddView || showAttentionLabel || showSetiingsView)
         }
         .padding(1)
         .navigationViewStyle(StackNavigationViewStyle())
-        .blur(radius: showAddView || showAttentionLabel ? 2 : 0)
+        .blur(radius: showAddView || showAttentionLabel || showSetiingsView ? 2 : 0)
         .overlay(AddCityView(showThisView: $showAddView)
                     .environmentObject(realmService)
-                    .offset(y: showAddView ? 0 : -1000))
-        .overlay(AttentionView(showAttentionLabel: $showAttentionLabel)
-                    .offset(y: showAttentionLabel ? 0 : -1000))
+                    .offset(y: showAddView ? 0 : Constants.viewOffset))
+        .overlay(AttentionView(showAttentionLabel: $showAttentionLabel, isThisNoInternetAttentionView: $isThisNoInternetAttentionView)
+                    .offset(y: showAttentionLabel ? 0 : Constants.viewOffset))
+        .overlay(SettingsView(showSettingsView: $showSetiingsView)
+                    .environmentObject(realmService)
+                    .offset(y: showSetiingsView ? 0 : Constants.viewOffset)
+        )
         //MARK: - Lifecycle
         .onAppear {
             print("gg")
-            let service = NetworkService()
+            //let service = NetworkService()
             realmService.fetchData()
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                service.getDataByCoordinates(lat: coordinate?.latitude ?? 0, lon: coordinate?.longitude ?? 0) { item in
-                    switch(item) {
-                    case .success(let result):
-                        model.getCityFromWelcome(welcome: result)
-                    case .failure(let error):
-                        print(error.localizedDescription)
-                    }
-                }
+            Task {
+                await model.getCurrnetWeather()
             }
+            realmService.getNewData()
+//            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+//                service.getDataByCoordinates(lat: coordinate?.latitude ?? 0, lon: coordinate?.longitude ?? 0) { item in
+//                    switch(item) {
+//                    case .success(let result):
+//                        model.getCityFromWelcome(welcome: result)
+//                    case .failure(let error):
+//                        print(error.localizedDescription)
+//                    }
+//                }
+//            }
             
             
         }
     }
     
     //MARK: - Private functions
-    private func getCurrnetWeather() {
-        let coordinate = self.locationManager.location != nil ? self.locationManager.location?.coordinate : CLLocationCoordinate2D()
-        let service = NetworkService()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            service.getDataByCoordinates(lat: coordinate?.latitude ?? 0, lon: coordinate?.longitude ?? 0) { item in
-                switch(item) {
-                case .success(let result):
-                    model.getCityFromWelcome(welcome: result)
-                case .failure(let error):
-                    print(error.localizedDescription)
-                }
-            }
-        }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-            realmService.getNewData()
-        }
-    }
+//    private func getCurrnetWeather() {
+//        let coordinate = self.locationManager.location != nil ? self.locationManager.location?.coordinate : CLLocationCoordinate2D()
+//        let service = NetworkService()
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+//            service.getDataByCoordinates(lat: coordinate?.latitude ?? 0, lon: coordinate?.longitude ?? 0) { item in
+//                switch(item) {
+//                case .success(let result):
+//                    model.getCityFromWelcome(welcome: result)
+//                case .failure(let error):
+//                    print(error.localizedDescription)
+//                }
+//            }
+//        }
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+//            realmService.getNewData()
+//        }
+//    }
     
 }
 

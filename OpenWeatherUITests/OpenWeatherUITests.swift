@@ -7,8 +7,10 @@
 
 import XCTest
 import SwiftUI
+@testable import OpenWeather
 
 class a_when_add_new_city_screen_is_presented: XCTestCase {
+    
     
     func test_should_add_screen_displayed() {
         let app = XCUIApplication()
@@ -38,22 +40,24 @@ class a_when_add_new_city_screen_is_presented: XCTestCase {
         XCTAssertTrue(buttonCancel.exists)
     }
     
-    func test_should_add_screen_returns_to_parent() {
+
+        func test_should_add_screen_returns_to_parent() {
         let app = XCUIApplication()
         app.launch()
-        
+
         let addButton = app.buttons["showCityButton"]
         addButton.tap()
-        
+
         let textField = app.textFields["AddCityTextFireld"]
         textField.tap()
         textField.typeText("Moscow")
-        
+
         let buttonsSearch = app.buttons["searchButton"]
         buttonsSearch.tap()
-        
+
         let list = app.tables["list"]
         XCTAssertTrue(list.exists)
+        sleep(3)
         let elementButton = app.buttons["Moscow"]
         XCTAssertTrue(elementButton.exists)
     }
@@ -76,5 +80,28 @@ class a_when_add_new_city_screen_is_presented: XCTestCase {
         
         let elementButton = app.buttons["Moscow"]
         XCTAssertTrue(elementButton.exists)
+    }
+    
+    func test_should_alert_when_enter_city_name_with_numbers() {
+        let app = XCUIApplication()
+        app.launch()
+        
+        let addButton = app.buttons["showCityButton"]
+        addButton.tap()
+        
+        let textField = app.textFields["AddCityTextFireld"]
+        textField.tap()
+        textField.typeText("M@sc@w")
+        let buttonsSearch = app.buttons["searchButton"]
+        buttonsSearch.tap()
+        sleep(2)
+        XCTAssertEqual(app.alerts.element.label, "Something wrong🤨")
+        
+        let okButton = app.alerts.element.buttons.firstMatch
+        okButton.tap()
+        
+        XCTAssertTrue(!app.alerts.firstMatch.exists)
+//        let alert = app.staticTexts["WrongText"]
+//        XCTAssertTrue(alert.exists)
     }
 }
