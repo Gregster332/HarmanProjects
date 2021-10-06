@@ -165,7 +165,7 @@ struct MainView: View {
             print("gg")
             //let service = NetworkService()
             realmService.fetchData()
-            Task {
+            Task(priority: .background) {
                 await model.getCurrnetWeather()
             }
             realmService.getNewData()
