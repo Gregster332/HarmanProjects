@@ -45,6 +45,7 @@
 		D06A0648270DA45800E05CDA /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06A0647270DA45800E05CDA /* SettingsViewModel.swift */; };
 		D06A064A270DA46100E05CDA /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06A0649270DA46100E05CDA /* SettingsView.swift */; };
 		D06A064C270DC0EB00E05CDA /* TestSettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06A064B270DC0EB00E05CDA /* TestSettingsViewModel.swift */; };
+		D06A064E270DC5C800E05CDA /* TestSettingsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06A064D270DC5C800E05CDA /* TestSettingsScreen.swift */; };
 		D0B4735E270B261600D04485 /* TestMainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B4735D270B261600D04485 /* TestMainViewModel.swift */; };
 		D0B47360270B276F00D04485 /* TestNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B4735F270B276F00D04485 /* TestNetworkService.swift */; };
 		D0C8191C2704FABC00ECC355 /* CustomListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C8191B2704FABC00ECC355 /* CustomListCell.swift */; };
@@ -108,6 +109,7 @@
 		D06A0647270DA45800E05CDA /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 		D06A0649270DA46100E05CDA /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		D06A064B270DC0EB00E05CDA /* TestSettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestSettingsViewModel.swift; sourceTree = "<group>"; };
+		D06A064D270DC5C800E05CDA /* TestSettingsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestSettingsScreen.swift; sourceTree = "<group>"; };
 		D0B4735D270B261600D04485 /* TestMainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestMainViewModel.swift; sourceTree = "<group>"; };
 		D0B4735F270B276F00D04485 /* TestNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestNetworkService.swift; sourceTree = "<group>"; };
 		D0C8191B2704FABC00ECC355 /* CustomListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomListCell.swift; sourceTree = "<group>"; };
@@ -156,6 +158,7 @@
 			children = (
 				D00C34472706079B00FE6BCF /* OpenWeatherUITests.swift */,
 				D00C3450270613BD00FE6BCF /* TestDetailScreen.swift */,
+				D06A064D270DC5C800E05CDA /* TestSettingsScreen.swift */,
 				D00C34492706079C00FE6BCF /* OpenWeatherUITestsLaunchTests.swift */,
 			);
 			path = OpenWeatherUITests;
@@ -526,6 +529,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D06A064E270DC5C800E05CDA /* TestSettingsScreen.swift in Sources */,
 				D00C34482706079B00FE6BCF /* OpenWeatherUITests.swift in Sources */,
 				D00C344A2706079C00FE6BCF /* OpenWeatherUITestsLaunchTests.swift in Sources */,
 				D00C3451270613BD00FE6BCF /* TestDetailScreen.swift in Sources */,

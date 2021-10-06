@@ -12,6 +12,11 @@
 "Attention!" = "Attention!";
 "Something wrong🤨" = "Something wrong🤨";
 "Ooops..." = "Ooops...";
+"Settings" = "Settings";
+"Delete" = "Delete";
+"Databese is empty" = "Databese is empty";
+"Delete all data" = "Delete all data";
+"We can't delete deleted items one more time" = "We can't delete deleted items one more time";
 "Failed to load data. Try again, please." = "Failed to load data. Try again, please.";
 "Please, enter the city name in English" = "Please, enter the city name in English";
 "Refresh is not possible without network connection" = "Refresh is not possible without network connection";

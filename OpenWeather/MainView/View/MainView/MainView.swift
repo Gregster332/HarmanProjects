@@ -139,7 +139,7 @@ struct MainView: View {
                 }
             }, label: {
                 Image(systemName: "gear")
-            }), trailing: Button(action: {
+            }).accessibilityIdentifier("Gear"), trailing: Button(action: {
                 withAnimation(.easeIn) {
                     showAddView.toggle()
                 }
