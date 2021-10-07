@@ -53,14 +53,14 @@ class TestMainViewModel: XCTestCase {
     func test_MainViewModel_getCurrentWeather_method() async {
         XCTAssertTrue(sut.currentCity == nil)
         await sut.getCurrnetWeather()
-        sleep(2)
+        sleep(4)
         XCTAssertNotEqual(sut.currentCity?.name, nil)
     }
     
     func test_MainViewModel_getCurrentWeather_with_wrong_coordinates() async {
         manager.location = CLLocation(latitude: 0, longitude: 0)
         await sut.getCurrnetWeather()
-        sleep(2)
+        sleep(4)
         XCTAssertEqual(sut.currentCity?.name, "Globe")
     }
     

@@ -6,9 +6,11 @@
 //
 
 import XCTest
+@testable import OpenWeather
 
 class TestSettingsScreen: XCTestCase {
 
+    
     func test_tap_on_gear_should_open_settings() {
         let app = XCUIApplication()
         app.launch()
@@ -70,10 +72,48 @@ class TestSettingsScreen: XCTestCase {
         sleep(1)
         
         deleteBtn.tap()
+        let settingsText = app.staticTexts["settings"]
+        
+        sleep(1)
+        if settingsText.label == "Settings" {
+            XCTAssertEqual(app.alerts.element.label, "Database is empty")
+        } else {
+            XCTAssertEqual(app.alerts.element.label, "Пусто...")
+        }
+    }
+    
+    func test_if_already_delete_db_show_alert() {
+        let app = XCUIApplication()
+        app.launch()
+
+        let addButton = app.buttons["showCityButton"]
+        addButton.tap()
+
+        let textField = app.textFields["AddCityTextFireld"]
+        textField.tap()
+        textField.typeText("Moscow")
+
+        let buttonsSearch = app.buttons["searchButton"]
+        buttonsSearch.tap()
+        
+        let gear = app.buttons["Gear"]
+        gear.tap()
         
         sleep(1)
         
-        XCTAssertEqual(app.alerts.element.label, "Databese is empty")
+        let deleteBtn = app.buttons["delete"]
+        deleteBtn.tap()
+        
+        sleep(1)
+        
+        gear.tap()
+        deleteBtn.tap()
+        
+        let alert = app.alerts.firstMatch
+        XCTAssertTrue(alert.exists)
+        
+        let alertOkButtton = app.alerts.buttons.firstMatch
+        XCTAssertTrue(alertOkButtton.exists)
+        alertOkButtton.tap()
     }
-
 }

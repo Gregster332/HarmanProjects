@@ -10,13 +10,16 @@ import SwiftUI
 struct AttentionView: View {
     @Binding var showAttentionLabel: Bool
     @Binding var isThisNoInternetAttentionView: Bool
+    var language = LocalizationService.shared.language
+   
     var body: some View {
-        VStack {
-            Text(isThisNoInternetAttentionView ? LocalizedStringKey("Attention!") : LocalizedStringKey("Ooops..."))
+        
+         VStack {
+            Text(isThisNoInternetAttentionView ? "Attention!".localized(language) : "Ooops...".localized(language))
                 .font(.system(size: 25))
                 .fontWeight(.bold)
                 .foregroundColor(Color(#colorLiteral(red: 0.832, green: 0.8, blue: 0.1, alpha: 1)))
-            Text(isThisNoInternetAttentionView ? LocalizedStringKey("Refresh is not possible without network connection") : LocalizedStringKey("Failed to load data. Try again, please."))
+            Text(isThisNoInternetAttentionView ? "Refresh is not possible without network connection".localized(language) : "Failed to load data. Try again, please.".localized(language))
                 .multilineTextAlignment(.center)
                 .font(.system(size: 23))
                 .lineLimit(nil)
@@ -33,7 +36,7 @@ struct AttentionView: View {
             
         }
         .frame(width: 300, height: 180)
-        .background(Color.teal)
+        .background(Color.gray)
         .cornerRadius(20)
         
     }

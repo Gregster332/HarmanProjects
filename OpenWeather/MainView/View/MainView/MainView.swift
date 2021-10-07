@@ -28,15 +28,15 @@ struct MainView: View {
 
     //MARK: - Variables
     let timer = Timer.publish(every: 2, on: .main, in: .common).autoconnect()
+    var language = LocalizationService.shared.language
+   
     
     //MARK: - Init
     init() {
-            UITableView.appearance().showsVerticalScrollIndicator = false
-        }
+        UITableView.appearance().showsVerticalScrollIndicator = false
+    }
     
     var body: some View {
-        
-        //let coordinate = self.locationManager.location != nil ? self.locationManager.location?.coordinate : CLLocationCoordinate2D()
         
         return NavigationView {
             //MARK: - View
@@ -59,7 +59,7 @@ struct MainView: View {
                     .buttonStyle(PlainButtonStyle())
                     .disabled(showAddView || showAttentionLabel || showSetiingsView)
                 } else {
-                    Text(LocalizedStringKey("No internet"))
+                    Text("no_internet".localized(language))
                 }
                 
                 
@@ -87,7 +87,7 @@ struct MainView: View {
                                         realmService.fetchData()
                                     }
                                 }, label: {
-                                    Text(LocalizedStringKey("Delete"))
+                                    Text("Delete".localized(language))
                                 })
                             }))
                             .disabled(showAddView || showAttentionLabel || showSetiingsView)
@@ -132,7 +132,7 @@ struct MainView: View {
             }
             
             
-            .navigationBarTitle(LocalizedStringKey("Cities"))
+            .navigationBarTitle("Cities".localized(language))
             .navigationBarItems(leading: Button(action: {
                 withAnimation(.easeInOut) {
                     showSetiingsView.toggle()
@@ -169,40 +169,9 @@ struct MainView: View {
                 await model.getCurrnetWeather()
             }
             realmService.getNewData()
-//            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-//                service.getDataByCoordinates(lat: coordinate?.latitude ?? 0, lon: coordinate?.longitude ?? 0) { item in
-//                    switch(item) {
-//                    case .success(let result):
-//                        model.getCityFromWelcome(welcome: result)
-//                    case .failure(let error):
-//                        print(error.localizedDescription)
-//                    }
-//                }
-//            }
-            
-            
         }
+        
     }
-    
-    //MARK: - Private functions
-//    private func getCurrnetWeather() {
-//        let coordinate = self.locationManager.location != nil ? self.locationManager.location?.coordinate : CLLocationCoordinate2D()
-//        let service = NetworkService()
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-//            service.getDataByCoordinates(lat: coordinate?.latitude ?? 0, lon: coordinate?.longitude ?? 0) { item in
-//                switch(item) {
-//                case .success(let result):
-//                    model.getCityFromWelcome(welcome: result)
-//                case .failure(let error):
-//                    print(error.localizedDescription)
-//                }
-//            }
-//        }
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-//            realmService.getNewData()
-//        }
-//    }
-    
 }
 
 

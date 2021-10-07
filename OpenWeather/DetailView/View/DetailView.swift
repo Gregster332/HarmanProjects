@@ -19,6 +19,7 @@ struct DetailView: View {
     @Environment(\.horizontalSizeClass) var widthClass: UserInterfaceSizeClass?
     @ObservedObject var model = DetailViewModel()
     //@Environment(\.presentationMode) var presentationMode
+    var language = LocalizationService.shared.language
     
     
     //MARK: - Private observables
@@ -41,7 +42,7 @@ struct DetailView: View {
                             weatherDetails = nil
                         }
                     
-                    Text(LocalizedStringKey("Current Info"))
+                    Text("Current Info".localized(language))
                         .font(.system(size: model.calculateFont(heightClass: heightClass, screenHeight: UIScreen.main.bounds.height)))
                         .fontWeight(.bold)
                         .accessibilityIdentifier("currentInfo")
@@ -57,16 +58,16 @@ struct DetailView: View {
                         .font(.system(size: model.calculateFont(heightClass: heightClass, screenHeight: UIScreen.main.bounds.height)))
                         .fontWeight(.bold)
                         .accessibilityIdentifier("celsiusLabel")
-                    Text(LocalizedStringKey(weatherDetails!.main))
+                    Text(weatherDetails!.main.localized(language))
                         .accessibilityIdentifier("descriptionLabel")
                         .font(.system(size: model.calculateFont(heightClass: heightClass, screenHeight: UIScreen.main.bounds.height)))
                         //.accessibilityIdentifier("descriptionLabel")
                     HStack {
-                        Text(LocalizedStringKey("Max:"))
+                        Text("Max:".localized(language))
                         Text("\(Int(weatherDetails!.tempMax) - Constants.toCelsius)º")
                             .accessibilityIdentifier("celsiusMaxLabel")
                         Text(", ")
-                        Text(LocalizedStringKey("Min:"))
+                        Text("Min:".localized(language))
                         Text("\(Int(weatherDetails!.tempMin) - Constants.toCelsius)º")
                             .accessibilityIdentifier("celsiusMinLabel")
                     }
@@ -74,18 +75,18 @@ struct DetailView: View {
                 .padding()
                 
                 VStack {
-                    FragmentView(description: LocalizedStringKey("Feels like"), index: "\(Int(weatherDetails!.feelsLike) - Constants.toCelsius)", imageName: "thermometer", metric: "º")
-                    FragmentView(description: LocalizedStringKey("Humidity"), index: "\(Int(weatherDetails!.humidity))", imageName: "drop.fill", metric: "%")
-                    FragmentView(description: LocalizedStringKey("Pressure"), index: "\(Int(weatherDetails!.pressure))", imageName: "dial.min", metric: "mm")
-                    FragmentView(description: LocalizedStringKey("Sunrise"), index: "\(Date(timeIntervalSince1970: TimeInterval(weatherDetails!.sunrise)).timeIn24HourFormat())", imageName: "sunrise.fill", metric: "")
-                    FragmentView(description: LocalizedStringKey("Sunset"), index: "\(Date(timeIntervalSince1970: TimeInterval(weatherDetails!.sunset)).timeIn24HourFormat())", imageName: "sunset.fill", metric: "")
+                    FragmentView(description: "Feels like".localized(language), index: "\(Int(weatherDetails!.feelsLike) - Constants.toCelsius)", imageName: "thermometer", metric: "º")
+                    FragmentView(description: "Humidity".localized(language), index: "\(Int(weatherDetails!.humidity))", imageName: "drop.fill", metric: "%")
+                    FragmentView(description: "Pressure".localized(language), index: "\(Int(weatherDetails!.pressure))", imageName: "dial.min", metric: "mm")
+                    FragmentView(description: "Sunrise".localized(language), index: "\(Date(timeIntervalSince1970: TimeInterval(weatherDetails!.sunrise)).timeIn24HourFormat())", imageName: "sunrise.fill", metric: "")
+                    FragmentView(description: "Sunset".localized(language), index: "\(Date(timeIntervalSince1970: TimeInterval(weatherDetails!.sunset)).timeIn24HourFormat())", imageName: "sunset.fill", metric: "")
                 }
             }
             .padding()
         }
         .padding()
         
-        .navigationBarTitle(LocalizedStringKey("Current Info"))
+        .navigationBarTitle("Current Info".localized(language))
         } 
     }
     

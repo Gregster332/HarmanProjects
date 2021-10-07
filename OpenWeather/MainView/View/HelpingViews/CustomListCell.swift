@@ -20,6 +20,8 @@ struct Cell: View {
     @Environment(\.verticalSizeClass) var heightClass: UserInterfaceSizeClass?
     @Environment(\.horizontalSizeClass) var widthClass: UserInterfaceSizeClass?
     @ObservedObject var model = MainViewModel()
+    
+    var language = LocalizationService.shared.language
    
     var body: some View {
         //MARK: - View
@@ -32,7 +34,7 @@ struct Cell: View {
                     .font(.system(size: model.calculateFont(heightClass: heightClass, screenHeight: UIScreen.main.bounds.height) - 3))
                     .fontWeight(.bold)
                 HStack(alignment: .center, spacing: 0) {
-                    Text(LocalizedStringKey("Temperature"))
+                    Text("Temperature".localized(language))
                         .font(.system(size: 20))
                         .fontWeight(.semibold)
                     Text(": \(temp)")
@@ -41,11 +43,11 @@ struct Cell: View {
                 }
                 HStack {
                     HStack(alignment: .center, spacing: 0) {
-                        Text(LocalizedStringKey("Max:"))
+                        Text("Max:".localized(language))
                         Text(" \(max),")
                     }
                     HStack(alignment: .center, spacing: 0) {
-                        Text(LocalizedStringKey("Min:"))
+                        Text("Min:".localized(language))
                         Text(" \(min)")
                     }
                 }

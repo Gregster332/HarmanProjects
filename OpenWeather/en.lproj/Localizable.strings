@@ -8,13 +8,15 @@
 
 "Cities" = "Cities";
 "Delete" = "Delete";
-"No internet" = "No internet";
+"no_internet" = "No internet";
 "Attention!" = "Attention!";
 "Something wrong🤨" = "Something wrong🤨";
 "Ooops..." = "Ooops...";
 "Settings" = "Settings";
 "Delete" = "Delete";
 "Databese is empty" = "Databese is empty";
+"settings_language" = "Language";
+"Name..." = "City name...";
 "Delete all data" = "Delete all data";
 "We can't delete deleted items one more time" = "We can't delete deleted items one more time";
 "Failed to load data. Try again, please." = "Failed to load data. Try again, please.";
@@ -27,7 +29,6 @@
 "Enter city name" = "Enter city name";
 "Sunrise" = "Sunrise";
 "Sunset" = "Sunset";
-"Name..." = "Name...";
 "Search" = "Search";
 "Cancel" = "Cancel";
 "Max:" = "Max:";

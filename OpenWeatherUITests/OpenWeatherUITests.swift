@@ -95,7 +95,12 @@ class a_when_add_new_city_screen_is_presented: XCTestCase {
         let buttonsSearch = app.buttons["searchButton"]
         buttonsSearch.tap()
         sleep(2)
-        XCTAssertEqual(app.alerts.element.label, "Something wrong🤨")
+        
+        if buttonsSearch.label == "Search" {
+            XCTAssertEqual(app.alerts.element.label, "Something wrong🤨")
+        } else {
+            XCTAssertEqual(app.alerts.element.label, "Что-то не так🤨")
+        }
         
         let okButton = app.alerts.element.buttons.firstMatch
         okButton.tap()

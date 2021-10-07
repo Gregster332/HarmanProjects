@@ -19,12 +19,13 @@ struct AddCityView: View {
     @Environment(\.verticalSizeClass) var heightClass: UserInterfaceSizeClass?
     @Environment(\.horizontalSizeClass) var widthClass: UserInterfaceSizeClass?
     @ObservedObject var model = AddCityViewModel()
+    var language = LocalizationService.shared.language
     
     var body: some View {
         //MARK: - View
         VStack(alignment: .center, spacing: 20) {
             
-            Text(LocalizedStringKey("Enter city name"))
+            Text("Enter city name".localized(language))
                 .multilineTextAlignment(.center)
                 .lineLimit(nil)
                 .font(.system(size: 30))
@@ -32,7 +33,7 @@ struct AddCityView: View {
             HStack {
                 Image(systemName: "magnifyingglass.circle.fill")
                     .font(.system(size: 25))
-                TextField("Name...", text: $realmService.cityName, onCommit:  {
+                TextField("Name...".localized(language), text: $realmService.cityName, onCommit:  {
                     model.addNewData(realmService: realmService, showingAlert: &showingAlert, showThisView: &showThisView)
                     UIApplication.shared.endEditing()
                 }).accessibilityIdentifier("AddCityTextFireld")
@@ -51,7 +52,7 @@ struct AddCityView: View {
                     showingAlert.toggle()
                 }
             }, label: {
-                Text("Search")
+                Text("Search".localized(language))
                     .font(.system(size: 23))
                     .fontWeight(.semibold)
                     .foregroundColor(.black)
@@ -62,7 +63,7 @@ struct AddCityView: View {
             })
             .accessibilityIdentifier("searchButton")
             .alert(isPresented: $showingAlert) {
-                Alert(title: Text(LocalizedStringKey("Something wrong🤨")), message: Text(Reachability.isConnectedToNetwork() ? LocalizedStringKey("Please, enter the city name in English") : LocalizedStringKey("No internet")), dismissButton: .some(.cancel(Text("OK"), action: {
+                Alert(title: Text("Something wrong🤨".localized(language)), message: Text(Reachability.isConnectedToNetwork() ? "Please, enter the city name in English".localized(language) : "no_internet".localized(language)), dismissButton: .some(.cancel(Text("OK"), action: {
                     showingAlert = false
                 })))
             }
@@ -74,7 +75,7 @@ struct AddCityView: View {
                     realmService.cityName = ""
                     UIApplication.shared.endEditing()
             }, label: {
-                Text("Cancel")
+                Text("Cancel".localized(language))
                     .font(.system(size: 23))
                     .fontWeight(.semibold)
                     .foregroundColor(.red.opacity(0.5))

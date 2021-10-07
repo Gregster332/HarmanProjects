@@ -10,10 +10,11 @@ import SwiftUI
 struct FragmentView: View {
     
     //MARK: - Variables
-    var description: LocalizedStringKey
+    var description: String
     var index: String
     var imageName: String
     var metric: String
+    var language = LocalizationService.shared.language
     
     //MARK: - Global observables
     @Environment(\.verticalSizeClass) var heightClass: UserInterfaceSizeClass?
