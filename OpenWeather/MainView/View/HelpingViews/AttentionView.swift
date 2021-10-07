@@ -11,7 +11,8 @@ struct AttentionView: View {
     @Binding var showAttentionLabel: Bool
     @Binding var isThisNoInternetAttentionView: Bool
     var language = LocalizationService.shared.language
-   
+    var color = ColorChangeService.shared.color
+    
     var body: some View {
         
          VStack {
@@ -36,7 +37,7 @@ struct AttentionView: View {
             
         }
         .frame(width: 300, height: 180)
-        .background(Color.gray)
+        .background(ColorChangeService.shared.changeColor(color: color.rawValue))
         .cornerRadius(20)
         
     }

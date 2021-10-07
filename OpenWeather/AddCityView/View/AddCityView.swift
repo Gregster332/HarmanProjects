@@ -20,6 +20,7 @@ struct AddCityView: View {
     @Environment(\.horizontalSizeClass) var widthClass: UserInterfaceSizeClass?
     @ObservedObject var model = AddCityViewModel()
     var language = LocalizationService.shared.language
+    var color = ColorChangeService.shared.color
     
     var body: some View {
         //MARK: - View
@@ -78,7 +79,7 @@ struct AddCityView: View {
                 Text("Cancel".localized(language))
                     .font(.system(size: 23))
                     .fontWeight(.semibold)
-                    .foregroundColor(.red.opacity(0.5))
+                    .foregroundColor(.red)
                     .padding()
                     .frame(width: 140, height: 50, alignment: .center)
                     .background(Color.blue.opacity(0.3))
@@ -88,7 +89,7 @@ struct AddCityView: View {
         }
         .frame(width: heightClass == .regular ? 300 : 500, height: heightClass == .regular ? 400 : 300)
         .padding()
-        .background(Color.gray)
+        .background(ColorChangeService.shared.changeColor(color: color.rawValue))
         .cornerRadius(15)
         
     }

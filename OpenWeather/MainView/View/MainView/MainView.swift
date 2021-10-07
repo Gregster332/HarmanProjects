@@ -29,6 +29,7 @@ struct MainView: View {
     //MARK: - Variables
     let timer = Timer.publish(every: 2, on: .main, in: .common).autoconnect()
     var language = LocalizationService.shared.language
+    var color = ColorChangeService.shared.color
    
     
     //MARK: - Init
@@ -148,6 +149,7 @@ struct MainView: View {
             }).accessibilityIdentifier("showCityButton"))
             .disabled(showAddView || showAttentionLabel || showSetiingsView)
         }
+        .background(ColorChangeService.shared.changeColor(color: color.rawValue))
         .padding(1)
         .navigationViewStyle(StackNavigationViewStyle())
         .blur(radius: showAddView || showAttentionLabel || showSetiingsView ? 2 : 0)

@@ -53,6 +53,9 @@
 		D0E41F5C270E2F3100110F6D /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E41F5B270E2F3100110F6D /* String+Extension.swift */; };
 		D0E41F5E270E30D300110F6D /* LocalizationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E41F5D270E30D300110F6D /* LocalizationService.swift */; };
 		D0E41F60270EFDAE00110F6D /* TestLocalizationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E41F5F270EFDAE00110F6D /* TestLocalizationService.swift */; };
+		D0E41F62270F13DA00110F6D /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E41F61270F13DA00110F6D /* Colors.swift */; };
+		D0E41F64270F13FF00110F6D /* ColorChangeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E41F63270F13FF00110F6D /* ColorChangeService.swift */; };
+		D0E41F68270F3D0400110F6D /* TestColorChangeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E41F67270F3D0400110F6D /* TestColorChangeService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -121,6 +124,9 @@
 		D0E41F5B270E2F3100110F6D /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		D0E41F5D270E30D300110F6D /* LocalizationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizationService.swift; sourceTree = "<group>"; };
 		D0E41F5F270EFDAE00110F6D /* TestLocalizationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestLocalizationService.swift; sourceTree = "<group>"; };
+		D0E41F61270F13DA00110F6D /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
+		D0E41F63270F13FF00110F6D /* ColorChangeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorChangeService.swift; sourceTree = "<group>"; };
+		D0E41F67270F3D0400110F6D /* TestColorChangeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestColorChangeService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -189,6 +195,7 @@
 				D00C345B270617EB00FE6BCF /* RealMService.swift */,
 				D00C34662707068E00FE6BCF /* Reachability.swift */,
 				D0E41F5D270E30D300110F6D /* LocalizationService.swift */,
+				D0E41F63270F13FF00110F6D /* ColorChangeService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -264,6 +271,7 @@
 				D0B4735F270B276F00D04485 /* TestNetworkService.swift */,
 				D06A064B270DC0EB00E05CDA /* TestSettingsViewModel.swift */,
 				D0E41F5F270EFDAE00110F6D /* TestLocalizationService.swift */,
+				D0E41F67270F3D0400110F6D /* TestColorChangeService.swift */,
 			);
 			path = OpenWeatherUnitTests;
 			sourceTree = "<group>";
@@ -400,6 +408,7 @@
 			isa = PBXGroup;
 			children = (
 				D0E41F59270E2F1800110F6D /* Language.swift */,
+				D0E41F61270F13DA00110F6D /* Colors.swift */,
 			);
 			path = Enums;
 			sourceTree = "<group>";
@@ -564,6 +573,7 @@
 				D0192D06270B166900C1C1DE /* TestDateExtension.swift in Sources */,
 				D0E41F60270EFDAE00110F6D /* TestLocalizationService.swift in Sources */,
 				D0B47360270B276F00D04485 /* TestNetworkService.swift in Sources */,
+				D0E41F68270F3D0400110F6D /* TestColorChangeService.swift in Sources */,
 				D0192D04270B119800C1C1DE /* TestDetailViewModel.swift in Sources */,
 				D06A064C270DC0EB00E05CDA /* TestSettingsViewModel.swift in Sources */,
 				D0B4735E270B261600D04485 /* TestMainViewModel.swift in Sources */,
@@ -585,12 +595,14 @@
 				D0550AE426FB4D01007E2625 /* SceneDelegate.swift in Sources */,
 				D0E41F5C270E2F3100110F6D /* String+Extension.swift in Sources */,
 				D053B37626FCB38800307F56 /* Date+Extension.swift in Sources */,
+				D0E41F62270F13DA00110F6D /* Colors.swift in Sources */,
 				D0C8191C2704FABC00ECC355 /* CustomListCell.swift in Sources */,
 				D0550B1C26FBD1CE007E2625 /* AddCityView.swift in Sources */,
 				D0550B0626FB843B007E2625 /* MainViewModel.swift in Sources */,
 				D0550AE626FB4D01007E2625 /* MainView.swift in Sources */,
 				D053B37A26FF46EF00307F56 /* LocationManager.swift in Sources */,
 				D00C345A270617C300FE6BCF /* DetailViewModel.swift in Sources */,
+				D0E41F64270F13FF00110F6D /* ColorChangeService.swift in Sources */,
 				D00C34602706585000FE6BCF /* Constants.swift in Sources */,
 				D00C34652706FCE500FE6BCF /* AddCityViewModel.swift in Sources */,
 				D0550B0426FB81FE007E2625 /* NetworkService.swift in Sources */,

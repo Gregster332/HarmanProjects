@@ -52,4 +52,8 @@ class AddCityViewModel: ObservableObject {
         return true
     }
     
+//    internal func changeColor(color: String) -> Color {
+//        
+//    }
+    
 }

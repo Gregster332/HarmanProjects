@@ -31,7 +31,34 @@ class SettingViewModel: ObservableObject {
             if (300..<1000).contains(screenHeight) {
                 return 600
             } else {
-                return 500
+                return 600
+            }
+        }
+       
+    }
+    
+    internal func calculateHeight(heightClass: UserInterfaceSizeClass?, screenHeight: CGFloat) -> CGFloat {
+//        print("\(UIScreen.main.bounds.height) height")
+//        print("\(UIScreen.main.bounds.width) width")
+        if heightClass == .regular {
+            if (900..<1000).contains(screenHeight) {
+                return 80
+            } else if (800..<900).contains(screenHeight) {
+                return 80
+            } else if  (600..<700).contains(screenHeight) {
+                return 80
+            } else if (700..<800).contains(screenHeight) {
+                return 80
+            } else if (1000..<1400).contains(screenHeight) {
+                return 80
+            } else {
+                return 80
+            }
+        } else {
+            if (300..<1000).contains(screenHeight) {
+                return 60
+            } else {
+                return 80
             }
         }
        
@@ -56,9 +83,9 @@ class SettingViewModel: ObservableObject {
             }
         } else {
             if (300..<1000).contains(screenHeight) {
-                return 400
+                return 500
             } else {
-                return 400
+                return 500
             }
         }
        
@@ -83,9 +110,9 @@ class SettingViewModel: ObservableObject {
             }
         } else {
             if (300..<1000).contains(screenHeight) {
-                return 150
+                return 190
             } else {
-                return 150
+                return 190
             }
         }
        
@@ -108,10 +135,20 @@ class SettingViewModel: ObservableObject {
             }
         } else {
             if (300..<650).contains(screenHeight) {
-                return 32
+                return 25
             } else {
-                return 45
+                return 40
             }
+        }
+    }
+    
+    internal func changeColor(color: String) -> Color {
+        if color == "green" {
+            return Color.green
+        } else if color == "pink" {
+            return Color.pink
+        } else {
+            return Color.purple
         }
     }
     

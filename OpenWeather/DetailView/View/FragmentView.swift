@@ -20,6 +20,7 @@ struct FragmentView: View {
     @Environment(\.verticalSizeClass) var heightClass: UserInterfaceSizeClass?
     @Environment(\.horizontalSizeClass) var widthClass: UserInterfaceSizeClass?
     @ObservedObject var model = DetailViewModel()
+    var color = ColorChangeService.shared.color
     
     var body: some View {
         //MARK: - View
@@ -35,7 +36,7 @@ struct FragmentView: View {
         }
         .padding()
         .frame(width: model.calculateWidth(heightClass: heightClass, screenHeight: UIScreen.main.bounds.height), height: 140)
-        .background(Color.gray)
+        .background(ColorChangeService.shared.changeColor(color: color.rawValue))
         .cornerRadius(15)
         
     }
