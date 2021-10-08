@@ -36,7 +36,7 @@ class TestSettingsViewModel: XCTestCase {
         XCTAssertEqual(width5, 500)
         XCTAssertEqual(width6, 300)
         XCTAssertEqual(width7, 600)
-        XCTAssertEqual(width8, 500)
+        XCTAssertEqual(width8, 600)
     }
     
     func test_SettingsViewModel_calculateWidthForFragment_method() {
@@ -54,8 +54,8 @@ class TestSettingsViewModel: XCTestCase {
         XCTAssertEqual(width4, 290)
         XCTAssertEqual(width5, 440)
         XCTAssertEqual(width6, 270)
-        XCTAssertEqual(width7, 400)
-        XCTAssertEqual(width8, 400)
+        XCTAssertEqual(width7, 500)
+        XCTAssertEqual(width8, 500)
     }
     
     func test_SettingViewModel_calculateWidthForButton_method() {
@@ -73,8 +73,8 @@ class TestSettingsViewModel: XCTestCase {
         XCTAssertEqual(width4, 80)
         XCTAssertEqual(width5, 160)
         XCTAssertEqual(width6, 80)
-        XCTAssertEqual(width7, 150)
-        XCTAssertEqual(width8, 150)
+        XCTAssertEqual(width7, 190)
+        XCTAssertEqual(width8, 190)
     }
     
     func test_SettingViewModel_calculateFontMethod() {
@@ -92,8 +92,8 @@ class TestSettingsViewModel: XCTestCase {
         XCTAssertEqual(font4, 28)
         XCTAssertEqual(font5, 40)
         XCTAssertEqual(font6, 27)
-        XCTAssertEqual(font7, 32)
-        XCTAssertEqual(font8, 45)
+        XCTAssertEqual(font7, 25)
+        XCTAssertEqual(font8, 40)
     }
 
 }

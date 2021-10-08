@@ -6,6 +6,7 @@
 //
 
 import XCTest
+import SwiftUI
 @testable import OpenWeather
 
 class TestColorChangeService: XCTestCase {
@@ -43,6 +44,9 @@ class TestColorChangeService: XCTestCase {
         let color1 = sut.changeColor(color: "green")
         let color2 = sut.changeColor(color: "pink")
         let color3 = sut.changeColor(color: "purple")
+        XCTAssertEqual(color1, Color.green)
+        XCTAssertEqual(color2, Color.pink)
+        XCTAssertEqual(color3, Color.purple)
     }
     
 }

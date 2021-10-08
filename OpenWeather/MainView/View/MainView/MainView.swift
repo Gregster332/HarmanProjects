@@ -149,7 +149,6 @@ struct MainView: View {
             }).accessibilityIdentifier("showCityButton"))
             .disabled(showAddView || showAttentionLabel || showSetiingsView)
         }
-        .background(ColorChangeService.shared.changeColor(color: color.rawValue))
         .padding(1)
         .navigationViewStyle(StackNavigationViewStyle())
         .blur(radius: showAddView || showAttentionLabel || showSetiingsView ? 2 : 0)
