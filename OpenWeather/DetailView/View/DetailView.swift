@@ -18,7 +18,6 @@ struct DetailView: View {
     @Environment(\.verticalSizeClass) var heightClass: UserInterfaceSizeClass?
     @Environment(\.horizontalSizeClass) var widthClass: UserInterfaceSizeClass?
     @ObservedObject var model = DetailViewModel()
-    //@Environment(\.presentationMode) var presentationMode
     var language = LocalizationService.shared.language
     
     
@@ -54,14 +53,14 @@ struct DetailView: View {
                     Text("\(weatherDetails!.name)")
                         .accessibilityIdentifier("cityLabel")
                         .font(.system(size: model.calculateFont(heightClass: heightClass, screenHeight: UIScreen.main.bounds.height)))
-                    Text("\(Int(weatherDetails!.temp) -  Constants.toCelsius)º")
-                        .font(.system(size: model.calculateFont(heightClass: heightClass, screenHeight: UIScreen.main.bounds.height)))
-                        .fontWeight(.bold)
-                        .accessibilityIdentifier("celsiusLabel")
+//                    Text("\(Int(weatherDetails!.temp) -  Constants.toCelsius)º")
+//                        .font(.system(size: model.calculateFont(heightClass: heightClass, screenHeight: UIScreen.main.bounds.height)))
+//                        .fontWeight(.bold)
+//                        .accessibilityIdentifier("celsiusLabel")
+                    TempView(temp: weatherDetails!.temp - CGFloat(Constants.toCelsius))
                     Text(weatherDetails!.main.localized(language))
                         .accessibilityIdentifier("descriptionLabel")
                         .font(.system(size: model.calculateFont(heightClass: heightClass, screenHeight: UIScreen.main.bounds.height)))
-                        //.accessibilityIdentifier("descriptionLabel")
                     HStack {
                         Text("Max:".localized(language))
                         Text("\(Int(weatherDetails!.tempMax) - Constants.toCelsius)º")
@@ -77,7 +76,8 @@ struct DetailView: View {
                 VStack {
                     FragmentView(description: "Feels like".localized(language), index: "\(Int(weatherDetails!.feelsLike) - Constants.toCelsius)", imageName: "thermometer", metric: "º")
                     FragmentView(description: "Humidity".localized(language), index: "\(Int(weatherDetails!.humidity))", imageName: "drop.fill", metric: "%")
-                    FragmentView(description: "Pressure".localized(language), index: "\(Int(weatherDetails!.pressure))", imageName: "dial.min", metric: "mm")
+//                    FragmentView(description: "Pressure".localized(language), index: "\(Int(weatherDetails!.pressure))", imageName: "dial.min", metric: "mm")
+                    PressureView(description: "Pressure".localized(language), index: Int(weatherDetails!.pressure), imageName: "dial.min", metric: "mm")
                     FragmentView(description: "Sunrise".localized(language), index: "\(Date(timeIntervalSince1970: TimeInterval(weatherDetails!.sunrise)).timeIn24HourFormat())", imageName: "sunrise.fill", metric: "")
                     FragmentView(description: "Sunset".localized(language), index: "\(Date(timeIntervalSince1970: TimeInterval(weatherDetails!.sunset)).timeIn24HourFormat())", imageName: "sunset.fill", metric: "")
                 }
@@ -85,11 +85,15 @@ struct DetailView: View {
             .padding()
         }
         .padding()
+        .background(
+            LinearGradient(gradient: Gradient(colors: model.changeBG(description: weatherDetails!.main)),
+                           startPoint: UnitPoint(x: 4, y: 0),
+                           endPoint: UnitPoint(x: 0, y: -2)).blur(radius: 10)
+        )
         
         .navigationBarTitle("Current Info".localized(language))
         } 
     }
-    
    
 }
 

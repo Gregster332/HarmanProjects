@@ -18,8 +18,7 @@ class NetworkService {
         let urlString = "https://api.openweathermap.org/data/2.5/weather?q=\(cityName)&appid=\(Constants.apiKey)"
         guard let url = URL(string: urlString) else { return }
         let task = URLSession.shared.dataTask(with: url) { data, response, error in
-            guard error == nil else { return }
-            if (response as! HTTPURLResponse).statusCode == 200 {
+            if (response as! HTTPURLResponse).statusCode == 200 || error != nil {
                 guard let data = data else { return }
                 if let json = try? JSONDecoder().decode(Welcome.self, from: data) {
                     DispatchQueue.main.async {
@@ -40,7 +39,6 @@ class NetworkService {
         let urlString = "https://api.openweathermap.org/data/2.5/weather?lat=\(lat)&lon=\(lon)&appid=\(Constants.apiKey)"
         guard let url = URL(string: urlString) else { return }
         let task = URLSession.shared.dataTask(with: url) { data, response, error in
-            //guard error == nil else { return }
             if (response as! HTTPURLResponse).statusCode == 200 || error != nil {
                 guard let data = data else { return }
                 if let json = try? JSONDecoder().decode(Welcome.self, from: data) {

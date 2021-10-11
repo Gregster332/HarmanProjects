@@ -43,7 +43,7 @@ class RealMService: ObservableObject {
         })
     }
     
-    func getNewData() {
+    func getNewData() async {
         self.cities.indices.forEach { city in
             let service = NetworkService()
             service.getData(cityName: cities[city].name) { item in

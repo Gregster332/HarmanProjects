@@ -11,8 +11,7 @@ import SwiftUI
 class SettingViewModel: ObservableObject {
     
     internal func calculateWidth(heightClass: UserInterfaceSizeClass?, screenHeight: CGFloat) -> CGFloat {
-//        print("\(UIScreen.main.bounds.height) height")
-//        print("\(UIScreen.main.bounds.width) width")
+
         if heightClass == .regular {
             if (900..<1000).contains(screenHeight) {
                 return 390
@@ -38,8 +37,6 @@ class SettingViewModel: ObservableObject {
     }
     
     internal func calculateHeight(heightClass: UserInterfaceSizeClass?, screenHeight: CGFloat) -> CGFloat {
-//        print("\(UIScreen.main.bounds.height) height")
-//        print("\(UIScreen.main.bounds.width) width")
         if heightClass == .regular {
             if (900..<1000).contains(screenHeight) {
                 return 80
@@ -65,8 +62,6 @@ class SettingViewModel: ObservableObject {
     }
     
     internal func calculateWidthForFramgment(heightClass: UserInterfaceSizeClass?, screenHeight: CGFloat) -> CGFloat {
-//        print("\(UIScreen.main.bounds.height) height")
-//        print("\(UIScreen.main.bounds.width) width")
         if heightClass == .regular {
             if (900..<1000).contains(screenHeight) {
                 return 350
@@ -92,8 +87,7 @@ class SettingViewModel: ObservableObject {
     }
     
     internal func calculateWidthForButton(heightClass: UserInterfaceSizeClass?, screenHeight: CGFloat) -> CGFloat {
-//        print("\(UIScreen.main.bounds.height) height")
-//        print("\(UIScreen.main.bounds.width) width")
+
         if heightClass == .regular {
             if (900..<1000).contains(screenHeight) {
                 return 140

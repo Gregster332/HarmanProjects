@@ -20,16 +20,21 @@ struct MainView: View {
     
     //MARK: - Private observables
     @State private var city: City? = nil
-    @State private var showAddView: Bool = false
-    @State private var showSetiingsView: Bool = false
-    @State private var showSheet: Bool = false
-    @State private var showAttentionLabel: Bool = false
-    @State private var isThisNoInternetAttentionView: Bool = true
+    @State var flagForError: Bool = true
+    @State var searchItem: String = ""
 
     //MARK: - Variables
     let timer = Timer.publish(every: 2, on: .main, in: .common).autoconnect()
     var language = LocalizationService.shared.language
     var color = ColorChangeService.shared.color
+    
+    var searchResults: [City] {
+            if searchItem.isEmpty {
+                return realmService.cities
+            } else {
+                return realmService.cities.filter { $0.name.contains(searchItem) }
+            }
+        }
    
     
     //MARK: - Init
@@ -39,12 +44,16 @@ struct MainView: View {
     
     var body: some View {
         
+//        let timer1 = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { _ in
+//            self.t.toggle()
+//        }
+        
         return NavigationView {
             //MARK: - View
             List {
                 if Reachability.isConnectedToNetwork() {
                 NavigationLink(
-                    destination: DetailView(weatherDetails: model.currentCity, isNavigationLink: true, hideSheet: $showSheet),
+                    destination: DetailView(weatherDetails: model.currentCity, isNavigationLink: true, hideSheet: $model.showSheet),
                     label: {
                         if model.currentCity != nil  {
                             Cell(city: model.currentCity!.name,
@@ -58,40 +67,44 @@ struct MainView: View {
                     })
                     .accessibilityIdentifier("navlocation")
                     .buttonStyle(PlainButtonStyle())
-                    .disabled(showAddView || showAttentionLabel || showSetiingsView)
+                    .disabled(model.showAddView || model.showAttentionLabel || model.showSetiingsView)
                 } else {
                     Text("no_internet".localized(language))
                 }
                 
                 
-                ForEach(realmService.cities.indices, id: \.self) { index in
+                ForEach(searchResults.indices, id: \.self) { index in
                     Button {
-                        city = realmService.cities[index]
-                        DispatchQueue.main.asyncAfter(deadline: .now()) {
+                        city = searchResults[index]
+                        DispatchQueue.main.async {
                             //print(city)
                             if city != nil {
-                                showSheet.toggle()
+                                model.showSheet.toggle()
                             } else {
                                 print("oops")
                             }
                         }
                     } label: {
-                        Cell(city: realmService.cities[index].name,
-                             temp: Int(realmService.cities[index].temp) - Constants.toCelsius,
-                             max: Int(realmService.cities[index].tempMax) - Constants.toCelsius,
-                             min: Int(realmService.cities[index].tempMin) - Constants.toCelsius,
-                             main: emojis[realmService.cities[index].main]!)
+                        if flagForError == false {
+                        Cell(city: searchResults[index].name,
+                             temp: Int(searchResults[index].temp) - Constants.toCelsius,
+                             max: Int(searchResults[index].tempMax) - Constants.toCelsius,
+                             min: Int(searchResults[index].tempMin) - Constants.toCelsius,
+                             main: emojis[searchResults[index].main]!)
                             .contextMenu(ContextMenu(menuItems: {
                                 Button(action: {
                                     withAnimation(.easeIn) {
-                                        realmService.deleteData(object: realmService.cities[index])
+                                        realmService.deleteData(object: searchResults[index])
                                         realmService.fetchData()
                                     }
                                 }, label: {
                                     Text("Delete".localized(language))
                                 })
                             }))
-                            .disabled(showAddView || showAttentionLabel || showSetiingsView)
+                            .disabled(model.showAddView || model.showAttentionLabel || model.showSetiingsView || flagForError)
+                        } else {
+                            ProgressView().progressViewStyle(CircularProgressViewStyle())
+                        }
                     }
                     .accessibilityIdentifier("\(realmService.cities[index].name)")
                     .buttonStyle(PlainButtonStyle())
@@ -101,31 +114,32 @@ struct MainView: View {
                 
             }
             .accessibilityIdentifier("list")
+            .searchable(text: $searchItem)
             .refreshable {
                 if Reachability.isConnectedToNetwork() {
                     print("ghgh")
                     await model.getCurrnetWeather()
-                    realmService.getNewData()
+                    await realmService.getNewData()
                 } else {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                         withAnimation(.easeInOut) {
-                            showAttentionLabel.toggle()
+                            model.showAttentionLabel.toggle()
                         }
                     }
                 }
             }
             .listStyle(InsetListStyle())
-            .sheet(isPresented: $showSheet) {
+            .sheet(isPresented: $model.showSheet) {
                 if city != nil {
-                    DetailView(weatherDetails: city, isNavigationLink: false, hideSheet: $showSheet)
+                    DetailView(weatherDetails: city, isNavigationLink: false, hideSheet: $model.showSheet)
                 } else {
                     ProgressView()
                         .progressViewStyle(CircularProgressViewStyle())
                         .onReceive(timer) { _ in
-                            showSheet.toggle()
+                            model.showSheet.toggle()
                             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                                showAttentionLabel = true
-                                isThisNoInternetAttentionView = false
+                                model.showAttentionLabel = true
+                                model.isThisNoInternetAttentionView = false
                             }
                         }
                         .accessibilityIdentifier("progress")
@@ -136,40 +150,47 @@ struct MainView: View {
             .navigationBarTitle("Cities".localized(language))
             .navigationBarItems(leading: Button(action: {
                 withAnimation(.easeInOut) {
-                    showSetiingsView.toggle()
+                    model.showSetiingsView.toggle()
                 }
             }, label: {
                 Image(systemName: "gear")
             }).accessibilityIdentifier("Gear"), trailing: Button(action: {
                 withAnimation(.easeIn) {
-                    showAddView.toggle()
+                    model.showAddView.toggle()
                 }
             }, label: {
                 Image(systemName: "plus")
             }).accessibilityIdentifier("showCityButton"))
-            .disabled(showAddView || showAttentionLabel || showSetiingsView)
+            .disabled(model.showAddView || model.showAttentionLabel || model.showSetiingsView)
         }
         .padding(1)
         .navigationViewStyle(StackNavigationViewStyle())
-        .blur(radius: showAddView || showAttentionLabel || showSetiingsView ? 2 : 0)
-        .overlay(AddCityView(showThisView: $showAddView)
+        .blur(radius: model.showAddView || model.showAttentionLabel || model.showSetiingsView ? 2 : 0)
+        .overlay(AddCityView(showThisView: $model.showAddView)
                     .environmentObject(realmService)
-                    .offset(y: showAddView ? 0 : Constants.viewOffset))
-        .overlay(AttentionView(showAttentionLabel: $showAttentionLabel, isThisNoInternetAttentionView: $isThisNoInternetAttentionView)
-                    .offset(y: showAttentionLabel ? 0 : Constants.viewOffset))
-        .overlay(SettingsView(showSettingsView: $showSetiingsView)
+                    .offset(y: model.showAddView ? 0 : Constants.viewOffset))
+        .overlay(AttentionView(showAttentionLabel: $model.showAttentionLabel, isThisNoInternetAttentionView: $model.isThisNoInternetAttentionView)
+                    .offset(y: model.showAttentionLabel ? 0 : Constants.viewOffset))
+        .overlay(SettingsView(showSettingsView: $model.showSetiingsView)
                     .environmentObject(realmService)
-                    .offset(y: showSetiingsView ? 0 : Constants.viewOffset)
+                    .offset(y: model.showSetiingsView ? 0 : Constants.viewOffset)
         )
         //MARK: - Lifecycle
         .onAppear {
-            print("gg")
-            //let service = NetworkService()
-            realmService.fetchData()
-            Task(priority: .background) {
-                await model.getCurrnetWeather()
+            if Reachability.isConnectedToNetwork() {
+                realmService.fetchData()
+                Task(priority: .background) {
+                    await realmService.getNewData()
+                    await model.getCurrnetWeather()
+                }
+               
+            } else {
+                realmService.fetchData()
             }
-            realmService.getNewData()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                self.flagForError.toggle()
+            }
+            
         }
         
     }

@@ -59,7 +59,7 @@ struct SettingsView: View {
                     .background(Color.blue)
                     .cornerRadius(10)
                     .alert(isPresented: $showAlert) {
-                        Alert(title: Text("Databese is empty".localized(language)), message: Text("We can't delete deleted items one more time".localized(language)), dismissButton: .some(.cancel(Text("OK"))))
+                        Alert(title: Text("Database is empty".localized(language)), message: Text("We can't delete deleted items one more time".localized(language)), dismissButton: .some(.cancel(Text("OK"))))
                     }
                 }
                 .frame(width: model.calculateWidthForFramgment(heightClass: heightClass, screenHeight: UIScreen.main.bounds.height), height: model.calculateHeight(heightClass: heightClass, screenHeight: UIScreen.main.bounds.height))

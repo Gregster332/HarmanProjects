@@ -40,8 +40,6 @@
 		D0550B1A26FBC707007E2625 /* FragmentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0550B1926FBC707007E2625 /* FragmentView.swift */; };
 		D0550B1C26FBD1CE007E2625 /* AddCityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0550B1B26FBD1CE007E2625 /* AddCityView.swift */; };
 		D064A4E12700778C00C5A1B1 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = D064A4E32700778C00C5A1B1 /* Localizable.strings */; };
-		D06A0641270D7EED00E05CDA /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = D06A0640270D7EED00E05CDA /* Realm */; settings = {ATTRIBUTES = (Weak, ); }; };
-		D06A0643270D7EED00E05CDA /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = D06A0642270D7EED00E05CDA /* RealmSwift */; settings = {ATTRIBUTES = (Weak, ); }; };
 		D06A0648270DA45800E05CDA /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06A0647270DA45800E05CDA /* SettingsViewModel.swift */; };
 		D06A064A270DA46100E05CDA /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06A0649270DA46100E05CDA /* SettingsView.swift */; };
 		D06A064C270DC0EB00E05CDA /* TestSettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06A064B270DC0EB00E05CDA /* TestSettingsViewModel.swift */; };
@@ -56,6 +54,10 @@
 		D0E41F62270F13DA00110F6D /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E41F61270F13DA00110F6D /* Colors.swift */; };
 		D0E41F64270F13FF00110F6D /* ColorChangeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E41F63270F13FF00110F6D /* ColorChangeService.swift */; };
 		D0E41F68270F3D0400110F6D /* TestColorChangeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E41F67270F3D0400110F6D /* TestColorChangeService.swift */; };
+		D0E41F8527105D6E00110F6D /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = D0E41F8427105D6E00110F6D /* Realm */; };
+		D0E41F8727105D6E00110F6D /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = D0E41F8627105D6E00110F6D /* RealmSwift */; };
+		D0F8083327122FED00EE2842 /* TempView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0F8083227122FED00EE2842 /* TempView.swift */; };
+		D0F80837271326D700EE2842 /* PressureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0F80836271326D700EE2842 /* PressureView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,6 +76,19 @@
 			remoteInfo = OpenWeather;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		D0E41F8127105A2F00110F6D /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		D00C343C2705972100FE6BCF /* UIApplication+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+Extension.swift"; sourceTree = "<group>"; };
@@ -127,6 +142,10 @@
 		D0E41F61270F13DA00110F6D /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		D0E41F63270F13FF00110F6D /* ColorChangeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorChangeService.swift; sourceTree = "<group>"; };
 		D0E41F67270F3D0400110F6D /* TestColorChangeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestColorChangeService.swift; sourceTree = "<group>"; };
+		D0E41F6E27105A2C00110F6D /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		D0E41F7027105A2C00110F6D /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		D0F8083227122FED00EE2842 /* TempView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TempView.swift; sourceTree = "<group>"; };
+		D0F80836271326D700EE2842 /* PressureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PressureView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -134,8 +153,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D06A0643270D7EED00E05CDA /* RealmSwift in Frameworks */,
-				D06A0641270D7EED00E05CDA /* Realm in Frameworks */,
+				D0E41F8727105D6E00110F6D /* RealmSwift in Frameworks */,
+				D0E41F8527105D6E00110F6D /* Realm in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -213,7 +232,7 @@
 			isa = PBXGroup;
 			children = (
 				D0550B1726FBC539007E2625 /* DetailView.swift */,
-				D0550B1926FBC707007E2625 /* FragmentView.swift */,
+				D0F8083127122FC200EE2842 /* HelpingViews */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -367,6 +386,8 @@
 		D0550B0926FBC1DA007E2625 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D0E41F6E27105A2C00110F6D /* WidgetKit.framework */,
+				D0E41F7027105A2C00110F6D /* SwiftUI.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -413,6 +434,16 @@
 			path = Enums;
 			sourceTree = "<group>";
 		};
+		D0F8083127122FC200EE2842 /* HelpingViews */ = {
+			isa = PBXGroup;
+			children = (
+				D0550B1926FBC707007E2625 /* FragmentView.swift */,
+				D0F8083227122FED00EE2842 /* TempView.swift */,
+				D0F80836271326D700EE2842 /* PressureView.swift */,
+			);
+			path = HelpingViews;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -431,8 +462,8 @@
 			);
 			name = OpenWeatherUITests;
 			packageProductDependencies = (
-				D06A0640270D7EED00E05CDA /* Realm */,
-				D06A0642270D7EED00E05CDA /* RealmSwift */,
+				D0E41F8427105D6E00110F6D /* Realm */,
+				D0E41F8627105D6E00110F6D /* RealmSwift */,
 			);
 			productName = OpenWeatherUITests;
 			productReference = D00C34452706079B00FE6BCF /* OpenWeatherUITests.xctest */;
@@ -463,6 +494,7 @@
 				D0550ADA26FB4D01007E2625 /* Sources */,
 				D0550ADB26FB4D01007E2625 /* Frameworks */,
 				D0550ADC26FB4D01007E2625 /* Resources */,
+				D0E41F8127105A2F00110F6D /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
@@ -606,11 +638,13 @@
 				D00C34602706585000FE6BCF /* Constants.swift in Sources */,
 				D00C34652706FCE500FE6BCF /* AddCityViewModel.swift in Sources */,
 				D0550B0426FB81FE007E2625 /* NetworkService.swift in Sources */,
+				D0F8083327122FED00EE2842 /* TempView.swift in Sources */,
 				D00C34672707068E00FE6BCF /* Reachability.swift in Sources */,
 				D053B37326FC7CB800307F56 /* DBModel.swift in Sources */,
 				D06A0648270DA45800E05CDA /* SettingsViewModel.swift in Sources */,
 				D0E41F5E270E30D300110F6D /* LocalizationService.swift in Sources */,
 				D0E41F5A270E2F1800110F6D /* Language.swift in Sources */,
+				D0F80837271326D700EE2842 /* PressureView.swift in Sources */,
 				D0550B0126FB81B8007E2625 /* WeatherModel.swift in Sources */,
 				D00C346927070A9E00FE6BCF /* AttentionView.swift in Sources */,
 			);
@@ -880,6 +914,7 @@
 		D0550AF326FB4D02007E2625 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
@@ -902,6 +937,7 @@
 		D0550AF426FB4D02007E2625 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
@@ -967,7 +1003,7 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/realm/realm-cocoa.git";
 			requirement = {
-				kind = upToNextMajorVersion;
+				kind = upToNextMinorVersion;
 				minimumVersion = 10.15.1;
 			};
 		};
@@ -994,12 +1030,12 @@
 			package = D0550AF526FB676C007E2625 /* XCRemoteSwiftPackageReference "realm-cocoa" */;
 			productName = RealmSwift;
 		};
-		D06A0640270D7EED00E05CDA /* Realm */ = {
+		D0E41F8427105D6E00110F6D /* Realm */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = D0550AF526FB676C007E2625 /* XCRemoteSwiftPackageReference "realm-cocoa" */;
 			productName = Realm;
 		};
-		D06A0642270D7EED00E05CDA /* RealmSwift */ = {
+		D0E41F8627105D6E00110F6D /* RealmSwift */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = D0550AF526FB676C007E2625 /* XCRemoteSwiftPackageReference "realm-cocoa" */;
 			productName = RealmSwift;
