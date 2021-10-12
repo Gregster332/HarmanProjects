@@ -11,7 +11,6 @@ import XCTest
 class TestNetworkService: XCTestCase {
 
     var sut: NetworkService!
-    let realm = RealMService()
     
     override func setUp() {
         sut = NetworkService()
@@ -19,7 +18,7 @@ class TestNetworkService: XCTestCase {
     
     override func tearDown() {
         sut = nil
-        realm.deleteAll()
+        RealMService().deleteAll()
     }
     
     func test_NetworkService_getData_method() {

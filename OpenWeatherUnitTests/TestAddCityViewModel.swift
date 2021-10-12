@@ -11,7 +11,6 @@ import XCTest
 class TestAddCityViewModel: XCTestCase {
 
     var sut: AddCityViewModel!
-    let realm = RealMService()
     
     override func setUp() {
         sut = AddCityViewModel()
@@ -19,7 +18,7 @@ class TestAddCityViewModel: XCTestCase {
     
     override func tearDown() {
         sut = nil
-        realm.deleteAll()
+        RealMService().deleteAll()
     }
     
     

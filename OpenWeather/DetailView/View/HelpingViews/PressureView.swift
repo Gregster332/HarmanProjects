@@ -14,23 +14,22 @@ struct PressureView: View {
     var index: Int
     var imageName: String
     var metric: String
-    var language = LocalizationService.shared.language
+    
     
     var rectangleWidth: CGFloat {
         get {
-            if index >= 1050 {
+            if index >= Constants.MathContants.maxWidthOfPressureRectangle {
                 return 255
-            } else if index <= 950 {
+            } else if index <= Constants.MathContants.minWidthOfPressureRectangle {
                 return 0
             } else {
-                return CGFloat(abs(950 - index)) * 2.55
+                return CGFloat(abs(Constants.MathContants.minWidthOfPressureRectangle - index)) * 2.55
             }
         }
     }
     
     @Environment(\.verticalSizeClass) var heightClass: UserInterfaceSizeClass?
     @ObservedObject var model = DetailViewModel()
-    var color = ColorChangeService.shared.color
     
     var body: some View {
         VStack(alignment: .center,spacing: 30) {
@@ -50,11 +49,11 @@ struct PressureView: View {
                     ZStack(alignment: .leading) {
                         Rectangle()
                             .fill(.gray)
-                            .cornerRadius(20)
+                            .cornerRadius(Constants.CornerRadiuses.attentionViewCornerRadius)
                         
                         Rectangle()
                             .fill(LinearGradient(gradient: Gradient(colors: [Color.white, Color.yellow, Color.red]), startPoint: .leading, endPoint: .trailing))
-                            .cornerRadius(20)
+                            .cornerRadius(Constants.CornerRadiuses.attentionViewCornerRadius)
                             .frame(width: rectangleWidth)
                         
                     }
@@ -66,8 +65,8 @@ struct PressureView: View {
         }
         .padding()
         .frame(width: model.calculateWidth(heightClass: heightClass, screenHeight: UIScreen.main.bounds.height), height: 140)
-        .background(ColorChangeService.shared.changeColor(color: color.rawValue))
-        .cornerRadius(15)
+        .background(ColorChangeService.shared.changeColor(color: model.color.rawValue))
+        .cornerRadius(Constants.CornerRadiuses.addCityViewTextFieldCornerRaduis)
     }
 }
 

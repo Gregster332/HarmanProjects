@@ -10,6 +10,11 @@ import SwiftUI
 
 class SettingViewModel: ObservableObject {
     
+    @AppStorage("language")
+    internal var language = LocalizationService.shared.language
+    @AppStorage("color")
+    internal var color = ColorChangeService.shared.color
+    
     internal func calculateWidth(heightClass: UserInterfaceSizeClass?, screenHeight: CGFloat) -> CGFloat {
 
         if heightClass == .regular {

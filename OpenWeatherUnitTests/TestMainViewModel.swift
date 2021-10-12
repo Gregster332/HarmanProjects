@@ -12,7 +12,7 @@ import CoreLocation
 class TestMainViewModel: XCTestCase {
 
     var sut: MainViewModel!
-    let realm = RealMService()
+    
     let manager = LocationManager()
     
     override func setUp() {
@@ -21,7 +21,7 @@ class TestMainViewModel: XCTestCase {
     
     override func tearDown() {
         sut = nil
-        realm.deleteAll()
+        RealMService().deleteAll()
     }
     
     func test_MainViewModel_getCityFromWelcome_method() {

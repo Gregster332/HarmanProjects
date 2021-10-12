@@ -14,7 +14,6 @@ struct FragmentView: View {
     var index: String
     var imageName: String
     var metric: String
-    var language = LocalizationService.shared.language
     
     //MARK: - Global observables
     @Environment(\.verticalSizeClass) var heightClass: UserInterfaceSizeClass?
@@ -37,7 +36,7 @@ struct FragmentView: View {
         .padding()
         .frame(width: model.calculateWidth(heightClass: heightClass, screenHeight: UIScreen.main.bounds.height), height: 140)
         .background(ColorChangeService.shared.changeColor(color: color.rawValue))
-        .cornerRadius(15)
+        .cornerRadius(Constants.CornerRadiuses.addCityViewTextFieldCornerRaduis)
         
     }
 }

@@ -12,7 +12,7 @@ import SwiftUI
 class TestDetailViewModel: XCTestCase {
 
     var sut: DetailViewModel?
-    let realm = RealMService()
+    
     @Environment(\.verticalSizeClass) var heightClass: UserInterfaceSizeClass?
     
     override func setUp() {
@@ -21,7 +21,7 @@ class TestDetailViewModel: XCTestCase {
     
     override func tearDown() {
         sut = nil
-        realm.deleteAll()
+        RealMService().deleteAll()
     }
     
     func test_DetailViewModel_calculateWidth() {

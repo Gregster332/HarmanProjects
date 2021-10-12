@@ -9,6 +9,9 @@ import SwiftUI
 
 class AddCityViewModel: ObservableObject {
     
+    var language = LocalizationService.shared.language
+    var color = ColorChangeService.shared.color
+    
     internal func addNewData(realmService: RealMService, showingAlert: inout Bool, showThisView: inout Bool) {
         if checkSymbols(str: realmService.cityName) {
             let service = NetworkService()

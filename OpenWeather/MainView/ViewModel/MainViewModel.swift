@@ -18,9 +18,16 @@ class MainViewModel: ObservableObject {
     @Published var showSheet: Bool = false
     @Published var showAttentionLabel: Bool = false
     @Published var isThisNoInternetAttentionView: Bool = true
+    @Published var flagForError: Bool = true
+    @Published var searchItem: String = ""
+    @Published var city: City? = nil
     
     let locationManager = LocationManager()
-    let realmService = RealMService()
+    var realmService = RealMService() 
+    
+    var language = LocalizationService.shared.language
+    var color = ColorChangeService.shared.color
+    let timer = Timer.publish(every: 2, on: .main, in: .common).autoconnect()
     
     internal func getCurrnetWeather() async {
         let coordinate = self.locationManager.location != nil ? self.locationManager.location?.coordinate : CLLocationCoordinate2D()

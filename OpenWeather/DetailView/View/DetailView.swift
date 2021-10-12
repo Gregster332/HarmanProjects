@@ -18,7 +18,7 @@ struct DetailView: View {
     @Environment(\.verticalSizeClass) var heightClass: UserInterfaceSizeClass?
     @Environment(\.horizontalSizeClass) var widthClass: UserInterfaceSizeClass?
     @ObservedObject var model = DetailViewModel()
-    var language = LocalizationService.shared.language
+    
     
     
     //MARK: - Private observables
@@ -34,14 +34,14 @@ struct DetailView: View {
                 HStack {
                     Image(systemName: "backward.fill")
                         .accessibilityIdentifier("backImage")
-                        .foregroundColor(Color(#colorLiteral(red: 0.2588235438, green: 0.7568627596, blue: 0.9686274529, alpha: 1)))
+                        .foregroundColor(Constants.Colors.settingsViewColor)
                         .font(.system(size: model.calculateFont(heightClass: heightClass, screenHeight: UIScreen.main.bounds.height)))
                         .onTapGesture {
                             hideSheet.toggle()
                             weatherDetails = nil
                         }
                     
-                    Text("Current Info".localized(language))
+                    Text("current_info".localized(model.language))
                         .font(.system(size: model.calculateFont(heightClass: heightClass, screenHeight: UIScreen.main.bounds.height)))
                         .fontWeight(.bold)
                         .accessibilityIdentifier("currentInfo")
@@ -53,33 +53,43 @@ struct DetailView: View {
                     Text("\(weatherDetails!.name)")
                         .accessibilityIdentifier("cityLabel")
                         .font(.system(size: model.calculateFont(heightClass: heightClass, screenHeight: UIScreen.main.bounds.height)))
-//                    Text("\(Int(weatherDetails!.temp) -  Constants.toCelsius)º")
-//                        .font(.system(size: model.calculateFont(heightClass: heightClass, screenHeight: UIScreen.main.bounds.height)))
-//                        .fontWeight(.bold)
-//                        .accessibilityIdentifier("celsiusLabel")
-                    TempView(temp: weatherDetails!.temp - CGFloat(Constants.toCelsius))
-                    Text(weatherDetails!.main.localized(language))
+                    TempView(temp: weatherDetails!.temp - CGFloat(Constants.MathContants.toCelsius))
+                    Text(weatherDetails!.main.localized(model.language))
                         .accessibilityIdentifier("descriptionLabel")
                         .font(.system(size: model.calculateFont(heightClass: heightClass, screenHeight: UIScreen.main.bounds.height)))
                     HStack {
-                        Text("Max:".localized(language))
-                        Text("\(Int(weatherDetails!.tempMax) - Constants.toCelsius)º")
+                        Text("max:".localized(model.language))
+                        Text("\(Int(weatherDetails!.tempMax) - Constants.MathContants.toCelsius)º")
                             .accessibilityIdentifier("celsiusMaxLabel")
                         Text(", ")
-                        Text("Min:".localized(language))
-                        Text("\(Int(weatherDetails!.tempMin) - Constants.toCelsius)º")
+                        Text("min:".localized(model.language))
+                        Text("\(Int(weatherDetails!.tempMin) - Constants.MathContants.toCelsius)º")
                             .accessibilityIdentifier("celsiusMinLabel")
                     }
                 }
                 .padding()
                 
                 VStack {
-                    FragmentView(description: "Feels like".localized(language), index: "\(Int(weatherDetails!.feelsLike) - Constants.toCelsius)", imageName: "thermometer", metric: "º")
-                    FragmentView(description: "Humidity".localized(language), index: "\(Int(weatherDetails!.humidity))", imageName: "drop.fill", metric: "%")
-//                    FragmentView(description: "Pressure".localized(language), index: "\(Int(weatherDetails!.pressure))", imageName: "dial.min", metric: "mm")
-                    PressureView(description: "Pressure".localized(language), index: Int(weatherDetails!.pressure), imageName: "dial.min", metric: "mm")
-                    FragmentView(description: "Sunrise".localized(language), index: "\(Date(timeIntervalSince1970: TimeInterval(weatherDetails!.sunrise)).timeIn24HourFormat())", imageName: "sunrise.fill", metric: "")
-                    FragmentView(description: "Sunset".localized(language), index: "\(Date(timeIntervalSince1970: TimeInterval(weatherDetails!.sunset)).timeIn24HourFormat())", imageName: "sunset.fill", metric: "")
+                    FragmentView(description: "feels_like".localized(model.language),
+                                 index: "\(Int(weatherDetails!.feelsLike) - Constants.MathContants.toCelsius)",
+                                 imageName: PicturesNames.thermometer.rawValue,
+                                 metric: Metrics.celsius.rawValue)
+                    FragmentView(description: "humidity".localized(model.language),
+                                 index: "\(Int(weatherDetails!.humidity))",
+                                 imageName: PicturesNames.dropFill.rawValue,
+                                 metric: Metrics.percent.rawValue)
+                    PressureView(description: "pressure".localized(model.language),
+                                 index: Int(weatherDetails!.pressure),
+                                 imageName: PicturesNames.dialMin.rawValue,
+                                 metric: Metrics.millimeters.rawValue)
+                    FragmentView(description: "sunrise".localized(model.language),
+                                 index: "\(Date(timeIntervalSince1970: TimeInterval(weatherDetails!.sunrise)).timeIn24HourFormat())",
+                                 imageName: PicturesNames.sunriseFill.rawValue,
+                                 metric: Metrics.empty.rawValue)
+                    FragmentView(description: "sunset".localized(model.language),
+                                 index: "\(Date(timeIntervalSince1970: TimeInterval(weatherDetails!.sunset)).timeIn24HourFormat())",
+                                 imageName: PicturesNames.sunsetFill.rawValue,
+                                 metric: Metrics.empty.rawValue)
                 }
             }
             .padding()
@@ -91,7 +101,7 @@ struct DetailView: View {
                            endPoint: UnitPoint(x: 0, y: -2)).blur(radius: 10)
         )
         
-        .navigationBarTitle("Current Info".localized(language))
+        .navigationBarTitle("current_info".localized(model.language))
         } 
     }
    

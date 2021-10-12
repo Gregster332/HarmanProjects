@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct Cell: View {
+struct TemperatureDescriptionCell: View {
 
     //MARK: Variables
     var city: String
@@ -18,10 +18,18 @@ struct Cell: View {
     
     //MARK: - Global Variables
     @Environment(\.verticalSizeClass) var heightClass: UserInterfaceSizeClass?
-    @Environment(\.horizontalSizeClass) var widthClass: UserInterfaceSizeClass?
+    
     @ObservedObject var model = MainViewModel()
     
     var language = LocalizationService.shared.language
+    
+    init(_ city: City?) {
+        self.city = city!.name
+        self.temp = Int(city!.temp) - Constants.MathContants.toCelsius
+        self.max = Int(city!.tempMax) - Constants.MathContants.toCelsius
+        self.min = Int(city!.tempMin) - Constants.MathContants.toCelsius
+        self.main = emojis[city!.main]!
+    }
    
     var body: some View {
         //MARK: - View
@@ -34,20 +42,20 @@ struct Cell: View {
                     .font(.system(size: model.calculateFont(heightClass: heightClass, screenHeight: UIScreen.main.bounds.height) - 3))
                     .fontWeight(.bold)
                 HStack(alignment: .center, spacing: 0) {
-                    Text("Temperature".localized(language))
-                        .font(.system(size: 20))
+                    Text("temp".localized(language))
+                        .font(.system(size: Constants.Fonts.temperatureDescriptionCellFont))
                         .fontWeight(.semibold)
                     Text(": \(temp)")
-                        .font(.system(size: 20))
+                        .font(.system(size: Constants.Fonts.temperatureDescriptionCellFont))
                         .fontWeight(.semibold)
                 }
                 HStack {
                     HStack(alignment: .center, spacing: 0) {
-                        Text("Max:".localized(language))
+                        Text("max:".localized(language))
                         Text(" \(max),")
                     }
                     HStack(alignment: .center, spacing: 0) {
-                        Text("Min:".localized(language))
+                        Text("min:".localized(language))
                         Text(" \(min)")
                     }
                 }

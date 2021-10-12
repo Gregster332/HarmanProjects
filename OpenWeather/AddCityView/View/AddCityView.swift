@@ -19,22 +19,20 @@ struct AddCityView: View {
     @Environment(\.verticalSizeClass) var heightClass: UserInterfaceSizeClass?
     @Environment(\.horizontalSizeClass) var widthClass: UserInterfaceSizeClass?
     @ObservedObject var model = AddCityViewModel()
-    var language = LocalizationService.shared.language
-    var color = ColorChangeService.shared.color
     
     var body: some View {
         //MARK: - View
         VStack(alignment: .center, spacing: 20) {
             
-            Text("Enter city name".localized(language))
+            Text("enter_city_name".localized(model.language))
                 .multilineTextAlignment(.center)
                 .lineLimit(nil)
-                .font(.system(size: 30))
+                .font(.system(size: Constants.Fonts.addCityViewEnterCityFont))
             
             HStack {
                 Image(systemName: "magnifyingglass.circle.fill")
-                    .font(.system(size: 25))
-                TextField("Name...".localized(language), text: $realmService.cityName, onCommit:  {
+                    .font(.system(size: Constants.Fonts.attentionFont))
+                TextField("name".localized(model.language), text: $realmService.cityName, onCommit:  {
                     model.addNewData(realmService: realmService, showingAlert: &showingAlert, showThisView: &showThisView)
                     UIApplication.shared.endEditing()
                 }).accessibilityIdentifier("AddCityTextFireld")
@@ -42,8 +40,8 @@ struct AddCityView: View {
             }
             .padding()
             .frame(width: heightClass == .regular ? 290 : 500, height: heightClass == .regular ? 100 : 100, alignment: .center)
-            .background(Color.blue.opacity(0.3))
-            .cornerRadius(15)
+            .background(Constants.Colors.addCityViewColor)
+            .cornerRadius(Constants.CornerRadiuses.addCityViewTextFieldCornerRaduis)
             
             
             Button(action: {
@@ -53,18 +51,18 @@ struct AddCityView: View {
                     showingAlert.toggle()
                 }
             }, label: {
-                Text("Search".localized(language))
-                    .font(.system(size: 23))
+                Text("search".localized(model.language))
+                    .font(.system(size: Constants.Fonts.refreshFont))
                     .fontWeight(.semibold)
                     .foregroundColor(.black)
                     .padding()
                     .frame(width: 140, height: 50, alignment: .center)
-                    .background(Color.blue.opacity(0.3))
-                    .cornerRadius(15)
+                    .background(Constants.Colors.addCityViewColor)
+                    .cornerRadius(Constants.CornerRadiuses.addCityViewTextFieldCornerRaduis)
             })
             .accessibilityIdentifier("searchButton")
             .alert(isPresented: $showingAlert) {
-                Alert(title: Text("Something wrong🤨".localized(language)), message: Text(Reachability.isConnectedToNetwork() ? "Please, enter the city name in English".localized(language) : "no_internet".localized(language)), dismissButton: .some(.cancel(Text("OK"), action: {
+                Alert(title: Text("something_wrong".localized(model.language)), message: Text(Reachability.isConnectedToNetwork() ? "enter_in_english".localized(model.language) : "no_internet".localized(model.language)), dismissButton: .some(.cancel(Text("OK"), action: {
                     showingAlert = false
                 })))
             }
@@ -76,21 +74,21 @@ struct AddCityView: View {
                     realmService.cityName = ""
                     UIApplication.shared.endEditing()
             }, label: {
-                Text("Cancel".localized(language))
-                    .font(.system(size: 23))
+                Text("cancel".localized(model.language))
+                    .font(.system(size: Constants.Fonts.refreshFont))
                     .fontWeight(.semibold)
                     .foregroundColor(.red)
                     .padding()
                     .frame(width: 140, height: 50, alignment: .center)
-                    .background(Color.blue.opacity(0.3))
-                    .cornerRadius(15)
+                    .background(Constants.Colors.addCityViewColor)
+                    .cornerRadius(Constants.CornerRadiuses.addCityViewTextFieldCornerRaduis)
             }).accessibilityIdentifier("cancelButton")
             
         }
         .frame(width: heightClass == .regular ? 300 : 500, height: heightClass == .regular ? 400 : 300)
         .padding()
-        .background(ColorChangeService.shared.changeColor(color: color.rawValue))
-        .cornerRadius(15)
+        .background(ColorChangeService.shared.changeColor(color: model.color.rawValue))
+        .cornerRadius(Constants.CornerRadiuses.addCityViewTextFieldCornerRaduis)
         
     }
 }

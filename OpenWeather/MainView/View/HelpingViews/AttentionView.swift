@@ -16,13 +16,13 @@ struct AttentionView: View {
     var body: some View {
         
          VStack {
-            Text(isThisNoInternetAttentionView ? "Attention!".localized(language) : "Ooops...".localized(language))
-                .font(.system(size: 25))
+            Text(isThisNoInternetAttentionView ? "attention".localized(language) : "oops".localized(language))
+                 .font(.system(size: Constants.Fonts.attentionFont))
                 .fontWeight(.bold)
-                .foregroundColor(Color(#colorLiteral(red: 0.832, green: 0.8, blue: 0.1, alpha: 1)))
-            Text(isThisNoInternetAttentionView ? "Refresh is not possible without network connection".localized(language) : "Failed to load data. Try again, please.".localized(language))
+                .foregroundColor(Constants.Colors.attentionForeground)
+            Text(isThisNoInternetAttentionView ? "refresh_not_possible".localized(language) : "failed_to_load".localized(language))
                 .multilineTextAlignment(.center)
-                .font(.system(size: 23))
+                .font(.system(size: Constants.Fonts.refreshFont))
                 .lineLimit(nil)
             
             Button {
@@ -30,15 +30,15 @@ struct AttentionView: View {
                 isThisNoInternetAttentionView = true
             } label: {
                 Text("OK")
-                    .font(.system(size: 23))
-                    .foregroundColor(Color(#colorLiteral(red: 0.832, green: 0.8, blue: 0.1, alpha: 1)))
+                    .font(.system(size: Constants.Fonts.refreshFont))
+                    .foregroundColor(Constants.Colors.attentionForeground)
                     .frame(width: 40, height: 30)
             }
             
         }
         .frame(width: 300, height: 180)
         .background(ColorChangeService.shared.changeColor(color: color.rawValue))
-        .cornerRadius(20)
+        .cornerRadius(Constants.CornerRadiuses.attentionViewCornerRadius)
         
     }
 }

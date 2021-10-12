@@ -15,10 +15,7 @@ struct SettingsView: View {
     @EnvironmentObject var realmService: RealMService
     @Binding var showSettingsView: Bool
     @State private var showAlert: Bool = false
-    @AppStorage("language")
-    private var language = LocalizationService.shared.language
-    @AppStorage("color")
-    private var color = ColorChangeService.shared.color
+   
     
     var body: some View {
         
@@ -28,19 +25,19 @@ struct SettingsView: View {
                     Image(systemName: "backward.fill")
                         .accessibilityIdentifier("back")
                         .font(.system(size: model.calculateFont(heightClass: heightClass, screenHeight: UIScreen.main.bounds.height)))
-                        .foregroundColor(Color(#colorLiteral(red: 0.2588235438, green: 0.7568627596, blue: 0.9686274529, alpha: 1)))
+                        .foregroundColor(Constants.Colors.settingsViewColor)
                         .onTapGesture {
                             withAnimation(.easeInOut) {
                                 showSettingsView.toggle()
                             }
                         }
-                    Text("Settings".localized(language))
+                    Text("settings".localized(model.language))
                         .accessibilityIdentifier("settings")
                         .font(.system(size: model.calculateFont(heightClass: heightClass, screenHeight: UIScreen.main.bounds.height)))
                 }
                 
                 HStack(alignment: .center, spacing: 60) {
-                    Text("Delete all data".localized(language))
+                    Text("delete_all_data".localized(model.language))
                         .font(.system(size: model.calculateFont(heightClass: heightClass, screenHeight: UIScreen.main.bounds.height) - 10 ))
                     Button {
                         if !realmService.cities.isEmpty {
@@ -50,25 +47,25 @@ struct SettingsView: View {
                             showAlert.toggle()
                         }
                     } label: {
-                        Text("Delete".localized(language))
+                        Text("delete".localized(model.language))
                             .font(.system(size: model.calculateFont(heightClass: heightClass, screenHeight: UIScreen.main.bounds.height) - 10))
                             .foregroundColor(.black)
                     }
                     .accessibilityIdentifier("delete")
                     .frame(width: model.calculateWidthForButton(heightClass: heightClass, screenHeight: UIScreen.main.bounds.height), height: 50)
                     .background(Color.blue)
-                    .cornerRadius(10)
+                    .cornerRadius(Constants.CornerRadiuses.settingsViewDeleteAllCornerRaduis)
                     .alert(isPresented: $showAlert) {
-                        Alert(title: Text("Database is empty".localized(language)), message: Text("We can't delete deleted items one more time".localized(language)), dismissButton: .some(.cancel(Text("OK"))))
+                        Alert(title: Text("database_is_empty".localized(model.language)), message: Text("one_more_time".localized(model.language)), dismissButton: .some(.cancel(Text("OK"))))
                     }
                 }
                 .frame(width: model.calculateWidthForFramgment(heightClass: heightClass, screenHeight: UIScreen.main.bounds.height), height: model.calculateHeight(heightClass: heightClass, screenHeight: UIScreen.main.bounds.height))
-                .background(Color(#colorLiteral(red: 0.2588235438, green: 0.7568627596, blue: 0.9686274529, alpha: 1)))
-                .cornerRadius(20)
+                .background(Constants.Colors.settingsViewColor)
+                .cornerRadius(Constants.CornerRadiuses.settingsViewDeleteAllCornerRaduis)
                 
                 
                 HStack(alignment: .center, spacing: 60) {
-                    Text("settings_language".localized(language))
+                    Text("settings_language".localized(model.language))
                         .font(.system(size: model.calculateFont(heightClass: heightClass, screenHeight: UIScreen.main.bounds.height) - 5))
                     
                     Menu {
@@ -89,17 +86,17 @@ struct SettingsView: View {
                             .resizable()
                             .aspectRatio(contentMode: .fit)
                             .frame(width: 60, height: 60)
-                            .cornerRadius(20)
+                            .cornerRadius(Constants.CornerRadiuses.attentionViewCornerRadius)
                             .accessibilityIdentifier("changeLanguageMenu")
                     }
                     
                 }
                 .frame(width: model.calculateWidthForFramgment(heightClass: heightClass, screenHeight: UIScreen.main.bounds.height), height: model.calculateHeight(heightClass: heightClass, screenHeight: UIScreen.main.bounds.height))
-                .background(Color(#colorLiteral(red: 0.2588235438, green: 0.7568627596, blue: 0.9686274529, alpha: 1)))
-                .cornerRadius(20)
+                .background(Constants.Colors.settingsViewColor)
+                .cornerRadius(Constants.CornerRadiuses.attentionViewCornerRadius)
                 
                 HStack(alignment: .center, spacing: 50) {
-                    Text("Color of views".localized(language))
+                    Text("color_of_views".localized(model.language))
                         .font(.system(size: model.calculateFont(heightClass: heightClass, screenHeight: UIScreen.main.bounds.height) - 5))
                     Menu {
                         Button {
@@ -107,7 +104,7 @@ struct SettingsView: View {
                                 ColorChangeService.shared.color = .green
                             }
                         } label: {
-                            Text("Green".localized(language))
+                            Text("green".localized(model.language))
                         }
                         
                         Button {
@@ -115,7 +112,7 @@ struct SettingsView: View {
                             ColorChangeService.shared.color = .pink
                             }
                         } label: {
-                            Text("Pink".localized(language))
+                            Text("pink".localized(model.language))
                         }
                         
                         Button {
@@ -123,26 +120,26 @@ struct SettingsView: View {
                             ColorChangeService.shared.color = .purple
                             }
                         } label: {
-                            Text("Purple".localized(language))
+                            Text("purple".localized(model.language))
                         }
                         
                     } label: {
                         Image(systemName: "paintbrush")
                             .resizable()
                             .aspectRatio(contentMode: .fit)
-                            .foregroundColor(ColorChangeService.shared.changeColor(color: color.rawValue))
+                            .foregroundColor(ColorChangeService.shared.changeColor(color: model.color.rawValue))
                             .frame(width: 50, height: 50)
                             
                     }
                 }
                 .frame(width: model.calculateWidthForFramgment(heightClass: heightClass, screenHeight: UIScreen.main.bounds.height), height: model.calculateHeight(heightClass: heightClass, screenHeight: UIScreen.main.bounds.height))
-                .background(Color(#colorLiteral(red: 0.2588235438, green: 0.7568627596, blue: 0.9686274529, alpha: 1)))
-                .cornerRadius(20)
+                .background(Constants.Colors.settingsViewColor)
+                .cornerRadius(Constants.CornerRadiuses.attentionViewCornerRadius)
                 
             }
             .frame(width: model.calculateWidth(heightClass: heightClass, screenHeight: UIScreen.main.bounds.height), height: heightClass == .some(.regular) ? 450 : 350)
-            .background(ColorChangeService.shared.changeColor(color: color.rawValue))
-            .cornerRadius(20)
+            .background(ColorChangeService.shared.changeColor(color: model.color.rawValue))
+            .cornerRadius(Constants.CornerRadiuses.attentionViewCornerRadius)
             }
         }
 

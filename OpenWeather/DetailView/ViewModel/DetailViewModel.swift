@@ -11,6 +11,9 @@ import SwiftUI
 class DetailViewModel: ObservableObject {
     
     //@Published var heightClass: UserInterfaceSizeClass? = nil
+    var language = LocalizationService.shared.language
+    var color = ColorChangeService.shared.color
+    
     
     internal func calculateWidth(heightClass: UserInterfaceSizeClass?, screenHeight: CGFloat) -> CGFloat {
         print("\(UIScreen.main.bounds.height) height")
