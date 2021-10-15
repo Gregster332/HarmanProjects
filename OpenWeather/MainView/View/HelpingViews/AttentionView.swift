@@ -32,11 +32,11 @@ struct AttentionView: View {
                 Text("OK")
                     .font(.system(size: Constants.Fonts.refreshFont))
                     .foregroundColor(Constants.Colors.attentionForeground)
-                    .frame(width: 40, height: 30)
+                    .frame(width: Constants.Widths.attentionViewOkButtonWidth, height: Constants.Heights.attentionViewOkButtonHeight)
             }
             
         }
-        .frame(width: 300, height: 180)
+         .frame(width: Constants.Widths.attentionViewWidth, height: Constants.Heights.attentionViewHeight)
         .background(ColorChangeService.shared.changeColor(color: color.rawValue))
         .cornerRadius(Constants.CornerRadiuses.attentionViewCornerRadius)
         

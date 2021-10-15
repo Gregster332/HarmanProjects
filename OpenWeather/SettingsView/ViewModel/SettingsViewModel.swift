@@ -15,6 +15,12 @@ class SettingViewModel: ObservableObject {
     @AppStorage("color")
     internal var color = ColorChangeService.shared.color
     
+    let realmService = RealmServiceSecond.shared
+    
+    internal func deleteAllDB() {
+        realmService.deleteAllDatabase()
+    }
+    
     internal func calculateWidth(heightClass: UserInterfaceSizeClass?, screenHeight: CGFloat) -> CGFloat {
 
         if heightClass == .regular {

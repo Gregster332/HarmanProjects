@@ -19,25 +19,26 @@ struct PressureView: View {
     var rectangleWidth: CGFloat {
         get {
             if index >= Constants.MathContants.maxWidthOfPressureRectangle {
-                return 255
+                return Constants.MathContants.rectangleFullWidth
             } else if index <= Constants.MathContants.minWidthOfPressureRectangle {
-                return 0
+                return Constants.MathContants.zero
             } else {
-                return CGFloat(abs(Constants.MathContants.minWidthOfPressureRectangle - index)) * 2.55
+                return CGFloat(abs(Constants.MathContants.minWidthOfPressureRectangle - index)) * Constants.MathContants.multiplyValueForRecatgle
             }
         }
     }
     
     @Environment(\.verticalSizeClass) var heightClass: UserInterfaceSizeClass?
-    @ObservedObject var model = DetailViewModel()
+    @ObservedObject var viewModel = DetailViewModel()
     
     var body: some View {
-        VStack(alignment: .center,spacing: 30) {
+        VStack(alignment: .center,
+               spacing: Constants.Spacings.fragmentViewSpacing) {
             HStack {
                 Image(systemName: imageName)
                 Text(description)
                     .accessibilityIdentifier("DescText")
-                    .font(.system(size: model.calculateFont(heightClass: heightClass, screenHeight: UIScreen.main.bounds.height)))
+                    .font(.system(size: viewModel.calculateFont(heightClass: heightClass, screenHeight: UIScreen.main.bounds.height)))
             }
             
            
@@ -64,15 +65,16 @@ struct PressureView: View {
             }
         }
         .padding()
-        .frame(width: model.calculateWidth(heightClass: heightClass, screenHeight: UIScreen.main.bounds.height), height: 140)
-        .background(ColorChangeService.shared.changeColor(color: model.color.rawValue))
+        .frame(width: viewModel.calculateWidth(heightClass: heightClass, screenHeight: UIScreen.main.bounds.height),
+               height: Constants.Heights.fragmentViewHeight)
+        .background(ColorChangeService.shared.changeColor(color: viewModel.color.rawValue))
         .cornerRadius(Constants.CornerRadiuses.addCityViewTextFieldCornerRaduis)
     }
 }
 
-struct PressureView_Previews: PreviewProvider {
-    static var previews: some View {
-        PressureView(description: "Clear", index: 1010, imageName: "plus", metric: "")
-.previewInterfaceOrientation(.portrait)
-    }
-}
+//struct PressureView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        PressureView(description: "Clear", index: 1010, imageName: "plus", metric: "")
+//.previewInterfaceOrientation(.portrait)
+//    }
+//}

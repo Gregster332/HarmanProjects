@@ -9,10 +9,10 @@ import SwiftUI
 
 struct SettingsView: View {
     
-    @ObservedObject var model = SettingViewModel()
+    @StateObject var viewModel = MainViewModel()
     @Environment(\.verticalSizeClass) var heightClass: UserInterfaceSizeClass?
-    @Environment(\.horizontalSizeClass) var widthClass: UserInterfaceSizeClass?
-    @EnvironmentObject var realmService: RealMService
+    //@Environment(\.horizontalSizeClass) var widthClass: UserInterfaceSizeClass?
+    //@EnvironmentObject var realmService: RealMService
     @Binding var showSettingsView: Bool
     @State private var showAlert: Bool = false
    
@@ -20,53 +20,54 @@ struct SettingsView: View {
     var body: some View {
         
             
-            VStack(alignment: .center, spacing: 40) {
+        VStack(alignment: .center, spacing: Constants.Spacings.settingsViewMainVStackSpacing) {
                 HStack {
                     Image(systemName: "backward.fill")
                         .accessibilityIdentifier("back")
-                        .font(.system(size: model.calculateFont(heightClass: heightClass, screenHeight: UIScreen.main.bounds.height)))
+                        .font(.system(size: viewModel.calculateFont(heightClass: heightClass, screenHeight: UIScreen.main.bounds.height)))
                         .foregroundColor(Constants.Colors.settingsViewColor)
                         .onTapGesture {
                             withAnimation(.easeInOut) {
                                 showSettingsView.toggle()
                             }
                         }
-                    Text("settings".localized(model.language))
+                    Text("settings".localized(viewModel.language))
                         .accessibilityIdentifier("settings")
-                        .font(.system(size: model.calculateFont(heightClass: heightClass, screenHeight: UIScreen.main.bounds.height)))
+                        .font(.system(size: viewModel.calculateFontSettings(heightClass: heightClass, screenHeight: UIScreen.main.bounds.height)))
                 }
                 
-                HStack(alignment: .center, spacing: 60) {
-                    Text("delete_all_data".localized(model.language))
-                        .font(.system(size: model.calculateFont(heightClass: heightClass, screenHeight: UIScreen.main.bounds.height) - 10 ))
+            HStack(alignment: .center, spacing: Constants.Spacings.settingsViewMainHStackSpacing) {
+                    Text("delete_all_data".localized(viewModel.language))
+                    .font(.system(size: viewModel.calculateFontSettings(heightClass: heightClass, screenHeight: UIScreen.main.bounds.height) - Constants.Fonts.plusForSettingsViewDeleteButtonFont))
                     Button {
-                        if !realmService.cities.isEmpty {
-                        realmService.deleteAll()
-                        realmService.fetchData()
-                        } else {
-                            showAlert.toggle()
-                        }
+                        //FIX!!!!
+                        //if !realmService.cities.isEmpty {
+                        viewModel.deleteAllFromDB()
+                        //realmService.fetchData(
+//                        } else {
+//                            showAlert.toggle()
+//                        }
                     } label: {
-                        Text("delete".localized(model.language))
-                            .font(.system(size: model.calculateFont(heightClass: heightClass, screenHeight: UIScreen.main.bounds.height) - 10))
+                        Text("delete".localized(viewModel.language))
+                            .font(.system(size: viewModel.calculateFontSettings(heightClass: heightClass, screenHeight: UIScreen.main.bounds.height) - Constants.Fonts.plusForSettingsViewDeleteButtonFont))
                             .foregroundColor(.black)
                     }
                     .accessibilityIdentifier("delete")
-                    .frame(width: model.calculateWidthForButton(heightClass: heightClass, screenHeight: UIScreen.main.bounds.height), height: 50)
+                    .frame(width: viewModel.calculateWidthForButton(heightClass: heightClass, screenHeight: UIScreen.main.bounds.height), height: Constants.Heights.settingsViewDeleteButtonHeight)
                     .background(Color.blue)
                     .cornerRadius(Constants.CornerRadiuses.settingsViewDeleteAllCornerRaduis)
                     .alert(isPresented: $showAlert) {
-                        Alert(title: Text("database_is_empty".localized(model.language)), message: Text("one_more_time".localized(model.language)), dismissButton: .some(.cancel(Text("OK"))))
+                        Alert(title: Text("database_is_empty".localized(viewModel.language)), message: Text("one_more_time".localized(viewModel.language)), dismissButton: .some(.cancel(Text("OK"))))
                     }
                 }
-                .frame(width: model.calculateWidthForFramgment(heightClass: heightClass, screenHeight: UIScreen.main.bounds.height), height: model.calculateHeight(heightClass: heightClass, screenHeight: UIScreen.main.bounds.height))
+                .frame(width: viewModel.calculateWidthForFramgment(heightClass: heightClass, screenHeight: UIScreen.main.bounds.height), height: viewModel.calculateHeight(heightClass: heightClass, screenHeight: UIScreen.main.bounds.height))
                 .background(Constants.Colors.settingsViewColor)
                 .cornerRadius(Constants.CornerRadiuses.settingsViewDeleteAllCornerRaduis)
                 
                 
-                HStack(alignment: .center, spacing: 60) {
-                    Text("settings_language".localized(model.language))
-                        .font(.system(size: model.calculateFont(heightClass: heightClass, screenHeight: UIScreen.main.bounds.height) - 5))
+            HStack(alignment: .center, spacing: Constants.Spacings.settingsViewMainHStackSpacing) {
+                    Text("settings_language".localized(viewModel.language))
+                    .font(.system(size: viewModel.calculateFontSettings(heightClass: heightClass, screenHeight: UIScreen.main.bounds.height) - Constants.Fonts.plusForSettingsViewLanguageChangeButtonFont))
                     
                     Menu {
                         Button {
@@ -85,26 +86,27 @@ struct SettingsView: View {
                         Image("lang")
                             .resizable()
                             .aspectRatio(contentMode: .fit)
-                            .frame(width: 60, height: 60)
+                            .frame(width: Constants.Widths.settingsViewLanguageButtonWidth,
+                                   height: Constants.Heights.settingsViewLanguageButtonHeight)
                             .cornerRadius(Constants.CornerRadiuses.attentionViewCornerRadius)
                             .accessibilityIdentifier("changeLanguageMenu")
                     }
                     
                 }
-                .frame(width: model.calculateWidthForFramgment(heightClass: heightClass, screenHeight: UIScreen.main.bounds.height), height: model.calculateHeight(heightClass: heightClass, screenHeight: UIScreen.main.bounds.height))
+                .frame(width: viewModel.calculateWidthForFramgment(heightClass: heightClass, screenHeight: UIScreen.main.bounds.height), height: viewModel.calculateHeight(heightClass: heightClass, screenHeight: UIScreen.main.bounds.height))
                 .background(Constants.Colors.settingsViewColor)
                 .cornerRadius(Constants.CornerRadiuses.attentionViewCornerRadius)
                 
-                HStack(alignment: .center, spacing: 50) {
-                    Text("color_of_views".localized(model.language))
-                        .font(.system(size: model.calculateFont(heightClass: heightClass, screenHeight: UIScreen.main.bounds.height) - 5))
+            HStack(alignment: .center, spacing: Constants.Spacings.temperatureDescriptionViewMainHstackSpacing) {
+                    Text("color_of_views".localized(viewModel.language))
+                    .font(.system(size: viewModel.calculateFont(heightClass: heightClass, screenHeight: UIScreen.main.bounds.height) - Constants.Fonts.plusForSettingsViewLanguageChangeButtonFont))
                     Menu {
                         Button {
                             withAnimation(.easeInOut) {
                                 ColorChangeService.shared.color = .green
                             }
                         } label: {
-                            Text("green".localized(model.language))
+                            Text("green".localized(viewModel.language))
                         }
                         
                         Button {
@@ -112,7 +114,7 @@ struct SettingsView: View {
                             ColorChangeService.shared.color = .pink
                             }
                         } label: {
-                            Text("pink".localized(model.language))
+                            Text("pink".localized(viewModel.language))
                         }
                         
                         Button {
@@ -120,25 +122,26 @@ struct SettingsView: View {
                             ColorChangeService.shared.color = .purple
                             }
                         } label: {
-                            Text("purple".localized(model.language))
+                            Text("purple".localized(viewModel.language))
                         }
                         
                     } label: {
                         Image(systemName: "paintbrush")
                             .resizable()
                             .aspectRatio(contentMode: .fit)
-                            .foregroundColor(ColorChangeService.shared.changeColor(color: model.color.rawValue))
-                            .frame(width: 50, height: 50)
+                            .foregroundColor(ColorChangeService.shared.changeColor(color: viewModel.color.rawValue))
+                            .frame(width: Constants.Widths.settingsViewBrushButtonWidth,
+                                   height: Constants.Heights.settingsViewDeleteButtonHeight)
                             
                     }
                 }
-                .frame(width: model.calculateWidthForFramgment(heightClass: heightClass, screenHeight: UIScreen.main.bounds.height), height: model.calculateHeight(heightClass: heightClass, screenHeight: UIScreen.main.bounds.height))
+                .frame(width: viewModel.calculateWidthForFramgment(heightClass: heightClass, screenHeight: UIScreen.main.bounds.height), height: viewModel.calculateHeight(heightClass: heightClass, screenHeight: UIScreen.main.bounds.height))
                 .background(Constants.Colors.settingsViewColor)
                 .cornerRadius(Constants.CornerRadiuses.attentionViewCornerRadius)
                 
             }
-            .frame(width: model.calculateWidth(heightClass: heightClass, screenHeight: UIScreen.main.bounds.height), height: heightClass == .some(.regular) ? 450 : 350)
-            .background(ColorChangeService.shared.changeColor(color: model.color.rawValue))
+        .frame(width: viewModel.calculateWidth(heightClass: heightClass, screenHeight: UIScreen.main.bounds.height), height: heightClass == .some(.regular) ? Constants.Heights.settingsViewHeight1 : Constants.Heights.settingsViewHeight2)
+            .background(ColorChangeService.shared.changeColor(color: viewModel.color.rawValue))
             .cornerRadius(Constants.CornerRadiuses.attentionViewCornerRadius)
             }
         }

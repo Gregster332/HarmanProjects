@@ -13,16 +13,17 @@ struct MainView: View {
     
     //MARK: - Global observables
     @ObservedObject var realmService = RealMService()
-    @ObservedObject var model = MainViewModel()
+    @StateObject var viewModel = MainViewModel()
     
     var searchResults: [City] {
-        if model.searchItem.isEmpty {
-            return realmService.cities
+        if viewModel.searchItem.isEmpty {
+            return viewModel.cities
         } else {
-            return realmService.cities.filter { $0.name.contains(model.searchItem) }
+            return viewModel.cities.filter { $0.name.contains(viewModel.searchItem) }
         }
     }
-    
+
+
     
     //MARK: - Init
     init() {
@@ -30,144 +31,164 @@ struct MainView: View {
     }
     
     var body: some View {
-        return NavigationView {
+         NavigationView {
             //MARK: - View
             List {
                 if Reachability.isConnectedToNetwork() {
                 NavigationLink(
-                    destination: DetailView(weatherDetails: model.currentCity, isNavigationLink: true, hideSheet: $model.showSheet),
+                    destination: DetailView(weatherDetails: viewModel.city, isNavigationLink: true, hideSheet: $viewModel.showSheet),
                     label: {
-                        if model.currentCity != nil  {
-                            TemperatureDescriptionCell(model.currentCity)
+                        if viewModel.city != nil  {
+                            TemperatureDescriptionCell(viewModel.city)
                         } else {
                                 ProgressView().progressViewStyle(CircularProgressViewStyle())
                         }
                     })
                     .accessibilityIdentifier("navlocation")
                     .buttonStyle(PlainButtonStyle())
-                    .disabled(model.showAddView || model.showAttentionLabel || model.showSetiingsView)
+                    .disabled(viewModel.showAddView || viewModel.showAttentionLabel || viewModel.showSetiingsView)
                 } else {
-                    Text("no_internet".localized(model.language))
+                    Text("no_internet".localized(viewModel.language))
                 }
                 
-                
+               //FIX DELETE ALL DATA
                 ForEach(searchResults.indices, id: \.self) { index in
                     Button {
-                        model.city = searchResults[index]
+                        viewModel.currentCity = searchResults[index]
                         DispatchQueue.main.async {
                             //print(city)
-                            if model.city != nil {
-                                model.showSheet.toggle()
+                            if viewModel.currentCity != nil {
+                                viewModel.showSheet.toggle()
                             } else {
                                 print("oops")
                             }
                         }
                     } label: {
-                        if model.flagForError == false {
+                        if viewModel.flagForError == false {
                         TemperatureDescriptionCell(searchResults[index])
                             .contextMenu(ContextMenu(menuItems: {
                                 Button(action: {
                                     withAnimation(.easeIn) {
-                                        realmService.deleteData(object: searchResults[index])
-                                        realmService.fetchData()
+                                        viewModel.deleteCityFromDB(city: searchResults[index])
+                                        viewModel.fetchAllFromDB()
                                     }
                                 }, label: {
-                                    Text("delete".localized(model.language))
+                                    Text("delete".localized(viewModel.language))
                                 })
                             }))
-                            .disabled(model.showAddView || model.showAttentionLabel || model.showSetiingsView || model.flagForError)
+                            .disabled(viewModel.showAddView || viewModel.showAttentionLabel || viewModel.showSetiingsView || viewModel.flagForError)
                         } else {
                             ProgressView().progressViewStyle(CircularProgressViewStyle())
                         }
                     }
-                    .accessibilityIdentifier("\(realmService.cities[index].name)")
+                    .accessibilityIdentifier("\(viewModel.cities[index].name)")
                     .buttonStyle(PlainButtonStyle())
                     
-                    
+
                 }
                 
+                
             }
+            .onAppear {
+                print("ahhahaha")
+                //viewModel.deleteAllFromDB()
+                if Reachability.isConnectedToNetwork() {
+                    //viewModel.flagForError.toggle()
+                    viewModel.fetchAllFromDB()
+                    //realmService.getNewData()
+                    Task(priority: .background) {
+                        //await viewModel.getNewData()
+                        await viewModel.getCurrnetWeather()
+                    }
+                    //viewModel.flagForError.toggle()
+                } else {
+                    viewModel.fetchAllFromDB()
+                }
+            }
+            .onDisappear {
+                print("cool")
+            }
+            .onReceive(viewModel.timerOneSecond, perform: { _ in
+                viewModel.fetchAllFromDB()
+            })
             .accessibilityIdentifier("list")
-            .searchable(text: $model.searchItem)
+            .searchable(text: $viewModel.searchItem)
             .refreshable {
                 if Reachability.isConnectedToNetwork() {
+                    //viewModel.fetchAllFromDB()
+                    viewModel.getNewWeatherForAllCities()
                     Task {
-                        await model.getCurrnetWeather()
-                        await realmService.getNewData()
+                        await viewModel.getCurrnetWeather()
+                        //await realmService.getNewData()
                     }
                 } else {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + Constants.AsyncSeconds.asyncHalfSecond) {
                         withAnimation(.easeInOut) {
-                            model.showAttentionLabel.toggle()
+                            viewModel.showAttentionLabel.toggle()
                         }
                     }
                 }
             }
             .listStyle(InsetListStyle())
-            .sheet(isPresented: $model.showSheet) {
-                if model.city != nil {
-                    DetailView(weatherDetails: model.city, isNavigationLink: false, hideSheet: $model.showSheet)
+            .fullScreenCover(isPresented: $viewModel.showSheet) {
+                if viewModel.currentCity != nil {
+                    DetailView(weatherDetails: viewModel.currentCity, isNavigationLink: false, hideSheet: $viewModel.showSheet)
                 } else {
                     ProgressView()
                         .progressViewStyle(CircularProgressViewStyle())
-                        .onReceive(model.timer) { _ in
-                            model.showSheet.toggle()
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                                model.showAttentionLabel = true
-                                model.isThisNoInternetAttentionView = false
+                        .onReceive(viewModel.timer) { _ in
+                            viewModel.showSheet.toggle()
+                            DispatchQueue.main.asyncAfter(deadline: .now() + Constants.AsyncSeconds.asyncSecond) {
+                                viewModel.showAttentionLabel = true
+                                viewModel.isThisNoInternetAttentionView = false
                             }
                         }
                         .accessibilityIdentifier("progress")
                 }
             }
+//            .onReceive(viewModel.timerOneSecond, perform: { _ in
+//                viewModel.fetchAllFromDB()
+//            })
             
             
-            .navigationBarTitle("cities".localized(model.language))
-            .navigationBarItems(leading: Button(action: {
+            .navigationBarTitle("cities".localized(viewModel.language))
+            .navigationBarItems(leading:
+                                    HStack {
+                                    Button(action: {
                 withAnimation(.easeInOut) {
-                    model.showSetiingsView.toggle()
+                    viewModel.showSetiingsView.toggle()
                 }
             }, label: {
                 Image(systemName: "gear")
-            }).accessibilityIdentifier("Gear"), trailing: Button(action: {
-                withAnimation(.easeIn) {
-                    model.showAddView.toggle()
+            }).accessibilityIdentifier("Gear")
+                
+               
+            },
+            trailing: Button(action: {
+                withAnimation(.easeInOut) {
+                viewModel.showAddView.toggle()
                 }
             }, label: {
                 Image(systemName: "plus")
-            }).accessibilityIdentifier("showCityButton"))
-            .disabled(model.showAddView || model.showAttentionLabel || model.showSetiingsView)
+            })
+            .accessibilityIdentifier("showCityButton"))
+            .disabled(viewModel.showAddView || viewModel.showAttentionLabel || viewModel.showSetiingsView)
         }
         .padding(1)
         .navigationViewStyle(StackNavigationViewStyle())
-        .blur(radius: model.showAddView || model.showAttentionLabel || model.showSetiingsView ? 2 : 0)
-        .overlay(AddCityView(showThisView: $model.showAddView)
-                    .environmentObject(realmService)
-                    .offset(y: model.showAddView ? 0 : Constants.Offsets.viewOffset))
-        .overlay(AttentionView(showAttentionLabel: $model.showAttentionLabel, isThisNoInternetAttentionView: $model.isThisNoInternetAttentionView)
-                    .offset(y: model.showAttentionLabel ? 0 : Constants.Offsets.viewOffset)
+        .blur(radius: viewModel.showAddView || viewModel.showAttentionLabel || viewModel.showSetiingsView ? Constants.Blurs.mainViewBlur : Constants.Blurs.zeroBlur)
+        .overlay(AddCityView(showThisView: $viewModel.showAddView)
+                    //.environmentObject(realmService)
+                    .offset(y: viewModel.showAddView ? Constants.Offsets.zeroOffset : Constants.Offsets.viewOffset))
+        .overlay(AttentionView(showAttentionLabel: $viewModel.showAttentionLabel, isThisNoInternetAttentionView: $viewModel.isThisNoInternetAttentionView)
+                    .offset(y: viewModel.showAttentionLabel ? Constants.Offsets.zeroOffset : Constants.Offsets.viewOffset)
                  )
-        .overlay(SettingsView(showSettingsView: $model.showSetiingsView)
-                    .environmentObject(realmService)
-                    .offset(y: model.showSetiingsView ? 0 : Constants.Offsets.viewOffset)
+        .overlay(SettingsView(showSettingsView: $viewModel.showSetiingsView)
+                    //.environmentObject(realmService)
+                    .offset(y: viewModel.showSetiingsView ? Constants.Offsets.zeroOffset : Constants.Offsets.viewOffset)
         )
         //MARK: - Lifecycle
-        .onAppear {
-            if Reachability.isConnectedToNetwork() {
-                realmService.fetchData()
-                Task(priority: .background) {
-                    await realmService.getNewData()
-                    await model.getCurrnetWeather()
-                }
-                model.flagForError.toggle()
-            } else {
-                realmService.fetchData()
-            }
-//            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-//                model.flagForError.toggle()
-//            }
-            
-        }
+        
         
     }
 }

@@ -17,7 +17,6 @@
 "purple" = "Purple";
 "color_of_views" = "Color of views";
 "settings" = "Settings";
-"Delete" = "Delete";
 "database_is_empty" = "Databese is empty";
 "settings_language" = "Language";
 "name" = "City name...";
@@ -38,7 +37,7 @@
 "max:" = "Max:";
 "min:" = "Min:";
 "current_info" = "Current Info";
-"clouds" = "Clouds";
+"Clouds" = "Clouds";
 "clear" = "Clear";
 "mist" = "Mist";
 "smoke" = "Smoke";

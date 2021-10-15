@@ -10,6 +10,8 @@ import SwiftUI
 import CoreLocation
 
 class LocationManager: NSObject, ObservableObject {
+    
+    static let shared = LocationManager()
 
     private let locationManager = CLLocationManager()
     @Published var location: CLLocation? = nil

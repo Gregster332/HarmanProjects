@@ -17,7 +17,7 @@ struct DetailView: View {
     //MARK: - Global observables
     @Environment(\.verticalSizeClass) var heightClass: UserInterfaceSizeClass?
     @Environment(\.horizontalSizeClass) var widthClass: UserInterfaceSizeClass?
-    @ObservedObject var model = DetailViewModel()
+    @ObservedObject var viewModel = DetailViewModel()
     
     
     
@@ -35,34 +35,34 @@ struct DetailView: View {
                     Image(systemName: "backward.fill")
                         .accessibilityIdentifier("backImage")
                         .foregroundColor(Constants.Colors.settingsViewColor)
-                        .font(.system(size: model.calculateFont(heightClass: heightClass, screenHeight: UIScreen.main.bounds.height)))
+                        .font(.system(size: viewModel.calculateFont(heightClass: heightClass, screenHeight: UIScreen.main.bounds.height)))
                         .onTapGesture {
                             hideSheet.toggle()
                             weatherDetails = nil
                         }
                     
-                    Text("current_info".localized(model.language))
-                        .font(.system(size: model.calculateFont(heightClass: heightClass, screenHeight: UIScreen.main.bounds.height)))
+                    Text("current_info".localized(viewModel.language))
+                        .font(.system(size: viewModel.calculateFont(heightClass: heightClass, screenHeight: UIScreen.main.bounds.height)))
                         .fontWeight(.bold)
                         .accessibilityIdentifier("currentInfo")
                 }
             }
             
             VStack {
-                VStack(alignment: .center, spacing: 10) {
+                VStack(alignment: .center, spacing: Constants.Spacings.detailViewCurrentCityInfoSpacing) {
                     Text("\(weatherDetails!.name)")
                         .accessibilityIdentifier("cityLabel")
-                        .font(.system(size: model.calculateFont(heightClass: heightClass, screenHeight: UIScreen.main.bounds.height)))
+                        .font(.system(size: viewModel.calculateFont(heightClass: heightClass, screenHeight: UIScreen.main.bounds.height)))
                     TempView(temp: weatherDetails!.temp - CGFloat(Constants.MathContants.toCelsius))
-                    Text(weatherDetails!.main.localized(model.language))
+                    Text(weatherDetails!.main.lowercased().localized(viewModel.language))
                         .accessibilityIdentifier("descriptionLabel")
-                        .font(.system(size: model.calculateFont(heightClass: heightClass, screenHeight: UIScreen.main.bounds.height)))
+                        .font(.system(size: viewModel.calculateFont(heightClass: heightClass, screenHeight: UIScreen.main.bounds.height)))
                     HStack {
-                        Text("max:".localized(model.language))
+                        Text("max:".localized(viewModel.language))
                         Text("\(Int(weatherDetails!.tempMax) - Constants.MathContants.toCelsius)º")
                             .accessibilityIdentifier("celsiusMaxLabel")
                         Text(", ")
-                        Text("min:".localized(model.language))
+                        Text("min:".localized(viewModel.language))
                         Text("\(Int(weatherDetails!.tempMin) - Constants.MathContants.toCelsius)º")
                             .accessibilityIdentifier("celsiusMinLabel")
                     }
@@ -70,23 +70,23 @@ struct DetailView: View {
                 .padding()
                 
                 VStack {
-                    FragmentView(description: "feels_like".localized(model.language),
+                    FragmentView(description: "feels_like".localized(viewModel.language),
                                  index: "\(Int(weatherDetails!.feelsLike) - Constants.MathContants.toCelsius)",
                                  imageName: PicturesNames.thermometer.rawValue,
                                  metric: Metrics.celsius.rawValue)
-                    FragmentView(description: "humidity".localized(model.language),
+                    FragmentView(description: "humidity".localized(viewModel.language),
                                  index: "\(Int(weatherDetails!.humidity))",
                                  imageName: PicturesNames.dropFill.rawValue,
                                  metric: Metrics.percent.rawValue)
-                    PressureView(description: "pressure".localized(model.language),
+                    PressureView(description: "pressure".localized(viewModel.language),
                                  index: Int(weatherDetails!.pressure),
                                  imageName: PicturesNames.dialMin.rawValue,
                                  metric: Metrics.millimeters.rawValue)
-                    FragmentView(description: "sunrise".localized(model.language),
+                    FragmentView(description: "sunrise".localized(viewModel.language),
                                  index: "\(Date(timeIntervalSince1970: TimeInterval(weatherDetails!.sunrise)).timeIn24HourFormat())",
                                  imageName: PicturesNames.sunriseFill.rawValue,
                                  metric: Metrics.empty.rawValue)
-                    FragmentView(description: "sunset".localized(model.language),
+                    FragmentView(description: "sunset".localized(viewModel.language),
                                  index: "\(Date(timeIntervalSince1970: TimeInterval(weatherDetails!.sunset)).timeIn24HourFormat())",
                                  imageName: PicturesNames.sunsetFill.rawValue,
                                  metric: Metrics.empty.rawValue)
@@ -96,12 +96,16 @@ struct DetailView: View {
         }
         .padding()
         .background(
-            LinearGradient(gradient: Gradient(colors: model.changeBG(description: weatherDetails!.main)),
-                           startPoint: UnitPoint(x: 4, y: 0),
-                           endPoint: UnitPoint(x: 0, y: -2)).blur(radius: 10)
+            LinearGradient(gradient: Gradient(colors: viewModel.changeBG(description: weatherDetails!.main)),
+                           startPoint: UnitPoint(x: Constants.UnitPoints.x1,
+                                                 y: Constants.UnitPoints.y1),
+                           endPoint: UnitPoint(x: Constants.UnitPoints.x2,
+                                               y: Constants.UnitPoints.y2))
+                .edgesIgnoringSafeArea(.all)
+                .blur(radius: Constants.Blurs.detailViewBlur)
         )
         
-        .navigationBarTitle("current_info".localized(model.language))
+        .navigationBarTitle("current_info".localized(viewModel.language))
         } 
     }
    

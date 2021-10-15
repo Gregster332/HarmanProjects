@@ -19,9 +19,9 @@ struct TemperatureDescriptionCell: View {
     //MARK: - Global Variables
     @Environment(\.verticalSizeClass) var heightClass: UserInterfaceSizeClass?
     
-    @ObservedObject var model = MainViewModel()
+    @ObservedObject var viewModel = MainViewModel()
     
-    var language = LocalizationService.shared.language
+    //var language = LocalizationService.shared.language
     
     init(_ city: City?) {
         self.city = city!.name
@@ -33,16 +33,18 @@ struct TemperatureDescriptionCell: View {
    
     var body: some View {
         //MARK: - View
-        HStack(alignment: .center, spacing: 50) {
+        HStack(alignment: .center, spacing: Constants.Spacings.temperatureDescriptionViewMainHstackSpacing) {
             Text(main)
-                .font(.system(size: model.calculateFont(heightClass: heightClass, screenHeight: UIScreen.main.bounds.height) + 20))
+                .font(.system(size: viewModel.calculateFont(heightClass: heightClass,
+                                                            screenHeight: UIScreen.main.bounds.height) + Constants.Fonts.plusForTemperatureDescriptionCellMainTextFont))
             
             VStack(alignment: .leading) {
                 Text(city)
-                    .font(.system(size: model.calculateFont(heightClass: heightClass, screenHeight: UIScreen.main.bounds.height) - 3))
+                    .font(.system(size: viewModel.calculateFont(heightClass: heightClass,
+                                                                screenHeight: UIScreen.main.bounds.height) - Constants.Fonts.plusForTemperatureDescriptionCellCityTextFont))
                     .fontWeight(.bold)
-                HStack(alignment: .center, spacing: 0) {
-                    Text("temp".localized(language))
+                HStack(alignment: .center, spacing: Constants.Spacings.zeroSpacing) {
+                    Text("temp".localized(viewModel.language))
                         .font(.system(size: Constants.Fonts.temperatureDescriptionCellFont))
                         .fontWeight(.semibold)
                     Text(": \(temp)")
@@ -50,12 +52,12 @@ struct TemperatureDescriptionCell: View {
                         .fontWeight(.semibold)
                 }
                 HStack {
-                    HStack(alignment: .center, spacing: 0) {
-                        Text("max:".localized(language))
+                    HStack(alignment: .center, spacing: Constants.Spacings.zeroSpacing) {
+                        Text("max:".localized(viewModel.language))
                         Text(" \(max),")
                     }
-                    HStack(alignment: .center, spacing: 0) {
-                        Text("min:".localized(language))
+                    HStack(alignment: .center, spacing: Constants.Spacings.zeroSpacing) {
+                        Text("min:".localized(viewModel.language))
                         Text(" \(min)")
                     }
                 }

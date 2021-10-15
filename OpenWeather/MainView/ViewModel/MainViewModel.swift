@@ -9,34 +9,107 @@ import Foundation
 import RealmSwift
 import CoreLocation
 import SwiftUI
+import MapKit
 
 class MainViewModel: ObservableObject {
+    let locationManager = LocationManager.shared
+    let realmService = RealmServiceSecond.shared
+    let networkService = NetworkService.shared
+    
+    static let shared = MainViewModel()
     
     @Published var currentCity: City? = nil
     @Published var showAddView: Bool = false
     @Published var showSetiingsView: Bool = false
     @Published var showSheet: Bool = false
     @Published var showAttentionLabel: Bool = false
+    @Published var showingAlert: Bool = false
     @Published var isThisNoInternetAttentionView: Bool = true
-    @Published var flagForError: Bool = true
+    @Published var flagForError: Bool = false
     @Published var searchItem: String = ""
+    @Published var searcedCurrentCity: String = ""
     @Published var city: City? = nil
+    @Published var cities: [City] = []
+    //@Published var addViewModel: AddCityViewModel? // = AddViewModel()
     
-    let locationManager = LocationManager()
-    var realmService = RealMService() 
+//    NotificationCenter.default.addObserver(self,
+//                                           selector: #selector(reactToNotification()),
+//                                           name: .some(.didReceiveData),
+//                                           object: nil)
     
     var language = LocalizationService.shared.language
     var color = ColorChangeService.shared.color
     let timer = Timer.publish(every: 2, on: .main, in: .common).autoconnect()
+    @Published var timerOneSecond = Timer.publish(every: 3, on: .main, in: .common).autoconnect()
     
+    init() {
+        fetchAllFromDB()
+        //print(cities)
+        print("----------------------")
+    }
+    
+    internal func fetchAllFromDB() {
+        realmService.fetchAllFromDatabase { results in
+            self.cities = results.compactMap { city -> City? in
+                return city
+            }.sorted { $0.name < $1.name }
+        }
+    }
+    
+    internal func addCityToDB(city: City?) {
+        guard let city = city else { return }
+        realmService.addCityToDatabase(city: city)
+        fetchAllFromDB()
+    }
+    
+    
+    
+    internal func deleteCityFromDB(city: City) {
+        realmService.deleteCityFromDataBase(city: city)
+    }
+    
+    internal func deleteAllFromDB() {
+        realmService.deleteAllDatabase()
+    }
+    
+    internal func getNewWeatherForAllCities() {
+        self.cities.forEach { city in
+            networkService.getData(cityName: city.name) { result in
+                switch(result) {
+                case .success(let item):
+                    guard let item = item else { return }
+                    self.deleteCityFromDB(city: city)
+//                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                        self.addCityToDB(city: self.getCityFromWelcome(welcome: item))
+                 //   }
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
+            }
+        }
+        fetchAllFromDB()
+    }
+    
+    
+    
+//    internal func fetchData() {
+//        print("ll")
+//        //RealMService.shared.fetchData()
+//         RealMService.shared.fetchData()
+//    }
+//
+//    internal func getNewData() {
+//         fetchData()
+//          RealMService.shared.getNewData()
+//    }
+//
     internal func getCurrnetWeather() async {
         let coordinate = self.locationManager.location != nil ? self.locationManager.location?.coordinate : CLLocationCoordinate2D()
-        let service = NetworkService()
         DispatchQueue.main.async {
-            service.getDataByCoordinates(lat: coordinate?.latitude ?? 0, lon: coordinate?.longitude ?? 0) { item in
+            self.networkService.getDataByCoordinates(lat: coordinate?.latitude ?? 0, lon: coordinate?.longitude ?? 0) { item in
                 switch(item) {
                 case .success(let result):
-                    self.getCityFromWelcome(welcome: result)
+                    self.city = self.getCityFromWelcome(welcome: result)
                     print("okk")
                 case .failure(let error):
                     print(error.localizedDescription)
@@ -44,9 +117,9 @@ class MainViewModel: ObservableObject {
             }
         }
     }
-    
-    internal func getCityFromWelcome(welcome: Welcome?) {
-        guard let welcome = welcome else { return }
+
+    internal func getCityFromWelcome(welcome: Welcome?) -> City? {
+        guard let welcome = welcome else { return nil }
         let city = City()
         city.feelsLike = welcome.main.feelsLike
         city.humidity = welcome.main.humidity
@@ -58,7 +131,7 @@ class MainViewModel: ObservableObject {
         city.temp = welcome.main.temp
         city.tempMax = welcome.main.tempMax
         city.tempMin = welcome.main.tempMin
-        currentCity = city
+        return city
     }
     
     internal func calculateFont(heightClass: UserInterfaceSizeClass?, screenHeight: CGFloat) -> CGFloat {
@@ -84,6 +157,181 @@ class MainViewModel: ObservableObject {
             }
         }
     }
+    
+    ///
+    ///
+    ///
+    ///
+    
+    internal func calculateWidth(heightClass: UserInterfaceSizeClass?, screenHeight: CGFloat) -> CGFloat {
+
+        if heightClass == .regular {
+            if (900..<1000).contains(screenHeight) {
+                return 390
+            } else if (800..<900).contains(screenHeight) {
+                return 370
+            } else if  (600..<700).contains(screenHeight) {
+                return 330
+            } else if (700..<800).contains(screenHeight) {
+                return 350
+            } else if (1000..<1400).contains(screenHeight) {
+                return 500
+            } else {
+                return 300
+            }
+        } else {
+            if (300..<1000).contains(screenHeight) {
+                return 600
+            } else {
+                return 600
+            }
+        }
+       
+    }
+    
+    internal func calculateHeight(heightClass: UserInterfaceSizeClass?, screenHeight: CGFloat) -> CGFloat {
+        if heightClass == .regular {
+            if (900..<1000).contains(screenHeight) {
+                return 80
+            } else if (800..<900).contains(screenHeight) {
+                return 80
+            } else if  (600..<700).contains(screenHeight) {
+                return 80
+            } else if (700..<800).contains(screenHeight) {
+                return 80
+            } else if (1000..<1400).contains(screenHeight) {
+                return 80
+            } else {
+                return 80
+            }
+        } else {
+            if (300..<1000).contains(screenHeight) {
+                return 60
+            } else {
+                return 80
+            }
+        }
+       
+    }
+    
+    internal func calculateWidthForFramgment(heightClass: UserInterfaceSizeClass?, screenHeight: CGFloat) -> CGFloat {
+        if heightClass == .regular {
+            if (900..<1000).contains(screenHeight) {
+                return 350
+            } else if (800..<900).contains(screenHeight) {
+                return 330
+            } else if  (600..<700).contains(screenHeight) {
+                return 290
+            } else if (700..<800).contains(screenHeight) {
+                return 310
+            } else if (1000..<1400).contains(screenHeight) {
+                return 440
+            } else {
+                return 270
+            }
+        } else {
+            if (300..<1000).contains(screenHeight) {
+                return 500
+            } else {
+                return 500
+            }
+        }
+       
+    }
+    
+    internal func calculateWidthForButton(heightClass: UserInterfaceSizeClass?, screenHeight: CGFloat) -> CGFloat {
+
+        if heightClass == .regular {
+            if (900..<1000).contains(screenHeight) {
+                return 140
+            } else if (800..<900).contains(screenHeight) {
+                return 120
+            } else if  (600..<700).contains(screenHeight) {
+                return 80
+            } else if (700..<800).contains(screenHeight) {
+                return 100
+            } else if (1000..<1400).contains(screenHeight) {
+                return 160
+            } else {
+                return 80
+            }
+        } else {
+            if (300..<1000).contains(screenHeight) {
+                return 190
+            } else {
+                return 190
+            }
+        }
+       
+    }
+    
+    internal func calculateFontSettings(heightClass: UserInterfaceSizeClass?, screenHeight: CGFloat) -> CGFloat {
+        if heightClass == .regular {
+            if (900..<1000).contains(screenHeight) {
+                return 32
+            } else if (800..<900).contains(screenHeight) {
+                return 30
+            } else if  (600..<700).contains(screenHeight) {
+                return 28
+            } else if (700..<800).contains(screenHeight) {
+                return 29
+            } else if (1000..<1400).contains(screenHeight) {
+                return 40
+            } else {
+                return 27
+            }
+        } else {
+            if (300..<650).contains(screenHeight) {
+                return 25
+            } else {
+                return 40
+            }
+        }
+    }
+    
+    internal func changeColor(color: String) -> Color {
+        if color == "green" {
+            return Color.green
+        } else if color == "pink" {
+            return Color.pink
+        } else {
+            return Color.purple
+        }
+    }
+    
+    internal func addNewCityToDBBYName() {
+        if checkSymbols(str: searcedCurrentCity) {
+            networkService.getData(cityName: searcedCurrentCity) { result in
+                switch(result) {
+                case .success(let item):
+                    self.addCityToDB(city: self.getCityFromWelcome(welcome: item)!)
+                    self.fetchAllFromDB()
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
+            }
+            searcedCurrentCity = ""
+            UIApplication.shared.endEditing()
+            //showThisView.toggle()
+        } else {
+            showingAlert = true
+            searcedCurrentCity = ""
+        }
+    }
+    
+    private func checkSymbols(str: String) -> Bool {
+        if str == "" || str == " " {
+            return false
+        }
+        for chr in str {
+            if (!(chr >= "a" && chr <= "z") && !(chr >= "A" && chr <= "Z") && chr != " " && chr != "-") {
+                return false
+            }
+        }
+        return true
+    }
 }
+
+
 
 

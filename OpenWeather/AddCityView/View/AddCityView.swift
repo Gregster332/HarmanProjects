@@ -7,24 +7,28 @@
 
 import SwiftUI
 import UIKit
+import RealmSwift
 
 struct AddCityView: View {
     
     //MARK: - Private observables
     @Binding var showThisView: Bool
-    @State private var showingAlert: Bool = false
+    //@State private var showingAlert: Bool = false
     
     //MARK: - Global observables
-    @EnvironmentObject var realmService: RealMService
+    //@EnvironmentObject var realmService: RealMService
     @Environment(\.verticalSizeClass) var heightClass: UserInterfaceSizeClass?
-    @Environment(\.horizontalSizeClass) var widthClass: UserInterfaceSizeClass?
-    @ObservedObject var model = AddCityViewModel()
+    @Environment(\.presentationMode) var presentationMode
+    //@Environment(\.horizontalSizeClass) var widthClass: UserInterfaceSizeClass?
+    //@ObservedObject var viewModel = AddCityViewModel()
+    @StateObject var viewModel = MainViewModel()
+   
     
     var body: some View {
         //MARK: - View
-        VStack(alignment: .center, spacing: 20) {
+        VStack(alignment: .center, spacing: Constants.Spacings.addCityViewMainVSatckSpacing) {
             
-            Text("enter_city_name".localized(model.language))
+            Text("enter_city_name".localized(viewModel.language))
                 .multilineTextAlignment(.center)
                 .lineLimit(nil)
                 .font(.system(size: Constants.Fonts.addCityViewEnterCityFont))
@@ -32,62 +36,82 @@ struct AddCityView: View {
             HStack {
                 Image(systemName: "magnifyingglass.circle.fill")
                     .font(.system(size: Constants.Fonts.attentionFont))
-                TextField("name".localized(model.language), text: $realmService.cityName, onCommit:  {
-                    model.addNewData(realmService: realmService, showingAlert: &showingAlert, showThisView: &showThisView)
+                TextField("name".localized(viewModel.language), text: $viewModel.searcedCurrentCity, onEditingChanged: { _ in
+                    if !viewModel.searcedCurrentCity.isEmpty {
+                        viewModel.timerOneSecond.upstream.connect().cancel()
+                    }
+                }, onCommit:  {
+                    viewModel.addNewCityToDBBYName()
                     UIApplication.shared.endEditing()
                 }).accessibilityIdentifier("AddCityTextFireld")
                     
             }
             .padding()
-            .frame(width: heightClass == .regular ? 290 : 500, height: heightClass == .regular ? 100 : 100, alignment: .center)
+            .frame(width: heightClass == .regular ? Constants.Widths.addCityViewTextFieldViewWidth1 : Constants.Widths.addCityViewTextFieldViewWidth2,
+                   height: heightClass == .regular ? Constants.Heights.addCityViewTextFieldViewHeigh : Constants.Heights.addCityViewTextFieldViewHeigh, alignment: .center)
             .background(Constants.Colors.addCityViewColor)
             .cornerRadius(Constants.CornerRadiuses.addCityViewTextFieldCornerRaduis)
             
             
             Button(action: {
-                if Reachability.isConnectedToNetwork() {
-                    model.addNewData(realmService: realmService, showingAlert: &showingAlert, showThisView: &showThisView)
-                } else {
-                    showingAlert.toggle()
+                withAnimation(.easeInOut) {
+                    if Reachability.isConnectedToNetwork() {
+                        viewModel.addNewCityToDBBYName()
+                        //viewModel.timerOneSecond.upstream.connect().cancel()
+                        showThisView.toggle()
+                        //presentationMode.wrappedValue.dismiss()
+                    } else {
+                        viewModel.showingAlert.toggle()
+                    }
                 }
             }, label: {
-                Text("search".localized(model.language))
+                Text("search".localized(viewModel.language))
                     .font(.system(size: Constants.Fonts.refreshFont))
                     .fontWeight(.semibold)
                     .foregroundColor(.black)
                     .padding()
-                    .frame(width: 140, height: 50, alignment: .center)
+                    .frame(width: Constants.Widths.addCityViewSearchButtonWidth,
+                           height: Constants.Heights.settingsViewDeleteButtonHeight,
+                           alignment: .center)
                     .background(Constants.Colors.addCityViewColor)
                     .cornerRadius(Constants.CornerRadiuses.addCityViewTextFieldCornerRaduis)
             })
-            .accessibilityIdentifier("searchButton")
-            .alert(isPresented: $showingAlert) {
-                Alert(title: Text("something_wrong".localized(model.language)), message: Text(Reachability.isConnectedToNetwork() ? "enter_in_english".localized(model.language) : "no_internet".localized(model.language)), dismissButton: .some(.cancel(Text("OK"), action: {
-                    showingAlert = false
-                })))
-            }
+                .accessibilityIdentifier("searchButton")
+                .alert(isPresented: $viewModel.showingAlert) {
+                    Alert(title: Text("something_wrong".localized(viewModel.language)), message: Text(Reachability.isConnectedToNetwork() ? "enter_in_english".localized(viewModel.language) : "no_internet".localized(viewModel.language)), dismissButton: .some(.cancel(Text("OK"), action: {
+                        viewModel.showingAlert = false
+                    })))
+                }
             
             
             
             Button(action: {
+                withAnimation(.easeInOut) {
+                    //print("llolooko")
+                    // presentationMode.wrappedValue.dismiss()
                     showThisView.toggle()
-                    realmService.cityName = ""
+                    viewModel.searcedCurrentCity = ""
                     UIApplication.shared.endEditing()
+                }
             }, label: {
-                Text("cancel".localized(model.language))
+                Text("cancel".localized(viewModel.language))
                     .font(.system(size: Constants.Fonts.refreshFont))
                     .fontWeight(.semibold)
                     .foregroundColor(.red)
                     .padding()
-                    .frame(width: 140, height: 50, alignment: .center)
+                    .frame(width: Constants.Widths.addCityViewSearchButtonWidth,
+                           height: Constants.Heights.settingsViewDeleteButtonHeight,
+                           alignment: .center)
                     .background(Constants.Colors.addCityViewColor)
                     .cornerRadius(Constants.CornerRadiuses.addCityViewTextFieldCornerRaduis)
             }).accessibilityIdentifier("cancelButton")
             
         }
-        .frame(width: heightClass == .regular ? 300 : 500, height: heightClass == .regular ? 400 : 300)
+        .navigationBarBackButtonHidden(true)
+        .frame(width: heightClass == .regular ? Constants.Widths.addCityViewWidth : Constants.Widths.addCityViewTextFieldViewWidth2,
+               height: heightClass == .regular ? Constants.Heights.settingsViewHeight3 : Constants.Heights.settingsViewHeight4)
         .padding()
-        .background(ColorChangeService.shared.changeColor(color: model.color.rawValue))
+        .background(ColorChangeService.shared.changeColor(color: viewModel.color.rawValue))
         .cornerRadius(Constants.CornerRadiuses.addCityViewTextFieldCornerRaduis)
         
     }

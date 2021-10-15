@@ -20,5 +20,6 @@ class City: Object, Identifiable {
     @objc dynamic var pressure: Int = 0
     @objc dynamic var humidity: Int = 0
     @objc dynamic var main: String = ""
+    
 }
 

@@ -13,7 +13,7 @@ struct TempView: View {
     
     var toNumber: CGFloat {
         get {
-            return abs(50 + temperature) / 100
+            return abs(Constants.MathContants.lowerLimit + temperature) / Constants.MathContants.percentage
         }
     }
     
@@ -25,14 +25,22 @@ struct TempView: View {
         ZStack(alignment: .center) {
             Circle()
                 .fill(Color.gray)
-                .frame(width: 150, height: 150, alignment: .center)
+                .frame(width: Constants.Widths.tempViewWidth,
+                       height: Constants.Heights.tempViewHeight,
+                       alignment: .center)
                 .rotationEffect(.degrees(Constants.Deegrees.TempViewDegrees))
             Circle()
-                .trim(from: 0.0, to: toNumber)
-                .stroke(temperature >= 0 ? .orange : .blue, style: StrokeStyle(lineWidth: 15, lineCap: .butt, lineJoin: .miter, dash: [3]))
+                .trim(from: Constants.Trimms.zeroTrim,
+                      to: toNumber)
+                .stroke(temperature >= 0 ? .orange : .blue, style: StrokeStyle(lineWidth: Constants.LineWidths.tempViewLineWidth,
+                                                                               lineCap: .butt,
+                                                                               lineJoin: .miter,
+                                                                               dash: [Constants.Dashes.tempViewDash]))
                 .animation(.easeInOut, value: temperature)
                 .rotationEffect(.degrees(Constants.Deegrees.TempViewDegrees))
-                .frame(width: 165, height: 165, alignment: .center)
+                .frame(width: Constants.Widths.tempViewWidth2,
+                       height: Constants.Widths.tempViewWidth2,
+                       alignment: .center)
             
             Text("\(Int(temperature))º")
                 .font(.largeTitle)

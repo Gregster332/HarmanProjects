@@ -14,6 +14,8 @@ class RealMService: ObservableObject {
     @Published var cityName: String = ""
     @Published var cities: [City] = []
     
+    static let shared = RealMService()
+    
     //MARK: - Lets
     let service = NetworkService()
     
@@ -42,10 +44,10 @@ class RealMService: ObservableObject {
             fetchData()
         })
     }
-    
-    func getNewData() async {
+    //private
+    func getNewData() {
+        let service = NetworkService()
         self.cities.indices.forEach { city in
-            let service = NetworkService()
             service.getData(cityName: cities[city].name) { item in
                 self.deleteData(object: self.cities[city])
                 switch(item) {

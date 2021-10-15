@@ -13,6 +13,8 @@ enum NetworkError: Error {
 
 class NetworkService {
     
+    static let shared = NetworkService()
+    
     //MARK: - Get data by city name
     func getData(cityName: String, completion: @escaping (Result<Welcome?, NetworkError>) -> ()) {
         let urlString = "\(Constants.URLS.baseUrl)q=\(cityName)&appid=\(Constants.ApiKeys.apiKey)"
