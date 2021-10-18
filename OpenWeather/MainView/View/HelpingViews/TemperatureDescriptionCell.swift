@@ -18,10 +18,8 @@ struct TemperatureDescriptionCell: View {
     
     //MARK: - Global Variables
     @Environment(\.verticalSizeClass) var heightClass: UserInterfaceSizeClass?
-    
     @ObservedObject var viewModel = MainViewModel()
     
-    //var language = LocalizationService.shared.language
     
     init(_ city: City?) {
         self.city = city!.name
@@ -67,9 +65,4 @@ struct TemperatureDescriptionCell: View {
     }
 }
 
-//struct Cell_Previews: PreviewProvider {
-//    static var previews: some View {
-//        Cell(city: "Miami", temp: 30, max: 32, min: 27, main: "Mist")
-//    }
-//}
 

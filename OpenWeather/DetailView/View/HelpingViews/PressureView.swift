@@ -71,10 +71,3 @@ struct PressureView: View {
         .cornerRadius(Constants.CornerRadiuses.addCityViewTextFieldCornerRaduis)
     }
 }
-
-//struct PressureView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        PressureView(description: "Clear", index: 1010, imageName: "plus", metric: "")
-//.previewInterfaceOrientation(.portrait)
-//    }
-//}

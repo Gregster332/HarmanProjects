@@ -17,9 +17,7 @@ struct FragmentView: View {
     
     //MARK: - Global observables
     @Environment(\.verticalSizeClass) var heightClass: UserInterfaceSizeClass?
-    //@Environment(\.horizontalSizeClass) var widthClass: UserInterfaceSizeClass?
     @ObservedObject var viewModel = DetailViewModel()
-    //var color = ColorChangeService.shared.color
     
     var body: some View {
         //MARK: - View

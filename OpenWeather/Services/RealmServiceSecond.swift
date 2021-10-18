@@ -12,17 +12,9 @@ class RealmServiceSecond {
     
     static let shared = RealmServiceSecond()
     
-   // private let realm: Realm
-    
-//    private init() {
-//        self.realm = try! Realm()
-//    }
-    
     func fetchAllFromDatabase(completion: @escaping ([City]) -> ()) {
         guard let dbRef = try? Realm() else { return }
-        //var allData = [City]()
         let results = dbRef.objects(City.self)
-        print("lolololo")
         completion(Array(results))
     }
     

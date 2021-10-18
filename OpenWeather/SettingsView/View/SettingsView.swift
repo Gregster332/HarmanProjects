@@ -11,8 +11,6 @@ struct SettingsView: View {
     
     @StateObject var viewModel = MainViewModel()
     @Environment(\.verticalSizeClass) var heightClass: UserInterfaceSizeClass?
-    //@Environment(\.horizontalSizeClass) var widthClass: UserInterfaceSizeClass?
-    //@EnvironmentObject var realmService: RealMService
     @Binding var showSettingsView: Bool
     @State private var showAlert: Bool = false
    
@@ -40,13 +38,7 @@ struct SettingsView: View {
                     Text("delete_all_data".localized(viewModel.language))
                     .font(.system(size: viewModel.calculateFontSettings(heightClass: heightClass, screenHeight: UIScreen.main.bounds.height) - Constants.Fonts.plusForSettingsViewDeleteButtonFont))
                     Button {
-                        //FIX!!!!
-                        //if !realmService.cities.isEmpty {
                         viewModel.deleteAllFromDB()
-                        //realmService.fetchData(
-//                        } else {
-//                            showAlert.toggle()
-//                        }
                     } label: {
                         Text("delete".localized(viewModel.language))
                             .font(.system(size: viewModel.calculateFontSettings(heightClass: heightClass, screenHeight: UIScreen.main.bounds.height) - Constants.Fonts.plusForSettingsViewDeleteButtonFont))

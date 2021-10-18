@@ -30,22 +30,15 @@ class MainViewModel: ObservableObject {
     @Published var searcedCurrentCity: String = ""
     @Published var city: City? = nil
     @Published var cities: [City] = []
-    //@Published var addViewModel: AddCityViewModel? // = AddViewModel()
     
-//    NotificationCenter.default.addObserver(self,
-//                                           selector: #selector(reactToNotification()),
-//                                           name: .some(.didReceiveData),
-//                                           object: nil)
     
     var language = LocalizationService.shared.language
     var color = ColorChangeService.shared.color
     let timer = Timer.publish(every: 2, on: .main, in: .common).autoconnect()
-    @Published var timerOneSecond = Timer.publish(every: 3, on: .main, in: .common).autoconnect()
+    let timerOneSecond = Timer.publish(every: 3, on: .main, in: .common).autoconnect()
     
     init() {
         fetchAllFromDB()
-        //print(cities)
-        print("----------------------")
     }
     
     internal func fetchAllFromDB() {
@@ -79,9 +72,7 @@ class MainViewModel: ObservableObject {
                 case .success(let item):
                     guard let item = item else { return }
                     self.deleteCityFromDB(city: city)
-//                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                        self.addCityToDB(city: self.getCityFromWelcome(welcome: item))
-                 //   }
+                    self.addCityToDB(city: self.getCityFromWelcome(welcome: item))
                 case .failure(let error):
                     print(error.localizedDescription)
                 }
@@ -91,18 +82,6 @@ class MainViewModel: ObservableObject {
     }
     
     
-    
-//    internal func fetchData() {
-//        print("ll")
-//        //RealMService.shared.fetchData()
-//         RealMService.shared.fetchData()
-//    }
-//
-//    internal func getNewData() {
-//         fetchData()
-//          RealMService.shared.getNewData()
-//    }
-//
     internal func getCurrnetWeather() async {
         let coordinate = self.locationManager.location != nil ? self.locationManager.location?.coordinate : CLLocationCoordinate2D()
         DispatchQueue.main.async {
@@ -157,11 +136,6 @@ class MainViewModel: ObservableObject {
             }
         }
     }
-    
-    ///
-    ///
-    ///
-    ///
     
     internal func calculateWidth(heightClass: UserInterfaceSizeClass?, screenHeight: CGFloat) -> CGFloat {
 

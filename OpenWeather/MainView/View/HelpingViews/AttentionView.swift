@@ -43,8 +43,3 @@ struct AttentionView: View {
     }
 }
 
-//struct AttentionView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        AttentionView(showAttentionLabel: .constant(true), isThisNoInternetAttentionView: .constant(true))
-//    }
-//}

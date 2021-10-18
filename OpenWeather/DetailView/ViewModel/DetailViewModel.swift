@@ -10,7 +10,6 @@ import SwiftUI
 
 class DetailViewModel: ObservableObject {
     
-    //@Published var heightClass: UserInterfaceSizeClass? = nil
     var language = LocalizationService.shared.language
     var color = ColorChangeService.shared.color
     
@@ -53,58 +52,6 @@ class DetailViewModel: ObservableObject {
         default: return [Color(#colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)), Color(#colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)), Color(#colorLiteral(red: 0.6176282167, green: 0.4858464003, blue: 0, alpha: 0.8470588235))]
         }
     }
-    
-//    internal func calculateHeightForSunView(heightClass: UserInterfaceSizeClass?, screenHeight: CGFloat) -> CGFloat {
-//        print("\(UIScreen.main.bounds.height) height")
-//        print("\(UIScreen.main.bounds.width) width")
-//        if heightClass == .regular {
-//            if (900..<1000).contains(screenHeight) {
-//                return 330
-//            } else if (800..<900).contains(screenHeight) {
-//                return 310
-//            } else if  (600..<700).contains(screenHeight) {
-//                return 270
-//            } else if (700..<800).contains(screenHeight) {
-//                return 290
-//            } else if (1000..<1400).contains(screenHeight) {
-//                return 500
-//            } else {
-//                return 250
-//            }
-//        } else {
-//            if (300..<1000).contains(screenHeight) {
-//                return 150
-//            } else {
-//                return 500
-//            }
-//        }
-//       
-//    }
-//    
-//    internal func calculateWidthForSunView(heightClass: UserInterfaceSizeClass?, screenHeight: CGFloat) -> CGFloat {
-//        if heightClass == .regular {
-//            if (900..<1000).contains(screenHeight) {
-//                return 350
-//            } else if (800..<900).contains(screenHeight) {
-//                return 330
-//            } else if  (600..<700).contains(screenHeight) {
-//                return 290
-//            } else if (700..<800).contains(screenHeight) {
-//                return 310
-//            } else if (1000..<1400).contains(screenHeight) {
-//                return 500
-//            } else {
-//                return 270
-//            }
-//        } else {
-//            if (300..<1000).contains(screenHeight) {
-//                return 600
-//            } else {
-//                return 600
-//            }
-//        }
-//       
-//    }
     
     internal func calculateFont(heightClass: UserInterfaceSizeClass?, screenHeight: CGFloat) -> CGFloat {
         if heightClass == .regular {

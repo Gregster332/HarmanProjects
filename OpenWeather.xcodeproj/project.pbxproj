@@ -13,7 +13,6 @@
 		D00C344A2706079C00FE6BCF /* OpenWeatherUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00C34492706079C00FE6BCF /* OpenWeatherUITestsLaunchTests.swift */; };
 		D00C3451270613BD00FE6BCF /* TestDetailScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00C3450270613BD00FE6BCF /* TestDetailScreen.swift */; };
 		D00C345A270617C300FE6BCF /* DetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00C3459270617C300FE6BCF /* DetailViewModel.swift */; };
-		D00C345C270617EB00FE6BCF /* RealMService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00C345B270617EB00FE6BCF /* RealMService.swift */; };
 		D00C34602706585000FE6BCF /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00C345F2706585000FE6BCF /* Constants.swift */; };
 		D00C34652706FCE500FE6BCF /* AddCityViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00C34642706FCE500FE6BCF /* AddCityViewModel.swift */; };
 		D00C34672707068E00FE6BCF /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00C34662707068E00FE6BCF /* Reachability.swift */; };
@@ -47,7 +46,6 @@
 		D0B4735E270B261600D04485 /* TestMainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B4735D270B261600D04485 /* TestMainViewModel.swift */; };
 		D0B47360270B276F00D04485 /* TestNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B4735F270B276F00D04485 /* TestNetworkService.swift */; };
 		D0B6A8E227172C4A00DF541A /* RealmServiceSecond.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B6A8E127172C4A00DF541A /* RealmServiceSecond.swift */; };
-		D0B6A9002717681D00DF541A /* Notification+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B6A8FF2717681D00DF541A /* Notification+Extension.swift */; };
 		D0C8191C2704FABC00ECC355 /* TemperatureDescriptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C8191B2704FABC00ECC355 /* TemperatureDescriptionCell.swift */; };
 		D0E41F5A270E2F1800110F6D /* Language.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E41F59270E2F1800110F6D /* Language.swift */; };
 		D0E41F5C270E2F3100110F6D /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E41F5B270E2F3100110F6D /* String+Extension.swift */; };
@@ -102,7 +100,6 @@
 		D00C34492706079C00FE6BCF /* OpenWeatherUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenWeatherUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		D00C3450270613BD00FE6BCF /* TestDetailScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestDetailScreen.swift; sourceTree = "<group>"; };
 		D00C3459270617C300FE6BCF /* DetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewModel.swift; sourceTree = "<group>"; };
-		D00C345B270617EB00FE6BCF /* RealMService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealMService.swift; sourceTree = "<group>"; };
 		D00C345F2706585000FE6BCF /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		D00C34642706FCE500FE6BCF /* AddCityViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCityViewModel.swift; sourceTree = "<group>"; };
 		D00C34662707068E00FE6BCF /* Reachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
@@ -139,7 +136,6 @@
 		D0B4735D270B261600D04485 /* TestMainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestMainViewModel.swift; sourceTree = "<group>"; };
 		D0B4735F270B276F00D04485 /* TestNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestNetworkService.swift; sourceTree = "<group>"; };
 		D0B6A8E127172C4A00DF541A /* RealmServiceSecond.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmServiceSecond.swift; sourceTree = "<group>"; };
-		D0B6A8FF2717681D00DF541A /* Notification+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification+Extension.swift"; sourceTree = "<group>"; };
 		D0C8191B2704FABC00ECC355 /* TemperatureDescriptionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemperatureDescriptionCell.swift; sourceTree = "<group>"; };
 		D0E41F59270E2F1800110F6D /* Language.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Language.swift; sourceTree = "<group>"; };
 		D0E41F5B270E2F3100110F6D /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
@@ -219,7 +215,6 @@
 			children = (
 				D0550B0326FB81FE007E2625 /* NetworkService.swift */,
 				D053B37926FF46EF00307F56 /* LocationManager.swift */,
-				D00C345B270617EB00FE6BCF /* RealMService.swift */,
 				D0B6A8E127172C4A00DF541A /* RealmServiceSecond.swift */,
 				D00C34662707068E00FE6BCF /* Reachability.swift */,
 				D0E41F5D270E30D300110F6D /* LocalizationService.swift */,
@@ -310,7 +305,6 @@
 				D053B37526FCB38800307F56 /* Date+Extension.swift */,
 				D00C343C2705972100FE6BCF /* UIApplication+Extension.swift */,
 				D0E41F5B270E2F3100110F6D /* String+Extension.swift */,
-				D0B6A8FF2717681D00DF541A /* Notification+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -632,7 +626,6 @@
 				D00C34402705A12B00FE6BCF /* Emojis.swift in Sources */,
 				D06A064A270DA46100E05CDA /* SettingsView.swift in Sources */,
 				D0550AE226FB4D01007E2625 /* AppDelegate.swift in Sources */,
-				D00C345C270617EB00FE6BCF /* RealMService.swift in Sources */,
 				D0550B1826FBC539007E2625 /* DetailView.swift in Sources */,
 				D00C343D2705972100FE6BCF /* UIApplication+Extension.swift in Sources */,
 				D0550B1A26FBC707007E2625 /* FragmentView.swift in Sources */,
@@ -641,7 +634,6 @@
 				D053B37626FCB38800307F56 /* Date+Extension.swift in Sources */,
 				D0B6A8E227172C4A00DF541A /* RealmServiceSecond.swift in Sources */,
 				D0E41F62270F13DA00110F6D /* Colors.swift in Sources */,
-				D0B6A9002717681D00DF541A /* Notification+Extension.swift in Sources */,
 				D0C8191C2704FABC00ECC355 /* TemperatureDescriptionCell.swift in Sources */,
 				D0550B1C26FBD1CE007E2625 /* AddCityView.swift in Sources */,
 				D0550B0626FB843B007E2625 /* MainViewModel.swift in Sources */,

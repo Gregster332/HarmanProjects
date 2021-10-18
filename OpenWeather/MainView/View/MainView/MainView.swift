@@ -12,7 +12,6 @@ import MapKit
 struct MainView: View {
     
     //MARK: - Global observables
-    @ObservedObject var realmService = RealMService()
     @StateObject var viewModel = MainViewModel()
     
     var searchResults: [City] {
@@ -51,12 +50,11 @@ struct MainView: View {
                     Text("no_internet".localized(viewModel.language))
                 }
                 
-               //FIX DELETE ALL DATA
+               
                 ForEach(searchResults.indices, id: \.self) { index in
                     Button {
                         viewModel.currentCity = searchResults[index]
                         DispatchQueue.main.async {
-                            //print(city)
                             if viewModel.currentCity != nil {
                                 viewModel.showSheet.toggle()
                             } else {
@@ -91,22 +89,16 @@ struct MainView: View {
             }
             .onAppear {
                 print("ahhahaha")
-                //viewModel.deleteAllFromDB()
                 if Reachability.isConnectedToNetwork() {
-                    //viewModel.flagForError.toggle()
                     viewModel.fetchAllFromDB()
-                    //realmService.getNewData()
+                    viewModel.getNewWeatherForAllCities()
                     Task(priority: .background) {
-                        //await viewModel.getNewData()
                         await viewModel.getCurrnetWeather()
                     }
                     //viewModel.flagForError.toggle()
                 } else {
                     viewModel.fetchAllFromDB()
                 }
-            }
-            .onDisappear {
-                print("cool")
             }
             .onReceive(viewModel.timerOneSecond, perform: { _ in
                 viewModel.fetchAllFromDB()
@@ -115,11 +107,9 @@ struct MainView: View {
             .searchable(text: $viewModel.searchItem)
             .refreshable {
                 if Reachability.isConnectedToNetwork() {
-                    //viewModel.fetchAllFromDB()
                     viewModel.getNewWeatherForAllCities()
                     Task {
                         await viewModel.getCurrnetWeather()
-                        //await realmService.getNewData()
                     }
                 } else {
                     DispatchQueue.main.asyncAfter(deadline: .now() + Constants.AsyncSeconds.asyncHalfSecond) {
@@ -146,9 +136,6 @@ struct MainView: View {
                         .accessibilityIdentifier("progress")
                 }
             }
-//            .onReceive(viewModel.timerOneSecond, perform: { _ in
-//                viewModel.fetchAllFromDB()
-//            })
             
             
             .navigationBarTitle("cities".localized(viewModel.language))
@@ -178,13 +165,11 @@ struct MainView: View {
         .navigationViewStyle(StackNavigationViewStyle())
         .blur(radius: viewModel.showAddView || viewModel.showAttentionLabel || viewModel.showSetiingsView ? Constants.Blurs.mainViewBlur : Constants.Blurs.zeroBlur)
         .overlay(AddCityView(showThisView: $viewModel.showAddView)
-                    //.environmentObject(realmService)
                     .offset(y: viewModel.showAddView ? Constants.Offsets.zeroOffset : Constants.Offsets.viewOffset))
         .overlay(AttentionView(showAttentionLabel: $viewModel.showAttentionLabel, isThisNoInternetAttentionView: $viewModel.isThisNoInternetAttentionView)
                     .offset(y: viewModel.showAttentionLabel ? Constants.Offsets.zeroOffset : Constants.Offsets.viewOffset)
                  )
         .overlay(SettingsView(showSettingsView: $viewModel.showSetiingsView)
-                    //.environmentObject(realmService)
                     .offset(y: viewModel.showSetiingsView ? Constants.Offsets.zeroOffset : Constants.Offsets.viewOffset)
         )
         //MARK: - Lifecycle

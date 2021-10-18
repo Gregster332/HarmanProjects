@@ -13,14 +13,10 @@ struct AddCityView: View {
     
     //MARK: - Private observables
     @Binding var showThisView: Bool
-    //@State private var showingAlert: Bool = false
     
     //MARK: - Global observables
-    //@EnvironmentObject var realmService: RealMService
     @Environment(\.verticalSizeClass) var heightClass: UserInterfaceSizeClass?
     @Environment(\.presentationMode) var presentationMode
-    //@Environment(\.horizontalSizeClass) var widthClass: UserInterfaceSizeClass?
-    //@ObservedObject var viewModel = AddCityViewModel()
     @StateObject var viewModel = MainViewModel()
    
     
