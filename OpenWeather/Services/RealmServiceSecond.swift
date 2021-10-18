@@ -14,8 +14,10 @@ class RealmServiceSecond {
     
     func fetchAllFromDatabase(completion: @escaping ([City]) -> ()) {
         guard let dbRef = try? Realm() else { return }
-        let results = dbRef.objects(City.self)
-        completion(Array(results))
+        let results = dbRef.objects(City.self).compactMap { city -> City? in
+            return city
+        }.sorted { $0.name < $1.name }
+        completion(results)
     }
     
     func addCityToDatabase(city: City?) {

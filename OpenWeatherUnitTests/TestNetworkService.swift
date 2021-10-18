@@ -18,7 +18,7 @@ class TestNetworkService: XCTestCase {
     
     override func tearDown() {
         sut = nil
-        RealMService().deleteAll()
+        //RealmServiceSecond.shared.deleteAllDatabase()
     }
     
     func test_NetworkService_getData_method() {

@@ -37,7 +37,7 @@
 "max:" = "Max:";
 "min:" = "Min:";
 "current_info" = "Current Info";
-"Clouds" = "Clouds";
+"clouds" = "Clouds";
 "clear" = "Clear";
 "mist" = "Mist";
 "smoke" = "Smoke";

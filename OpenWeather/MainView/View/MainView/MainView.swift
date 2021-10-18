@@ -88,14 +88,12 @@ struct MainView: View {
                 
             }
             .onAppear {
-                print("ahhahaha")
                 if Reachability.isConnectedToNetwork() {
                     viewModel.fetchAllFromDB()
                     viewModel.getNewWeatherForAllCities()
                     Task(priority: .background) {
                         await viewModel.getCurrnetWeather()
                     }
-                    //viewModel.flagForError.toggle()
                 } else {
                     viewModel.fetchAllFromDB()
                 }
@@ -164,7 +162,7 @@ struct MainView: View {
         .padding(1)
         .navigationViewStyle(StackNavigationViewStyle())
         .blur(radius: viewModel.showAddView || viewModel.showAttentionLabel || viewModel.showSetiingsView ? Constants.Blurs.mainViewBlur : Constants.Blurs.zeroBlur)
-        .overlay(AddCityView(showThisView: $viewModel.showAddView)
+        .overlay(AddCityView(viewModel: viewModel)
                     .offset(y: viewModel.showAddView ? Constants.Offsets.zeroOffset : Constants.Offsets.viewOffset))
         .overlay(AttentionView(showAttentionLabel: $viewModel.showAttentionLabel, isThisNoInternetAttentionView: $viewModel.isThisNoInternetAttentionView)
                     .offset(y: viewModel.showAttentionLabel ? Constants.Offsets.zeroOffset : Constants.Offsets.viewOffset)
@@ -172,7 +170,6 @@ struct MainView: View {
         .overlay(SettingsView(showSettingsView: $viewModel.showSetiingsView)
                     .offset(y: viewModel.showSetiingsView ? Constants.Offsets.zeroOffset : Constants.Offsets.viewOffset)
         )
-        //MARK: - Lifecycle
         
         
     }

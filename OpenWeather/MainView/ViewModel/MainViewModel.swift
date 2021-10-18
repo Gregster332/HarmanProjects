@@ -30,10 +30,10 @@ class MainViewModel: ObservableObject {
     @Published var searcedCurrentCity: String = ""
     @Published var city: City? = nil
     @Published var cities: [City] = []
+    @AppStorage("language") var language = LocalizationService.shared.language
+    @AppStorage("color") var color = ColorChangeService.shared.color
     
     
-    var language = LocalizationService.shared.language
-    var color = ColorChangeService.shared.color
     let timer = Timer.publish(every: 2, on: .main, in: .common).autoconnect()
     let timerOneSecond = Timer.publish(every: 3, on: .main, in: .common).autoconnect()
     
@@ -43,26 +43,32 @@ class MainViewModel: ObservableObject {
     
     internal func fetchAllFromDB() {
         realmService.fetchAllFromDatabase { results in
-            self.cities = results.compactMap { city -> City? in
-                return city
-            }.sorted { $0.name < $1.name }
+            self.cities = results
         }
     }
     
     internal func addCityToDB(city: City?) {
         guard let city = city else { return }
         realmService.addCityToDatabase(city: city)
-        fetchAllFromDB()
+        realmService.fetchAllFromDatabase { results in
+            self.cities = results
+        }
     }
     
     
     
     internal func deleteCityFromDB(city: City) {
         realmService.deleteCityFromDataBase(city: city)
+        realmService.fetchAllFromDatabase { result in
+            self.cities = result
+        }
     }
     
     internal func deleteAllFromDB() {
         realmService.deleteAllDatabase()
+        realmService.fetchAllFromDatabase { result in
+            self.cities = result
+        }
     }
     
     internal func getNewWeatherForAllCities() {
@@ -78,7 +84,9 @@ class MainViewModel: ObservableObject {
                 }
             }
         }
-        fetchAllFromDB()
+        realmService.fetchAllFromDatabase { results in
+            self.cities = results
+        }
     }
     
     
@@ -114,31 +122,33 @@ class MainViewModel: ObservableObject {
     }
     
     internal func calculateFont(heightClass: UserInterfaceSizeClass?, screenHeight: CGFloat) -> CGFloat {
-        if heightClass == .regular {
-            if (900..<1000).contains(screenHeight) {
-                return 28
-            } else if (800..<900).contains(screenHeight) {
-                return 25
-            } else if  (600..<700).contains(screenHeight) {
-                return 23
-            } else if (700..<800).contains(screenHeight) {
-                return 24
-            } else if (1000..<1400).contains(screenHeight) {
-                return 35
+        withAnimation(.easeInOut(duration: 1)) {
+            if heightClass == .regular {
+                if (900..<1000).contains(screenHeight) {
+                    return 28
+                } else if (800..<900).contains(screenHeight) {
+                    return 25
+                } else if  (600..<700).contains(screenHeight) {
+                    return 23
+                } else if (700..<800).contains(screenHeight) {
+                    return 24
+                } else if (1000..<1400).contains(screenHeight) {
+                    return 35
+                } else {
+                    return 23
+                }
             } else {
-                return 23
-            }
-        } else {
-            if (300..<1000).contains(screenHeight) {
-                return 35
-            } else {
-                return 50
+                if (300..<1000).contains(screenHeight) {
+                    return 35
+                } else {
+                    return 50
+                }
             }
         }
     }
     
     internal func calculateWidth(heightClass: UserInterfaceSizeClass?, screenHeight: CGFloat) -> CGFloat {
-
+        withAnimation(.easeInOut(duration: 1)) {
         if heightClass == .regular {
             if (900..<1000).contains(screenHeight) {
                 return 390
@@ -160,10 +170,12 @@ class MainViewModel: ObservableObject {
                 return 600
             }
         }
+        }
        
     }
     
     internal func calculateHeight(heightClass: UserInterfaceSizeClass?, screenHeight: CGFloat) -> CGFloat {
+        withAnimation(.easeInOut(duration: 1)) {
         if heightClass == .regular {
             if (900..<1000).contains(screenHeight) {
                 return 80
@@ -185,10 +197,11 @@ class MainViewModel: ObservableObject {
                 return 80
             }
         }
-       
+        }
     }
     
     internal func calculateWidthForFramgment(heightClass: UserInterfaceSizeClass?, screenHeight: CGFloat) -> CGFloat {
+        withAnimation(.easeInOut(duration: 1)) {
         if heightClass == .regular {
             if (900..<1000).contains(screenHeight) {
                 return 350
@@ -210,11 +223,11 @@ class MainViewModel: ObservableObject {
                 return 500
             }
         }
-       
+        }
     }
     
     internal func calculateWidthForButton(heightClass: UserInterfaceSizeClass?, screenHeight: CGFloat) -> CGFloat {
-
+        withAnimation(.easeInOut(duration: 1)) {
         if heightClass == .regular {
             if (900..<1000).contains(screenHeight) {
                 return 140
@@ -236,10 +249,11 @@ class MainViewModel: ObservableObject {
                 return 190
             }
         }
-       
+        }
     }
     
     internal func calculateFontSettings(heightClass: UserInterfaceSizeClass?, screenHeight: CGFloat) -> CGFloat {
+        withAnimation(.easeInOut(duration: 1)) {
         if heightClass == .regular {
             if (900..<1000).contains(screenHeight) {
                 return 32
@@ -261,16 +275,17 @@ class MainViewModel: ObservableObject {
                 return 40
             }
         }
+        }
     }
     
-    internal func changeColor(color: String) -> Color {
-        if color == "green" {
-            return Color.green
-        } else if color == "pink" {
-            return Color.pink
-        } else {
-            return Color.purple
-        }
+    internal func changeLanguage(to lang: Language) {
+        self.language = lang
+        LocalizationService.shared.language = lang
+    }
+    
+    internal func changeColor(to col: Colors) {
+        self.color = col
+        ColorChangeService.shared.color = col
     }
     
     internal func addNewCityToDBBYName() {
@@ -286,7 +301,7 @@ class MainViewModel: ObservableObject {
             }
             searcedCurrentCity = ""
             UIApplication.shared.endEditing()
-            //showThisView.toggle()
+            showAddView.toggle()
         } else {
             showingAlert = true
             searcedCurrentCity = ""

@@ -76,7 +76,7 @@ class TestSettingsScreen: XCTestCase {
         
         sleep(1)
         if settingsText.label == "Settings" {
-            XCTAssertEqual(app.alerts.element.label, "Database is empty")
+            XCTAssertEqual(app.alerts.element.label, "Databese is empty")
         } else {
             XCTAssertEqual(app.alerts.element.label, "Пусто...")
         }

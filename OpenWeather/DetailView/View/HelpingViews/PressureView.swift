@@ -51,6 +51,7 @@ struct PressureView: View {
                         Rectangle()
                             .fill(.gray)
                             .cornerRadius(Constants.CornerRadiuses.attentionViewCornerRadius)
+                            .frame(width: Constants.MathContants.rectangleFullWidth)
                         
                         Rectangle()
                             .fill(LinearGradient(gradient: Gradient(colors: [Color.white, Color.yellow, Color.red]), startPoint: .leading, endPoint: .trailing))

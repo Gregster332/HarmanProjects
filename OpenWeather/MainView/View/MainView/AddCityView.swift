@@ -11,13 +11,9 @@ import RealmSwift
 
 struct AddCityView: View {
     
-    //MARK: - Private observables
-    @Binding var showThisView: Bool
-    
     //MARK: - Global observables
     @Environment(\.verticalSizeClass) var heightClass: UserInterfaceSizeClass?
-    @Environment(\.presentationMode) var presentationMode
-    @StateObject var viewModel = MainViewModel()
+    @ObservedObject var viewModel: MainViewModel
    
     
     var body: some View {
@@ -51,11 +47,8 @@ struct AddCityView: View {
             
             Button(action: {
                 withAnimation(.easeInOut) {
-                    if Reachability.isConnectedToNetwork() {
+                    if Reachability.isConnectedToNetwork(){
                         viewModel.addNewCityToDBBYName()
-                        //viewModel.timerOneSecond.upstream.connect().cancel()
-                        showThisView.toggle()
-                        //presentationMode.wrappedValue.dismiss()
                     } else {
                         viewModel.showingAlert.toggle()
                     }
@@ -85,7 +78,7 @@ struct AddCityView: View {
                 withAnimation(.easeInOut) {
                     //print("llolooko")
                     // presentationMode.wrappedValue.dismiss()
-                    showThisView.toggle()
+                    viewModel.showAddView.toggle()
                     viewModel.searcedCurrentCity = ""
                     UIApplication.shared.endEditing()
                 }

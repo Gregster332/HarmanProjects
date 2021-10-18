@@ -37,9 +37,14 @@ struct SettingsView: View {
             HStack(alignment: .center, spacing: Constants.Spacings.settingsViewMainHStackSpacing) {
                     Text("delete_all_data".localized(viewModel.language))
                     .font(.system(size: viewModel.calculateFontSettings(heightClass: heightClass, screenHeight: UIScreen.main.bounds.height) - Constants.Fonts.plusForSettingsViewDeleteButtonFont))
-                    Button {
+                Button {
+                    if viewModel.cities.isEmpty {
+                        showAlert.toggle()
+                    } else {
+                        //viewModel.fetchAllFromDB()
                         viewModel.deleteAllFromDB()
-                    } label: {
+                    }
+                } label: {
                         Text("delete".localized(viewModel.language))
                             .font(.system(size: viewModel.calculateFontSettings(heightClass: heightClass, screenHeight: UIScreen.main.bounds.height) - Constants.Fonts.plusForSettingsViewDeleteButtonFont))
                             .foregroundColor(.black)
@@ -63,13 +68,17 @@ struct SettingsView: View {
                     
                     Menu {
                         Button {
-                            LocalizationService.shared.language = .russian
+                            withAnimation(.easeInOut(duration: Constants.AsyncSeconds.asyncHalfSecond)) {
+                            viewModel.changeLanguage(to: .russian)
+                            }
                         } label: {
                             Text("Русский")
                         }
                         .accessibilityIdentifier("rus")
                         Button {
-                            LocalizationService.shared.language = .english_us
+                            withAnimation(.easeInOut(duration: Constants.AsyncSeconds.asyncHalfSecond)) {
+                            viewModel.changeLanguage(to: .english_us)
+                            }
                         } label: {
                             Text("English (US)")
                         }
@@ -94,24 +103,24 @@ struct SettingsView: View {
                     .font(.system(size: viewModel.calculateFont(heightClass: heightClass, screenHeight: UIScreen.main.bounds.height) - Constants.Fonts.plusForSettingsViewLanguageChangeButtonFont))
                     Menu {
                         Button {
-                            withAnimation(.easeInOut) {
-                                ColorChangeService.shared.color = .green
+                            withAnimation(.easeInOut(duration: Constants.AsyncSeconds.asyncHalfSecond)) {
+                                viewModel.changeColor(to: .green)
                             }
                         } label: {
                             Text("green".localized(viewModel.language))
                         }
                         
                         Button {
-                            withAnimation(.easeInOut) {
-                            ColorChangeService.shared.color = .pink
+                            withAnimation(.easeInOut(duration: Constants.AsyncSeconds.asyncHalfSecond)) {
+                                viewModel.changeColor(to: .pink)
                             }
                         } label: {
                             Text("pink".localized(viewModel.language))
                         }
                         
                         Button {
-                            withAnimation(.easeInOut) {
-                            ColorChangeService.shared.color = .purple
+                            withAnimation(.easeInOut(duration: Constants.AsyncSeconds.asyncHalfSecond)) {
+                                viewModel.changeColor(to: .purple)
                             }
                         } label: {
                             Text("purple".localized(viewModel.language))
@@ -138,13 +147,3 @@ struct SettingsView: View {
             }
         }
 
-struct SettingsView_Previews: PreviewProvider {
-    static var previews: some View {
-        SettingsView(showSettingsView: .constant(true)).previewDevice("iPhone 8").previewInterfaceOrientation(.landscapeLeft)
-        SettingsView(showSettingsView: .constant(true)).previewDevice("iPhone 8 Plus").previewInterfaceOrientation(.landscapeLeft)
-        SettingsView(showSettingsView: .constant(true)).previewDevice("iPhone 12").previewInterfaceOrientation(.landscapeLeft)
-        SettingsView(showSettingsView: .constant(true)).previewDevice("iPhone 12 Pro Max").previewInterfaceOrientation(.landscapeRight)
-        SettingsView(showSettingsView: .constant(true)).previewDevice("iPad Pro (9.7-inch)").previewInterfaceOrientation(.portrait)
-        SettingsView(showSettingsView: .constant(true)).previewDevice("iPad mini(6th generation)").previewInterfaceOrientation(.landscapeLeft)
-    }
-}
