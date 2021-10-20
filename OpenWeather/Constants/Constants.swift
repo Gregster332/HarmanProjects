@@ -19,7 +19,7 @@ class Constants {
         static public let minWidthOfPressureRectangle = 950
         static public let lowerLimit: CGFloat = 50
         static public let percentage: CGFloat = 100
-        static public let rectangleFullWidth: CGFloat = 255
+        static public let rectangleFullWidth: CGFloat = 230
         static public let zero: CGFloat = 0
         static public let multiplyValueForRecatgle: CGFloat = 2.55
     }

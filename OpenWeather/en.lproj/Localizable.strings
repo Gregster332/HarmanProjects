@@ -12,6 +12,7 @@
 "attention" = "Attention!";
 "something_wrong" = "Something wrong🤨";
 "oops" = "Ooops...";
+"weather_at:" = "Weather at: ";
 "green" = "Green";
 "pink" = "Pink";
 "purple" = "Purple";
@@ -47,6 +48,7 @@
 "sand" = "Sand";
 "ash" = "Ash";
 "squall" = "Squall";
+"drizzle" = "Drizzle";
 "tornado" = "Tornado";
 "snow" = "Snow";
 "rain" = "Rain";

@@ -20,4 +20,5 @@ public var emojis = ["Clear":"☀️",
                      "Shquall":"🌪",
                      "Mist":"🌫",
                      "Snow":"❄️",
-                     "Clouds":"☁️"]
+                     "Clouds":"☁️",
+                     "Drizzle":"🌧"]

@@ -15,11 +15,11 @@ struct TemperatureDescriptionCell: View {
     var max: Int
     var min: Int
     var main: String
+    var date: Date
     
     //MARK: - Global Variables
     @Environment(\.verticalSizeClass) var heightClass: UserInterfaceSizeClass?
     @ObservedObject var viewModel = MainViewModel()
-    
     
     init(_ city: City?) {
         self.city = city!.name
@@ -27,6 +27,7 @@ struct TemperatureDescriptionCell: View {
         self.max = Int(city!.tempMax) - Constants.MathContants.toCelsius
         self.min = Int(city!.tempMin) - Constants.MathContants.toCelsius
         self.main = emojis[city!.main]!
+        self.date = city!.id
     }
    
     var body: some View {
@@ -59,6 +60,12 @@ struct TemperatureDescriptionCell: View {
                         Text(" \(min)")
                     }
                 }
+                
+                HStack(alignment: .center, spacing: Constants.Spacings.zeroSpacing) {
+                    Text("weather_at:".localized(viewModel.language))
+                    Text("\(date.timeIn24HourFormat())")
+                }
+                
             }
         }
         

@@ -81,10 +81,18 @@ struct MainView: View {
                     }
                     .accessibilityIdentifier("\(viewModel.cities[index].name)")
                     .buttonStyle(PlainButtonStyle())
-                    
+                    .swipeActions {
+                        Button {
+                            withAnimation(.easeIn) {
+                                viewModel.deleteCityFromDB(city: searchResults[index])
+                                viewModel.fetchAllFromDB()
+                            }
+                        } label: {
+                            Text("delete".localized(viewModel.language))
+                        }
 
+                    }
                 }
-                
                 
             }
             .onAppear {
