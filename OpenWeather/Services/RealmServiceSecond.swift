@@ -14,18 +14,22 @@ class RealmServiceSecond {
     
     func fetchAllFromDatabase(completion: @escaping ([City]) -> ()) {
         guard let dbRef = try? Realm() else { return }
-        let results = dbRef.objects(City.self).compactMap { city -> City? in
-            return city
-        }.sorted { $0.name < $1.name }
-        completion(results)
+        let results = dbRef.objects(City.self)
+        if !results.isInvalidated {
+            completion(results.compactMap { city -> City? in
+                return city
+            }.sorted { $0.name < $1.name })
+        } else {
+            completion([])
+        }
+        //completion(results)
     }
     
     func addCityToDatabase(city: City?) {
         guard let dbRef = try? Realm() else { return }
         guard let city = city else { return }
-        let currentCity = city
         try? dbRef.write {
-            dbRef.add(currentCity)
+            dbRef.add(city)
         }
     }
     
@@ -38,11 +42,9 @@ class RealmServiceSecond {
     
     func deleteAllDatabase() {
         guard let dbRef = try? Realm() else { return }
-        let objects = dbRef.objects(City.self)
-        objects.forEach { city in
+        //let objects = dbRef.objects(City.self)
         try? dbRef.write {
-            dbRef.delete(city)
-        }
+            dbRef.deleteAll()
         }
     }
 }

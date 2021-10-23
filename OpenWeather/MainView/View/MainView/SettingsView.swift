@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SettingsView: View {
     
-    @StateObject var viewModel = MainViewModel()
+    @ObservedObject var viewModel: MainViewModel
     @Environment(\.verticalSizeClass) var heightClass: UserInterfaceSizeClass?
     @Binding var showSettingsView: Bool
     @State private var showAlert: Bool = false
@@ -41,8 +41,8 @@ struct SettingsView: View {
                     if viewModel.cities.isEmpty {
                         showAlert.toggle()
                     } else {
-                        //viewModel.fetchAllFromDB()
                         viewModel.deleteAllFromDB()
+                        //viewModel.fetchAllFromDB()
                     }
                 } label: {
                         Text("delete".localized(viewModel.language))

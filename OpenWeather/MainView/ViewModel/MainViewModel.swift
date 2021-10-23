@@ -16,8 +16,6 @@ class MainViewModel: ObservableObject {
     let realmService = RealmServiceSecond.shared
     let networkService = NetworkService.shared
     
-    static let shared = MainViewModel()
-    
     @Published var currentCity: City? = nil
     @Published var showAddView: Bool = false
     @Published var showSetiingsView: Bool = false
@@ -35,7 +33,6 @@ class MainViewModel: ObservableObject {
     
     
     let timer = Timer.publish(every: 2, on: .main, in: .common).autoconnect()
-    let timerOneSecond = Timer.publish(every: 3, on: .main, in: .common).autoconnect()
     
     init() {
         fetchAllFromDB()
@@ -97,7 +94,6 @@ class MainViewModel: ObservableObject {
                 switch(item) {
                 case .success(let result):
                     self.city = self.getCityFromWelcome(welcome: result)
-                    print("okk")
                 case .failure(let error):
                     print(error.localizedDescription)
                 }

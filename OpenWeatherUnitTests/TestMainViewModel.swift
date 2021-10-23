@@ -6,11 +6,13 @@
 //
 
 import XCTest
+import Cuckoo
 @testable import OpenWeather
 
 class TestMainViewModel: XCTestCase {
 
     var sut: MainViewModel!
+    var session: URLSession!
     
     private func addCity(name: String) -> City {
         let city = City()
@@ -29,13 +31,16 @@ class TestMainViewModel: XCTestCase {
     
     override func setUp() {
         sut = MainViewModel()
+        let config = URLSessionConfiguration.ephemeral
+        config.protocolClasses = [MockURLProtocol.self]
+        session = URLSession(configuration: config)
         sut.addCityToDB(city: addCity(name: "Moscow"))
         sut.addCityToDB(city: addCity(name: "Paris"))
         sut.addCityToDB(city: addCity(name: "Yalolofo"))
     }
     
     override func tearDown() {
-        //sut.deleteAllFromDB()
+        sut.deleteAllFromDB()
         sut = nil
     }
     
@@ -47,26 +52,77 @@ class TestMainViewModel: XCTestCase {
         sut.deleteCityFromDB(city: sut.cities[0])
         sleep(2)
         XCTAssertTrue(sut.cities.isEmpty == false)
-        XCTAssertTrue(sut.cities.first?.name == "Paris")
+        XCTAssertTrue(sut.cities.first?.name != nil)
     }
     
-    func test_get_new_weather_for_all_cities() {
+    func test_get_new_weather_for_all_cities() throws {
+        
+        let service = NetworkService(session: session)
+        
+        let sampleData = [Welcome(weather: [Weather(main: "Clouds")],
+                                 main: Main(temp: 1,
+                                            feelsLike: 1,
+                                            tempMin: 1,
+                                            tempMax: 1,
+                                            pressure: 1,
+                                            humidity: 1),
+                                 sys: Sys(sunrise: 1,
+                                          sunset: 1),
+                                 name: "Moscow"),
+                          Welcome(weather: [Weather(main: "Clouds")],
+                                                   main: Main(temp: 1,
+                                                              feelsLike: 1,
+                                                              tempMin: 1,
+                                                              tempMax: 1,
+                                                              pressure: 1,
+                                                              humidity: 1),
+                                                   sys: Sys(sunrise: 1,
+                                                            sunset: 1),
+                                                   name: "Paris"),
+                          Welcome(weather: [Weather(main: "Clouds")],
+                                                   main: Main(temp: 1,
+                                                              feelsLike: 1,
+                                                              tempMin: 1,
+                                                              tempMax: 1,
+                                                              pressure: 1,
+                                                              humidity: 1),
+                                                   sys: Sys(sunrise: 1,
+                                                            sunset: 1),
+                                                   name: "Yalolofo")
+        ]
+        let mockData = try JSONEncoder().encode(sampleData)
+        //let error = NetworkError.badURL
+        MockURLProtocol.requestHandler = { request in
+            return (HTTPURLResponse(), mockData, nil)
+        }
+
+        print(sut.cities)
         sut.getNewWeatherForAllCities()
-        sleep(3)
+        
+//        sut.getNewWeatherForAllCities()
+//        sleep(3)
+        print(sut.cities.count)
         XCTAssertTrue(sut.cities.count == 3)
+        XCTAssertEqual(sut.cities[0].name, "Moscow")
+        XCTAssertEqual(sut.cities[1].name, "Paris")
+        XCTAssertEqual(sut.cities[2].name, "Yalolofo")
     }
     
-//    func test_get_current_weather() {
-////        sut.locationManager.location?.coordinate.latitude = 56.888
-////        sut.locationManager.location?.coordinate.longitude = 48.200
-//        sleep(5)
-//        Task {
-//            await sut.getCurrnetWeather()
-//        }
-//        sleep(3)
-//        print(sut.city?.name)
-//        XCTAssertTrue(sut.city?.name == nil)
-//    }
+    func test_get_city_from_welcome() {
+        let welcome = Welcome(weather: [Weather(main: "Clouds")],
+                              main: Main(temp: 1,
+                                         feelsLike: 1,
+                                         tempMin: 1,
+                                         tempMax: 1,
+                                         pressure: 1,
+                                         humidity: 1),
+                              sys: Sys(sunrise: 1,
+                                       sunset: 1),
+                              name: "Paris")
+        let city = sut.getCityFromWelcome(welcome: welcome)
+        XCTAssertTrue(city != nil)
+        XCTAssertEqual(city?.name, "Paris")
+    }
     
     func test_calculateFont() {
         let font1 = sut.calculateFont(heightClass: .regular, screenHeight: 650)

@@ -29,9 +29,7 @@ struct AddCityView: View {
                 Image(systemName: "magnifyingglass.circle.fill")
                     .font(.system(size: Constants.Fonts.attentionFont))
                 TextField("name".localized(viewModel.language), text: $viewModel.searcedCurrentCity, onEditingChanged: { _ in
-                    if !viewModel.searcedCurrentCity.isEmpty {
-                        viewModel.timerOneSecond.upstream.connect().cancel()
-                    }
+                    print("")
                 }, onCommit:  {
                     viewModel.addNewCityToDBBYName()
                     UIApplication.shared.endEditing()

@@ -7,13 +7,19 @@
 
 import Foundation
 
-enum NetworkError: Error {
+enum NetworkError: Error, Encodable {
     case badURL
 }
 
 class NetworkService {
     
     static let shared = NetworkService()
+    
+    private let session: URLSession
+    
+    init(session: URLSession = .shared) {
+        self.session = session
+    }
     
     //MARK: - Get data by city name
     func getData(cityName: String, completion: @escaping (Result<Welcome?, NetworkError>) -> ()) {
@@ -33,9 +39,9 @@ class NetworkService {
         }
     }
     
-    private func doTask(url: URL, completion: @escaping (Result<Welcome?, NetworkError>) -> ()) {
-        let task = URLSession.shared.dataTask(with: url) { data, response, error in
-            if (response as! HTTPURLResponse).statusCode == 200 || error != nil {
+    internal func doTask(url: URL, completion: @escaping (Result<Welcome?, NetworkError>) -> ()) {
+        let task = session.dataTask(with: url) { data, response, error in
+            if error == nil {
                 guard let data = data else { return }
                 if let json = try? JSONDecoder().decode(Welcome.self, from: data) {
                     DispatchQueue.main.async {

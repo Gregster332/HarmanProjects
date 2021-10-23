@@ -50,7 +50,7 @@ struct MainView: View {
                     Text("no_internet".localized(viewModel.language))
                 }
                 
-               
+                if searchResults.count != 0 {
                 ForEach(searchResults.indices, id: \.self) { index in
                     Button {
                         viewModel.currentCity = searchResults[index]
@@ -79,7 +79,7 @@ struct MainView: View {
                             ProgressView().progressViewStyle(CircularProgressViewStyle())
                         }
                     }
-                    .accessibilityIdentifier("\(viewModel.cities[index].name)")
+                    .accessibilityIdentifier("\(searchResults[index].name)")
                     .buttonStyle(PlainButtonStyle())
                     .swipeActions {
                         Button {
@@ -90,7 +90,26 @@ struct MainView: View {
                         } label: {
                             Text("delete".localized(viewModel.language))
                         }
+                    }
+                }
+                } else {
+                    HStack {
+                        Text("Do you wnat to add \(viewModel.searchItem) at database?")
+                        Button {
+                            viewModel.networkService.getData(cityName: viewModel.searchItem) { result in
+                                switch(result) {
+                                case .success(let item):
+                                    viewModel.addCityToDB(city: viewModel.getCityFromWelcome(welcome: item))
+                                    //viewModel.fetchAllFromDB()
+                                case .failure(let error):
+                                    print(error.localizedDescription)
+                                }
+                            }
+                        } label: {
+                            Text("add")
+                        }
 
+                        
                     }
                 }
                 
@@ -106,9 +125,6 @@ struct MainView: View {
                     viewModel.fetchAllFromDB()
                 }
             }
-            .onReceive(viewModel.timerOneSecond, perform: { _ in
-                viewModel.fetchAllFromDB()
-            })
             .accessibilityIdentifier("list")
             .searchable(text: $viewModel.searchItem)
             .refreshable {
@@ -175,11 +191,9 @@ struct MainView: View {
         .overlay(AttentionView(showAttentionLabel: $viewModel.showAttentionLabel, isThisNoInternetAttentionView: $viewModel.isThisNoInternetAttentionView)
                     .offset(y: viewModel.showAttentionLabel ? Constants.Offsets.zeroOffset : Constants.Offsets.viewOffset)
                  )
-        .overlay(SettingsView(showSettingsView: $viewModel.showSetiingsView)
+        .overlay(SettingsView(viewModel: viewModel, showSettingsView: $viewModel.showSetiingsView)
                     .offset(y: viewModel.showSetiingsView ? Constants.Offsets.zeroOffset : Constants.Offsets.viewOffset)
         )
-        
-        
     }
 }
 
