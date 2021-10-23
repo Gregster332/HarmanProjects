@@ -93,24 +93,7 @@ struct MainView: View {
                     }
                 }
                 } else {
-                    HStack {
-                        Text("Do you wnat to add \(viewModel.searchItem) at database?")
-                        Button {
-                            viewModel.networkService.getData(cityName: viewModel.searchItem) { result in
-                                switch(result) {
-                                case .success(let item):
-                                    viewModel.addCityToDB(city: viewModel.getCityFromWelcome(welcome: item))
-                                    //viewModel.fetchAllFromDB()
-                                case .failure(let error):
-                                    print(error.localizedDescription)
-                                }
-                            }
-                        } label: {
-                            Text("add")
-                        }
-
-                        
-                    }
+                    SearchedCity(viewModel: viewModel)
                 }
                 
             }
