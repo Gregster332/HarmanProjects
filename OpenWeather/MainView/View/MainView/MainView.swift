@@ -50,7 +50,7 @@ struct MainView: View {
                     Text("no_internet".localized(viewModel.language))
                 }
                 
-                if searchResults.count != 0 {
+                if searchResults.count != 0 || viewModel.searchItem.isEmpty {
                 ForEach(searchResults.indices, id: \.self) { index in
                     Button {
                         viewModel.currentCity = searchResults[index]

@@ -14,29 +14,42 @@ struct SearchedCity: View {
     
     var body: some View {
         HStack {
-            Text("Do you want to add \(viewModel.searchItem) at database?")
+            Text("do_you_want_to_add".localized(viewModel.language))
                 .font(.system(size: viewModel.calculateFont(heightClass: heightClass,
                                                             screenHeight: UIScreen.main.bounds.height)))
             
+            Spacer()
+            
             Button {
-                viewModel.networkService.getData(cityName: viewModel.searchItem) { result in
-                    switch(result) {
-                    case .success(let item):
-                        viewModel.addCityToDB(city: viewModel.getCityFromWelcome(welcome: item))
-                    case .failure(let error):
-                        print(error.localizedDescription)
+                if viewModel.checkSymbols(str: viewModel.searchItem) && Reachability.isConnectedToNetwork() {
+                    viewModel.networkService.getData(cityName: viewModel.searchItem) { result in
+                        switch(result) {
+                        case .success(let item):
+                            viewModel.addCityToDB(city: viewModel.getCityFromWelcome(welcome: item))
+                        case .failure(let error):
+                            print(error.localizedDescription)
+                        }
                     }
+                } else {
+                    viewModel.showingAlert.toggle()
                 }
             } label: {
-                Text("Add")
-                    .font(.system(size: viewModel.calculateFont(heightClass: heightClass,
-                                                                screenHeight: UIScreen.main.bounds.height)))
-                    .frame(width: 60, height: 30)
-                    .background(Color.red)
-                    .cornerRadius(20)
+                ZStack {
+                    Circle()
+                        .frame(width: Constants.Widths.searchedCityViewWidth,
+                               height: Constants.Heights.searchedCityViewHeight)
+                        .foregroundColor(.red)
+                    Image(systemName: "plus")
+                }
+            }
+            .alert(isPresented: $viewModel.showingAlert) {
+                Alert(title: Text("something_wrong".localized(viewModel.language)), message: Text(Reachability.isConnectedToNetwork() ? "enter_in_english".localized(viewModel.language) : "no_internet".localized(viewModel.language)), dismissButton: .some(.cancel(Text("OK"), action: {
+                    viewModel.showingAlert = false
+                })))
             }
 
         }
+        .padding()
     }
 }
 

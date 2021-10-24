@@ -304,7 +304,7 @@ class MainViewModel: ObservableObject {
         }
     }
     
-    private func checkSymbols(str: String) -> Bool {
+    internal func checkSymbols(str: String) -> Bool {
         if str == "" || str == " " {
             return false
         }

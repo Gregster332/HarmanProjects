@@ -52,4 +52,5 @@
 "tornado" = "Tornado";
 "snow" = "Snow";
 "rain" = "Rain";
-
+"do_you_want_to_add" = "Do you want to add new city?";
+"add" = "Add";

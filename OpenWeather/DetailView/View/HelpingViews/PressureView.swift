@@ -59,7 +59,7 @@ struct PressureView: View {
                             .frame(width: rectangleWidth)
                         
                     }
-                    Text("\(index)")
+                    Text("\(index)hPa")
                 }
                 
                 Text("1050")

@@ -83,6 +83,7 @@ class Constants {
         static public let addCityViewWidth: CGFloat = 300
         static public let tempViewWidth: CGFloat = 150
         static public let tempViewWidth2: CGFloat = 165
+        static public let searchedCityViewWidth: CGFloat = 50
     }
     
     class Heights {
@@ -98,6 +99,7 @@ class Constants {
         static public let fragmentViewHeight: CGFloat = 140
         static public let tempViewHeight: CGFloat = 150
         static public let tempViewHeight2: CGFloat = 165
+        static public let searchedCityViewHeight: CGFloat = 50
     }
     
     class Spacings {
