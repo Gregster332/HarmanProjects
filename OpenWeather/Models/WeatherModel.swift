@@ -8,6 +8,7 @@
 import Foundation
 
 struct Welcome: Codable {
+    let coord: Coord
     let weather: [Weather]
     let main: Main
     let sys: Sys
@@ -31,6 +32,10 @@ struct Main: Codable {
 // MARK: - Sys
 struct Sys: Codable {
     let sunrise, sunset: Int
+}
+
+struct Coord: Codable {
+    let lon, lat: Double
 }
 
 // MARK: - Weather

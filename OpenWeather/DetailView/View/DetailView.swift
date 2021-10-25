@@ -89,6 +89,7 @@ struct DetailView: View {
                                  index: "\(Date(timeIntervalSince1970: TimeInterval(weatherDetails!.sunset)).timeIn24HourFormat())",
                                  imageName: PicturesNames.sunsetFill.rawValue,
                                  metric: Metrics.empty.rawValue)
+                    LocationView(lat: weatherDetails!.lat, lon: weatherDetails!.lon)
                 }
             }
             .padding()

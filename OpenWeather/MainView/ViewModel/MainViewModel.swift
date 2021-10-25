@@ -114,6 +114,8 @@ class MainViewModel: ObservableObject {
         city.temp = welcome.main.temp
         city.tempMax = welcome.main.tempMax
         city.tempMin = welcome.main.tempMin
+        city.lat = welcome.coord.lat
+        city.lon = welcome.coord.lon
         return city
     }
     
