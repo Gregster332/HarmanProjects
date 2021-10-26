@@ -21,7 +21,6 @@ class TestDetailViewModel: XCTestCase {
     
     override func tearDown() {
         sut = nil
-        //RealmServiceSecond.shared.deleteAllDatabase()
     }
     
     func test_DetailViewModel_calculateWidth() {
