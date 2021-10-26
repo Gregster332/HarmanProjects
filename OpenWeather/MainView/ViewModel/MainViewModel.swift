@@ -13,8 +13,8 @@ import MapKit
 
 class MainViewModel: ObservableObject {
     let locationManager = LocationManager.shared
-    let realmService = RealmServiceSecond.shared
-    let networkService = NetworkService.shared
+    let realmService: RealmServiceSecond
+    let networkService: NetworkService
     
     @Published var currentCity: City? = nil
     @Published var showAddView: Bool = false
@@ -34,7 +34,9 @@ class MainViewModel: ObservableObject {
     
     let timer = Timer.publish(every: 2, on: .main, in: .common).autoconnect()
     
-    init() {
+    init(realm: RealmServiceSecond = .shared, service: NetworkService = .shared) {
+        self.realmService = realm
+        self.networkService = service
         fetchAllFromDB()
     }
     
@@ -89,7 +91,7 @@ class MainViewModel: ObservableObject {
     
     internal func getCurrnetWeather() async {
         let coordinate = self.locationManager.location != nil ? self.locationManager.location?.coordinate : CLLocationCoordinate2D()
-        DispatchQueue.main.async {
+        //DispatchQueue.main.async {
             self.networkService.getDataByCoordinates(lat: coordinate?.latitude ?? 0, lon: coordinate?.longitude ?? 0) { item in
                 switch(item) {
                 case .success(let result):
@@ -98,7 +100,7 @@ class MainViewModel: ObservableObject {
                     print(error.localizedDescription)
                 }
             }
-        }
+        //}
     }
 
     internal func getCityFromWelcome(welcome: Welcome?) -> City? {

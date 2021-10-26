@@ -8,11 +8,13 @@
 import XCTest
 import Cuckoo
 @testable import OpenWeather
+import CoreLocation
 
 class TestMainViewModel: XCTestCase {
 
     var sut: MainViewModel!
     var session: URLSession!
+    
     
     private func addCity(name: String) -> City {
         let city = City()
@@ -29,19 +31,66 @@ class TestMainViewModel: XCTestCase {
         return city
     }
     
+    
     override func setUp() {
         sut = MainViewModel()
-        let config = URLSessionConfiguration.ephemeral
-        config.protocolClasses = [MockURLProtocol.self]
-        session = URLSession(configuration: config)
         sut.addCityToDB(city: addCity(name: "Moscow"))
         sut.addCityToDB(city: addCity(name: "Paris"))
         sut.addCityToDB(city: addCity(name: "Yalolofo"))
     }
+//    override func setUp() {
+//        sut = MainViewModel()
+////        let config = URLSessionConfiguration.ephemeral
+////        config.protocolClasses = [MockURLProtocol.self]
+////        session = URLSession(configuration: config)
+//
+//
+//
+//        sut.addCityToDB(city: addCity(name: "Moscow"))
+//        sut.addCityToDB(city: addCity(name: "Paris"))
+//        sut.addCityToDB(city: addCity(name: "Yalolofo"))
+//    }
     
     override func tearDown() {
-        sut.deleteAllFromDB()
+    
+        //sut.deleteAllFromDB()
         sut = nil
+    }
+    
+    func test_get_current_weather() async {
+        var isGetCurrentWeatherVisited = false
+        let mockData = Welcome(coord: Coord(lon: 0, lat: 0), weather: [Weather(main: "Clouds")],
+                               main: Main(temp: 2000,
+                                          feelsLike: 1,
+                                          tempMin: 1,
+                                          tempMax: 1,
+                                          pressure: 1,
+                                          humidity: 1),
+                               sys: Sys(sunrise: 1,
+                                        sunset: 1),
+                         name: "Moscow")
+        
+        let sMock = MockNetworkService()
+        let rMock = MockRealmServiceSecond()
+        sMock.enableDefaultImplementation(NetworkService())
+        rMock.enableDefaultImplementation(RealmServiceSecond())
+        
+        stub(sMock) { stub in
+            stub.getDataByCoordinates(lat: any(), lon: any(), completion: anyClosure()).then { (_, _, completions) in
+                isGetCurrentWeatherVisited = true
+                completions(.success(mockData))
+                isGetCurrentWeatherVisited.toggle()
+                completions(.failure(NetworkError.badURL))
+                verify(sMock, times(1)).getDataByCoordinates(lat: any(), lon: any(), completion: anyClosure())
+                XCTAssertTrue(!isGetCurrentWeatherVisited)
+            }
+        }
+
+        sut = MainViewModel(realm: rMock, service: sMock)
+        Task {
+        await sut.getCurrnetWeather()
+        }
+        
     }
     
     func test_add_city_to_db() {
@@ -55,61 +104,89 @@ class TestMainViewModel: XCTestCase {
         XCTAssertTrue(sut.cities.first?.name != nil)
     }
     
+    func test_z_delete_all_db() {
+        sut.deleteAllFromDB()
+        sleep(2)
+        XCTAssertTrue(sut.cities.isEmpty)
+    }
+    
     func test_get_new_weather_for_all_cities() throws {
         
-        let service = NetworkService(session: session)
+        var isGetDataVisited = false
+        let mockData = Welcome(coord: Coord(lon: 0, lat: 0), weather: [Weather(main: "Clouds")],
+                               main: Main(temp: 2000,
+                                          feelsLike: 1,
+                                          tempMin: 1,
+                                          tempMax: 1,
+                                          pressure: 1,
+                                          humidity: 1),
+                               sys: Sys(sunrise: 1,
+                                        sunset: 1),
+                         name: "Moscow")
         
-        let sampleData = [Welcome(weather: [Weather(main: "Clouds")],
-                                 main: Main(temp: 1,
-                                            feelsLike: 1,
-                                            tempMin: 1,
-                                            tempMax: 1,
-                                            pressure: 1,
-                                            humidity: 1),
-                                 sys: Sys(sunrise: 1,
-                                          sunset: 1),
-                                 name: "Moscow"),
-                          Welcome(weather: [Weather(main: "Clouds")],
-                                                   main: Main(temp: 1,
-                                                              feelsLike: 1,
-                                                              tempMin: 1,
-                                                              tempMax: 1,
-                                                              pressure: 1,
-                                                              humidity: 1),
-                                                   sys: Sys(sunrise: 1,
-                                                            sunset: 1),
-                                                   name: "Paris"),
-                          Welcome(weather: [Weather(main: "Clouds")],
-                                                   main: Main(temp: 1,
-                                                              feelsLike: 1,
-                                                              tempMin: 1,
-                                                              tempMax: 1,
-                                                              pressure: 1,
-                                                              humidity: 1),
-                                                   sys: Sys(sunrise: 1,
-                                                            sunset: 1),
-                                                   name: "Yalolofo")
-        ]
-        let mockData = try JSONEncoder().encode(sampleData)
-        //let error = NetworkError.badURL
-        MockURLProtocol.requestHandler = { request in
-            return (HTTPURLResponse(), mockData, nil)
+        let rMock = MockRealmServiceSecond()
+        let sMock = MockNetworkService()
+        
+        sMock.enableDefaultImplementation(NetworkService())
+        rMock.enableDefaultImplementation(RealmServiceSecond())
+        
+        stub(sMock) { stub in
+            stub.getData(cityName: anyString(), completion: anyClosure()).then { (_, completions) in
+                isGetDataVisited.toggle()
+                completions(.success(mockData))
+                isGetDataVisited.toggle()
+                completions(.failure(NetworkError.badURL))
+            }
         }
-
-        print(sut.cities)
+        sut = MainViewModel(realm: rMock, service: sMock)
         sut.getNewWeatherForAllCities()
         
-//        sut.getNewWeatherForAllCities()
-//        sleep(3)
-        print(sut.cities.count)
-        XCTAssertTrue(sut.cities.count == 3)
-        XCTAssertEqual(sut.cities[0].name, "Moscow")
-        XCTAssertEqual(sut.cities[1].name, "Paris")
-        XCTAssertEqual(sut.cities[2].name, "Yalolofo")
+        XCTAssertTrue(!isGetDataVisited)
+    }
+    
+    
+    
+    
+    func test_add_new_city_to_db_by_name() {
+        var flag = false
+        let mockData = Welcome(coord: Coord(lon: 0, lat: 0), weather: [Weather(main: "Clouds")],
+                               main: Main(temp: 2000,
+                                          feelsLike: 1,
+                                          tempMin: 1,
+                                          tempMax: 1,
+                                          pressure: 1,
+                                          humidity: 1),
+                               sys: Sys(sunrise: 1,
+                                        sunset: 1),
+                         name: "Moscow")
+        
+        let sMock = MockNetworkService()
+        let rMock = MockRealmServiceSecond()
+        
+        sMock.enableDefaultImplementation(NetworkService())
+        rMock.enableDefaultImplementation(RealmServiceSecond())
+        
+        
+        
+        stub(sMock) { stub in
+            stub.getData(cityName: anyString(), completion: anyClosure()).then { (_, completions) in
+                flag.toggle()
+                completions(.success(mockData))
+                flag.toggle()
+                completions(.failure(NetworkError.badURL))
+            }
+        }
+        
+        sut = MainViewModel(realm: rMock, service: sMock)
+        sut.searcedCurrentCity = "Moscow"
+        sut.addNewCityToDBBYName()
+        
+        XCTAssertTrue(!flag)
+        
     }
     
     func test_get_city_from_welcome() {
-        let welcome = Welcome(weather: [Weather(main: "Clouds")],
+        let welcome = Welcome(coord: Coord(lon: 0, lat: 0), weather: [Weather(main: "Clouds")],
                               main: Main(temp: 1,
                                          feelsLike: 1,
                                          tempMin: 1,
@@ -260,31 +337,31 @@ class TestMainViewModel: XCTestCase {
         XCTAssertTrue(color != sut.color)
     }
     
-    func test_add_new_city_to_db_by_name() {
-        sut.searcedCurrentCity = "Atlanta"
-        sut.addNewCityToDBBYName()
-        sleep(3)
-        XCTAssertTrue(sut.cities.count > 0)
-        XCTAssertTrue(sut.cities.first?.name != nil)
-        XCTAssertTrue(sut.searcedCurrentCity == "")
-        XCTAssertTrue(sut.showAddView == true)
-    }
+//    func test_add_new_city_to_db_by_name() {
+//        sut.searcedCurrentCity = "Atlanta"
+//        sut.addNewCityToDBBYName()
+//        sleep(3)
+//        XCTAssertTrue(sut.cities.count > 0)
+//        XCTAssertTrue(sut.cities.first?.name != nil)
+//        XCTAssertTrue(sut.searcedCurrentCity == "")
+//        XCTAssertTrue(sut.showAddView == true)
+//    }
     
-    func test_add_new_city_to_db_by_name_with_failure() {
-        sut.searcedCurrentCity = "Atlantatata"
-        sut.addNewCityToDBBYName()
-        sleep(3)
-        XCTAssertTrue(sut.cities.count > 0)
-        XCTAssertTrue(sut.cities.first?.name != nil)
-        XCTAssertTrue(sut.searcedCurrentCity == "")
-        XCTAssertTrue(sut.showAddView == true)
-    }
-    
-    func test_add_new_city_to_db_by_name_with_wrong_name() {
-        sut.searcedCurrentCity = "Atl@nt@"
-        sut.addNewCityToDBBYName()
-        sleep(3)
-        XCTAssertTrue(sut.showingAlert == true)
-        XCTAssertTrue(sut.searcedCurrentCity == "")
-    }
+//    func test_add_new_city_to_db_by_name_with_failure() {
+//        sut.searcedCurrentCity = "Atlantatata"
+//        sut.addNewCityToDBBYName()
+//        sleep(3)
+//        XCTAssertTrue(sut.cities.count > 0)
+//        XCTAssertTrue(sut.cities.first?.name != nil)
+//        XCTAssertTrue(sut.searcedCurrentCity == "")
+//        XCTAssertTrue(sut.showAddView == true)
+//    }
+//
+//    func test_add_new_city_to_db_by_name_with_wrong_name() {
+//        sut.searcedCurrentCity = "Atl@nt@"
+//        sut.addNewCityToDBBYName()
+//        sleep(3)
+//        XCTAssertTrue(sut.showingAlert == true)
+//        XCTAssertTrue(sut.searcedCurrentCity == "")
+//    }
 }

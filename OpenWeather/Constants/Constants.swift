@@ -130,4 +130,9 @@ class Constants {
     class Dashes {
         static public let tempViewDash: CGFloat = 3
     }
+    
+    class CoordinateSpans {
+        static public let latDelta = 0.2
+        static public let lonDelta = 0.2
+    }
 }

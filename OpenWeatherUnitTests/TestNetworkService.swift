@@ -73,7 +73,7 @@ class TestNetworkService: XCTestCase {
         
         let service = NetworkService(session: session)
         
-        let sampleData = Welcome(weather: [Weather(main: "Clouds")],
+        let sampleData = Welcome(coord: Coord(lon: 0, lat: 0), weather: [Weather(main: "Clouds")],
                                  main: Main(temp: 1,
                                             feelsLike: 1,
                                             tempMin: 1,
@@ -109,7 +109,7 @@ class TestNetworkService: XCTestCase {
     func test_get_data_by_coordinates() throws {
         let service = NetworkService(session: session)
         
-        let sampleData = Welcome(weather: [Weather(main: "Clouds")],
+        let sampleData = Welcome(coord: Coord(lon: 0, lat: 0), weather: [Weather(main: "Clouds")],
                                  main: Main(temp: 1,
                                             feelsLike: 1,
                                             tempMin: 1,
