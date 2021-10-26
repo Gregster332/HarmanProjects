@@ -38,22 +38,8 @@ class TestMainViewModel: XCTestCase {
         sut.addCityToDB(city: addCity(name: "Paris"))
         sut.addCityToDB(city: addCity(name: "Yalolofo"))
     }
-//    override func setUp() {
-//        sut = MainViewModel()
-////        let config = URLSessionConfiguration.ephemeral
-////        config.protocolClasses = [MockURLProtocol.self]
-////        session = URLSession(configuration: config)
-//
-//
-//
-//        sut.addCityToDB(city: addCity(name: "Moscow"))
-//        sut.addCityToDB(city: addCity(name: "Paris"))
-//        sut.addCityToDB(city: addCity(name: "Yalolofo"))
-//    }
     
     override func tearDown() {
-    
-        //sut.deleteAllFromDB()
         sut = nil
     }
     
@@ -336,32 +322,4 @@ class TestMainViewModel: XCTestCase {
         }
         XCTAssertTrue(color != sut.color)
     }
-    
-//    func test_add_new_city_to_db_by_name() {
-//        sut.searcedCurrentCity = "Atlanta"
-//        sut.addNewCityToDBBYName()
-//        sleep(3)
-//        XCTAssertTrue(sut.cities.count > 0)
-//        XCTAssertTrue(sut.cities.first?.name != nil)
-//        XCTAssertTrue(sut.searcedCurrentCity == "")
-//        XCTAssertTrue(sut.showAddView == true)
-//    }
-    
-//    func test_add_new_city_to_db_by_name_with_failure() {
-//        sut.searcedCurrentCity = "Atlantatata"
-//        sut.addNewCityToDBBYName()
-//        sleep(3)
-//        XCTAssertTrue(sut.cities.count > 0)
-//        XCTAssertTrue(sut.cities.first?.name != nil)
-//        XCTAssertTrue(sut.searcedCurrentCity == "")
-//        XCTAssertTrue(sut.showAddView == true)
-//    }
-//
-//    func test_add_new_city_to_db_by_name_with_wrong_name() {
-//        sut.searcedCurrentCity = "Atl@nt@"
-//        sut.addNewCityToDBBYName()
-//        sleep(3)
-//        XCTAssertTrue(sut.showingAlert == true)
-//        XCTAssertTrue(sut.searcedCurrentCity == "")
-//    }
 }
