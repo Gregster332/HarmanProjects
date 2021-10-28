@@ -54,8 +54,6 @@ class MainViewModel: ObservableObject {
         }
     }
     
-    
-    
     internal func deleteCityFromDB(city: City) {
         realmService.deleteCityFromDataBase(city: city)
         realmService.fetchAllFromDatabase { result in
@@ -70,18 +68,24 @@ class MainViewModel: ObservableObject {
         }
     }
     
+    private func updateItem(cityForDelete: City, cityForAdd: City) {
+        realmService.updateItem(cityForDelete: cityForDelete, cityToAdd: cityForAdd)
+        realmService.fetchAllFromDatabase { result in
+            self.cities = result
+        }
+    }
+    
     internal func getNewWeatherForAllCities() {
-        self.cities.forEach { city in
-            networkService.getData(cityName: city.name) { result in
-                switch(result) {
-                case .success(let item):
-                    guard let item = item else { return }
-                    self.deleteCityFromDB(city: city)
-                    self.addCityToDB(city: self.getCityFromWelcome(welcome: item))
-                case .failure(let error):
-                    print(error.localizedDescription)
+            self.cities.forEach { city in
+                self.networkService.getData(cityName: city.name) { result in
+                    switch(result) {
+                    case .success(let item):
+                        guard let item = item else { return }
+                        self.updateItem(cityForDelete: city, cityForAdd: self.getCityFromWelcome(welcome: item)!)
+                    case .failure(let error):
+                        print(error.localizedDescription)
+                    }
                 }
-            }
         }
         realmService.fetchAllFromDatabase { results in
             self.cities = results
@@ -91,7 +95,6 @@ class MainViewModel: ObservableObject {
     
     internal func getCurrnetWeather() async {
         let coordinate = self.locationManager.location != nil ? self.locationManager.location?.coordinate : CLLocationCoordinate2D()
-        //DispatchQueue.main.async {
             self.networkService.getDataByCoordinates(lat: coordinate?.latitude ?? 0, lon: coordinate?.longitude ?? 0) { item in
                 switch(item) {
                 case .success(let result):
@@ -100,7 +103,6 @@ class MainViewModel: ObservableObject {
                     print(error.localizedDescription)
                 }
             }
-        //}
     }
 
     internal func getCityFromWelcome(welcome: Welcome?) -> City? {
@@ -279,13 +281,13 @@ class MainViewModel: ObservableObject {
     }
     
     internal func changeLanguage(to lang: Language) {
-        self.language = lang
-        LocalizationService.shared.language = lang
+            self.language = lang
+            LocalizationService.shared.language = lang
     }
     
     internal func changeColor(to col: Colors) {
-        self.color = col
-        ColorChangeService.shared.color = col
+            self.color = col
+            ColorChangeService.shared.color = col
     }
     
     internal func addNewCityToDBBYName() {

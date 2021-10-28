@@ -13,8 +13,6 @@ import CoreLocation
 class TestMainViewModel: XCTestCase {
 
     var sut: MainViewModel!
-    var session: URLSession!
-    
     
     private func addCity(name: String) -> City {
         let city = City()
@@ -34,9 +32,6 @@ class TestMainViewModel: XCTestCase {
     
     override func setUp() {
         sut = MainViewModel()
-        sut.addCityToDB(city: addCity(name: "Moscow"))
-        sut.addCityToDB(city: addCity(name: "Paris"))
-        sut.addCityToDB(city: addCity(name: "Yalolofo"))
     }
     
     override func tearDown() {
@@ -54,12 +49,9 @@ class TestMainViewModel: XCTestCase {
                                           humidity: 1),
                                sys: Sys(sunrise: 1,
                                         sunset: 1),
-                         name: "Moscow")
+                         name: "A")
         
         let sMock = MockNetworkService()
-        let rMock = MockRealmServiceSecond()
-        sMock.enableDefaultImplementation(NetworkService())
-        rMock.enableDefaultImplementation(RealmServiceSecond())
         
         stub(sMock) { stub in
             stub.getDataByCoordinates(lat: any(), lon: any(), completion: anyClosure()).then { (_, _, completions) in
@@ -72,28 +64,59 @@ class TestMainViewModel: XCTestCase {
             }
         }
 
-        sut = MainViewModel(realm: rMock, service: sMock)
-        Task {
+        sut = MainViewModel(service: sMock)
+        Task(priority: .high) {
         await sut.getCurrnetWeather()
         }
         
     }
     
     func test_add_city_to_db() {
-        XCTAssertTrue(sut.cities.isEmpty == false)
+        var flag = false
+        let rMock = MockRealmServiceSecond()
+        rMock.enableDefaultImplementation(RealmServiceSecond())
+        
+        stub(rMock) { stub in
+            stub.addCityToDatabase(city: any()).then { (_) in
+                flag = true
+                XCTAssertTrue(flag)
+            }
+        }
+        
+        sut = MainViewModel(realm: rMock)
+        sut.addCityToDB(city: addCity(name: "NONE"))
     }
     
     func test_delete_city_from_db() {
-        sut.deleteCityFromDB(city: sut.cities[0])
-        sleep(2)
-        XCTAssertTrue(sut.cities.isEmpty == false)
-        XCTAssertTrue(sut.cities.first?.name != nil)
+        var flag = false
+        let rMock = MockRealmServiceSecond()
+        rMock.enableDefaultImplementation(RealmServiceSecond())
+        
+        stub(rMock) { stub in
+            stub.deleteCityFromDataBase(city: any()).then { (_) in
+                flag = true
+                XCTAssertTrue(flag)
+            }
+        }
+        
+        sut = MainViewModel(realm: rMock)
+        sut.deleteCityFromDB(city: City())
     }
     
-    func test_z_delete_all_db() {
+    func test_delete_all_db() {
+        var flag = false
+        let rMock = MockRealmServiceSecond()
+        rMock.enableDefaultImplementation(RealmServiceSecond())
+        
+        stub(rMock) { stub in
+            stub.deleteAllDatabase().then { () in
+                flag = true
+                XCTAssertTrue(flag)
+            }
+        }
+        
+        sut = MainViewModel(realm: rMock)
         sut.deleteAllFromDB()
-        sleep(2)
-        XCTAssertTrue(sut.cities.isEmpty)
     }
     
     func test_get_new_weather_for_all_cities() throws {

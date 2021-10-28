@@ -22,7 +22,6 @@ class RealmServiceSecond {
         } else {
             completion([])
         }
-        //completion(results)
     }
     
     func addCityToDatabase(city: City?) {
@@ -42,9 +41,14 @@ class RealmServiceSecond {
     
     func deleteAllDatabase() {
         guard let dbRef = try? Realm() else { return }
-        //let objects = dbRef.objects(City.self)
         try? dbRef.write {
             dbRef.deleteAll()
         }
     }
+    
+    func updateItem(cityForDelete: City, cityToAdd: City) {
+        deleteCityFromDataBase(city: cityForDelete)
+        addCityToDatabase(city: cityToAdd)
+    }
+    
 }

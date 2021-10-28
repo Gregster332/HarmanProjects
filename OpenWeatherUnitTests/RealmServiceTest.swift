@@ -83,5 +83,19 @@ class RealmServiceTest: XCTestCase {
         }
         XCTAssertTrue(array.isEmpty)
     }
+    
+    func test_update_item() {
+        var array = [City]()
+        sut.fetchAllFromDatabase { res in
+            array = res
+        }
+        sut.updateItem(cityForDelete: array.first!, cityToAdd: addCity(name: "Ufa"))
+        array.removeAll()
+        sut.fetchAllFromDatabase { res in
+            array = res
+        }
+        XCTAssertTrue(array.count == 2)
+        XCTAssertEqual(array[1].name, "Ufa")
+    }
 }
 

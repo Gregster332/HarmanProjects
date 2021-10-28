@@ -25,7 +25,7 @@ class NetworkService {
     func getData(cityName: String, completion: @escaping (Result<Welcome?, NetworkError>) -> ()) {
         let urlString = "\(Constants.URLS.baseUrl)q=\(cityName)&appid=\(Constants.ApiKeys.apiKey)"
         guard let url = URL(string: urlString) else { return }
-        doTask(url: url) { result in
+        doNetworkGETTask(url: url) { result in
             completion(result)
         }
     }
@@ -34,13 +34,14 @@ class NetworkService {
     func getDataByCoordinates(lat: Double, lon: Double, completion: @escaping (Result<Welcome?, NetworkError>) -> ()) {
         let urlString = "\(Constants.URLS.baseUrl)lat=\(lat)&lon=\(lon)&appid=\(Constants.ApiKeys.apiKey)"
         guard let url = URL(string: urlString) else { return }
-        doTask(url: url) { result in
+        doNetworkGETTask(url: url) { result in
             completion(result)
         }
     }
     
-    internal func doTask(url: URL, completion: @escaping (Result<Welcome?, NetworkError>) -> ()) {
-        let task = session.dataTask(with: url) { data, response, error in
+    internal func doNetworkGETTask(url: URL, completion: @escaping (Result<Welcome?, NetworkError>) -> ()) {
+        DispatchQueue.main.async {
+            let task = self.session.dataTask(with: url) { data, response, error in
             if error == nil {
                 guard let data = data else { return }
                 if let json = try? JSONDecoder().decode(Welcome.self, from: data) {
@@ -55,6 +56,7 @@ class NetworkService {
             }
         }
         task.resume()
+        }
     }
     
 }

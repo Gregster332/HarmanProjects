@@ -61,7 +61,7 @@ class Constants {
     }
     
     class AsyncSeconds {
-        static public let asyncHalfSecond = 0.5
+        static public let asyncHalfSecond: Double = 1.0
         static public let asyncSecond = 1.0
         static public let asyncTwoSecond = 2.0
     }

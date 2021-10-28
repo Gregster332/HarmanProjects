@@ -22,17 +22,21 @@ struct SearchedCity: View {
             
             Button {
                 if viewModel.checkSymbols(str: viewModel.searchItem) && Reachability.isConnectedToNetwork() {
-                    viewModel.networkService.getData(cityName: viewModel.searchItem) { result in
-                        switch(result) {
-                        case .success(let item):
-                            viewModel.addCityToDB(city: viewModel.getCityFromWelcome(welcome: item))
-                        case .failure(let error):
-                            print(error.localizedDescription)
+                    DispatchQueue.main.async {
+                        viewModel.networkService.getData(cityName: viewModel.searchItem) { result in
+                            switch(result) {
+                            case .success(let item):
+                                viewModel.addCityToDB(city: viewModel.getCityFromWelcome(welcome: item))
+                            case .failure(let error):
+                                print(error.localizedDescription)
+                            }
                         }
+                        viewModel.searchItem = ""
                     }
                 } else {
                     viewModel.showingAlert.toggle()
                 }
+                
             } label: {
                 ZStack {
                     Circle()

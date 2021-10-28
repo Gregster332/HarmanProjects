@@ -42,7 +42,6 @@ struct SettingsView: View {
                         showAlert.toggle()
                     } else {
                         viewModel.deleteAllFromDB()
-                        //viewModel.fetchAllFromDB()
                     }
                 } label: {
                         Text("delete".localized(viewModel.language))

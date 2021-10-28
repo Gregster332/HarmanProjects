@@ -22,9 +22,11 @@ struct LocationView: View {
             span: MKCoordinateSpan(latitudeDelta: Constants.CoordinateSpans.latDelta,           longitudeDelta: Constants.CoordinateSpans.lonDelta)
         )
     
+    @State var loc = CLLocationCoordinate2D(latitude: 0, longitude: 0)
+    
     
     var body: some View {
-        Map(coordinateRegion: $region)
+        MapView(center: $loc)
             .padding()
             .frame(width: viewModel.calculateWidth(heightClass: heightClass, screenHeight: UIScreen.main.bounds.height),
                    height: Constants.Heights.settingsViewHeight3)
@@ -33,6 +35,8 @@ struct LocationView: View {
             .onAppear {
                 region.center.latitude = lat
                 region.center.longitude = lon
+                loc.latitude = lat
+                loc.longitude = lon
             }
     }
 }
