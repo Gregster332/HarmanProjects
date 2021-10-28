@@ -51,8 +51,3 @@ struct TempView: View {
     }
 }
 
-struct TempView_Previews: PreviewProvider {
-    static var previews: some View {
-        TempView(temp: -40)
-    }
-}

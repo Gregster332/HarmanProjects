@@ -106,7 +106,5 @@ class a_when_add_new_city_screen_is_presented: XCTestCase {
         okButton.tap()
         
         XCTAssertTrue(!app.alerts.firstMatch.exists)
-//        let alert = app.staticTexts["WrongText"]
-//        XCTAssertTrue(alert.exists)
     }
 }

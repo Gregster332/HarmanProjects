@@ -18,12 +18,9 @@ struct DetailView: View {
     @Environment(\.verticalSizeClass) var heightClass: UserInterfaceSizeClass?
     @ObservedObject var viewModel = DetailViewModel()
     
-    
-    
     //MARK: - Private observables
     @Binding var hideSheet: Bool
     
-
     var body: some View {
         //MARK: - View
         if weatherDetails != nil {

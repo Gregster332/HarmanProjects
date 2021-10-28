@@ -7,12 +7,14 @@
 
 import UIKit
 import SwiftUI
+import MapKit
 
 class DetailViewModel: ObservableObject {
     
     var language = LocalizationService.shared.language
     var color = ColorChangeService.shared.color
     
+    @Published var location = CLLocationCoordinate2D(latitude: 0, longitude: 0)
     
     internal func calculateWidth(heightClass: UserInterfaceSizeClass?, screenHeight: CGFloat) -> CGFloat {
         print("\(UIScreen.main.bounds.height) height")
