@@ -14,13 +14,13 @@ struct LocationView: View {
     let lat: Double
     let lon: Double
     
-    @ObservedObject var viewModel = DetailViewModel()
+    @ObservedObject var viewModel: DetailViewModel
     @Environment(\.verticalSizeClass) var heightClass: UserInterfaceSizeClass?
     
     var body: some View {
         MapView(center: $viewModel.location)
             .padding()
-            .frame(width: viewModel.calculateWidth(heightClass: heightClass, screenHeight: UIScreen.main.bounds.height),
+            .frame(width: heightClass == .regular ? Constants.Widths.mapViewWidth : Constants.Widths.mapViewWidth2,
                    height: Constants.Heights.settingsViewHeight3)
             .background(ColorChangeService.shared.changeColor(color: viewModel.color.rawValue))
             .cornerRadius(Constants.CornerRadiuses.addCityViewTextFieldCornerRaduis)
@@ -28,11 +28,5 @@ struct LocationView: View {
                 viewModel.location.longitude = lon
                 viewModel.location.latitude = lat
             }
-    }
-}
-
-struct LocationView_Previews: PreviewProvider {
-    static var previews: some View {
-        LocationView(lat: 30, lon: 30)
     }
 }

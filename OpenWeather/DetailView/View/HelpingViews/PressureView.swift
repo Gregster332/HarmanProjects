@@ -38,11 +38,8 @@ struct PressureView: View {
                 Image(systemName: imageName)
                 Text(description)
                     .accessibilityIdentifier("DescText")
-                    .font(.system(size: viewModel.calculateFont(heightClass: heightClass, screenHeight: UIScreen.main.bounds.height)))
+                    .font(.system(size: heightClass == .regular ? Constants.Fonts.detailViewFragmentFont1 : Constants.Fonts.detailViewFragmentFont2))
             }
-            
-           
-            
             
             HStack {
                 Text("950")
@@ -51,12 +48,12 @@ struct PressureView: View {
                         Rectangle()
                             .fill(.gray)
                             .cornerRadius(Constants.CornerRadiuses.attentionViewCornerRadius)
-                            .frame(width: Constants.MathContants.rectangleFullWidth)
+                            .frame(width: Constants.MathContants.rectangleFullWidth, height: Constants.Heights.settingsViewDeleteButtonHeight)
                         
                         Rectangle()
                             .fill(LinearGradient(gradient: Gradient(colors: [Color.white, Color.yellow, Color.red]), startPoint: .leading, endPoint: .trailing))
                             .cornerRadius(Constants.CornerRadiuses.attentionViewCornerRadius)
-                            .frame(width: rectangleWidth)
+                            .frame(width: rectangleWidth, height: Constants.Heights.settingsViewDeleteButtonHeight)
                         
                     }
                     Text("\(index)hPa")
@@ -66,8 +63,8 @@ struct PressureView: View {
             }
         }
         .padding()
-        .frame(width: viewModel.calculateWidth(heightClass: heightClass, screenHeight: UIScreen.main.bounds.height),
-               height: Constants.Heights.fragmentViewHeight)
+        .frame(maxWidth: .infinity,
+               maxHeight: Constants.Heights.fragmentViewHeight)
         .background(ColorChangeService.shared.changeColor(color: viewModel.color.rawValue))
         .cornerRadius(Constants.CornerRadiuses.addCityViewTextFieldCornerRaduis)
     }

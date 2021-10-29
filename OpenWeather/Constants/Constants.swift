@@ -19,9 +19,9 @@ class Constants {
         static public let minWidthOfPressureRectangle = 950
         static public let lowerLimit: CGFloat = 50
         static public let percentage: CGFloat = 100
-        static public let rectangleFullWidth: CGFloat = 230
+        static public let rectangleFullWidth: CGFloat = 205
         static public let zero: CGFloat = 0
-        static public let multiplyValueForRecatgle: CGFloat = 2.55
+        static public let multiplyValueForRecatgle: CGFloat = 2.05
     }
     
     class Offsets {
@@ -42,12 +42,19 @@ class Constants {
     class Fonts {
         static public let attentionFont: CGFloat = 25
         static public let refreshFont: CGFloat = 23
+        static public let settingsViewDeleteButtonRegularFont: CGFloat = 17
         static public let temperatureDescriptionCellFont: CGFloat = 20
         static public let addCityViewEnterCityFont: CGFloat = 30
         static public let plusForTemperatureDescriptionCellMainTextFont: CGFloat = 20
         static public let plusForTemperatureDescriptionCellCityTextFont: CGFloat = 3
         static public let plusForSettingsViewDeleteButtonFont: CGFloat = 10
         static public let plusForSettingsViewLanguageChangeButtonFont: CGFloat = 5
+        static public let weatherLabelSize1: CGFloat = 65
+        static public let weatherLabelSize2: CGFloat = 80
+        static public let cityLabelSize1: CGFloat = 24
+        static public let cityLabelSize2: CGFloat = 28
+        static public let detailViewFragmentFont1: CGFloat = 29
+        static public let detailViewFragmentFont2: CGFloat = 32
     }
     
     class CornerRadiuses {
@@ -84,6 +91,11 @@ class Constants {
         static public let tempViewWidth: CGFloat = 150
         static public let tempViewWidth2: CGFloat = 165
         static public let searchedCityViewWidth: CGFloat = 50
+        static public let settingsViewMaxWidth1: CGFloat = 100
+        static public let settingsViewMaxWidth2: CGFloat = 120
+        static public let settingsViewRegularWidth: CGFloat = 350
+        static public let mapViewWidth: CGFloat = 360
+        static public let mapViewWidth2: CGFloat = 500
     }
     
     class Heights {
@@ -100,13 +112,15 @@ class Constants {
         static public let tempViewHeight: CGFloat = 150
         static public let tempViewHeight2: CGFloat = 165
         static public let searchedCityViewHeight: CGFloat = 50
+        static public let settingsViewMaxHeight1: CGFloat = 80
+        static public let settingsViewMaxHeight2: CGFloat = 70
     }
     
     class Spacings {
         static public let temperatureDescriptionViewMainHstackSpacing: CGFloat = 50
         static public let zeroSpacing: CGFloat = 0
-        static public let settingsViewMainVStackSpacing: CGFloat = 40
-        static public let settingsViewMainHStackSpacing: CGFloat = 60
+        static public let settingsViewMainVStackSpacing: CGFloat = 35
+        static public let settingsViewMainHStackSpacing: CGFloat = 40
         static public let addCityViewMainVSatckSpacing: CGFloat = 20
         static public let detailViewCurrentCityInfoSpacing: CGFloat = 10
         static public let fragmentViewSpacing: CGFloat = 30

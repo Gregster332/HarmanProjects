@@ -19,7 +19,6 @@ struct AddCityView: View {
     var body: some View {
         //MARK: - View
         VStack(alignment: .center, spacing: Constants.Spacings.addCityViewMainVSatckSpacing) {
-            
             Text("enter_city_name".localized(viewModel.language))
                 .multilineTextAlignment(.center)
                 .lineLimit(nil)
@@ -70,12 +69,8 @@ struct AddCityView: View {
                     })))
                 }
             
-            
-            
             Button(action: {
                 withAnimation(.easeInOut) {
-                    //print("llolooko")
-                    // presentationMode.wrappedValue.dismiss()
                     viewModel.showAddView.toggle()
                     viewModel.searcedCurrentCity = ""
                     UIApplication.shared.endEditing()
@@ -104,3 +99,11 @@ struct AddCityView: View {
     }
 }
 
+struct AddCityView_Previews: PreviewProvider {
+    static var previews: some View {
+        AddCityView(viewModel: MainViewModel())
+        AddCityView(viewModel: MainViewModel()).previewDevice("iPhone 8").previewInterfaceOrientation(.landscapeRight)
+        AddCityView(viewModel: MainViewModel()).previewDevice("iPhone 12")
+    
+    }
+}

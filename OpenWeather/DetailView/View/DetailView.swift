@@ -11,34 +11,33 @@ import RealmSwift
 struct DetailView: View {
     
     //MARK: - Variables
-    @State var weatherDetails: City? = nil
+    var weatherDetails: City? = nil
     let isNavigationLink: Bool
     
     //MARK: - Global observables
     @Environment(\.verticalSizeClass) var heightClass: UserInterfaceSizeClass?
-    @ObservedObject var viewModel = DetailViewModel()
+    @StateObject var viewModel = DetailViewModel()
     
     //MARK: - Private observables
     @Binding var hideSheet: Bool
+    
     
     var body: some View {
         //MARK: - View
         if weatherDetails != nil {
         ScrollView(.vertical, showsIndicators: false) {
-            
             if isNavigationLink == false {
                 HStack {
                     Image(systemName: "backward.fill")
                         .accessibilityIdentifier("backImage")
                         .foregroundColor(Constants.Colors.settingsViewColor)
-                        .font(.system(size: viewModel.calculateFont(heightClass: heightClass, screenHeight: UIScreen.main.bounds.height)))
+                        .font(.system(size: heightClass == .regular ? Constants.Fonts.detailViewFragmentFont1 : Constants.Fonts.detailViewFragmentFont2))
                         .onTapGesture {
                             hideSheet.toggle()
-                            weatherDetails = nil
                         }
                     
                     Text("current_info".localized(viewModel.language))
-                        .font(.system(size: viewModel.calculateFont(heightClass: heightClass, screenHeight: UIScreen.main.bounds.height)))
+                        .font(.system(size: heightClass == .regular ? Constants.Fonts.detailViewFragmentFont1 : Constants.Fonts.detailViewFragmentFont2))
                         .fontWeight(.bold)
                         .accessibilityIdentifier("currentInfo")
                 }
@@ -48,11 +47,11 @@ struct DetailView: View {
                 VStack(alignment: .center, spacing: Constants.Spacings.detailViewCurrentCityInfoSpacing) {
                     Text("\(weatherDetails!.name)")
                         .accessibilityIdentifier("cityLabel")
-                        .font(.system(size: viewModel.calculateFont(heightClass: heightClass, screenHeight: UIScreen.main.bounds.height)))
+                        .font(.system(size: heightClass == .regular ? Constants.Fonts.detailViewFragmentFont1 : Constants.Fonts.detailViewFragmentFont2))
                     TempView(temp: weatherDetails!.temp - CGFloat(Constants.MathContants.toCelsius))
                     Text(weatherDetails!.main.lowercased().localized(viewModel.language))
                         .accessibilityIdentifier("descriptionLabel")
-                        .font(.system(size: viewModel.calculateFont(heightClass: heightClass, screenHeight: UIScreen.main.bounds.height)))
+                        .font(.system(size: heightClass == .regular ? Constants.Fonts.detailViewFragmentFont1 : Constants.Fonts.detailViewFragmentFont2))
                     HStack {
                         Text("max:".localized(viewModel.language))
                         Text("\(Int(weatherDetails!.tempMax) - Constants.MathContants.toCelsius)º")
@@ -69,11 +68,11 @@ struct DetailView: View {
                     FragmentView(description: "feels_like".localized(viewModel.language),
                                  index: "\(Int(weatherDetails!.feelsLike) - Constants.MathContants.toCelsius)",
                                  imageName: PicturesNames.thermometer.rawValue,
-                                 metric: Metrics.celsius.rawValue)
+                                 metric: Metrics.celsius.rawValue, viewModel: viewModel)
                     FragmentView(description: "humidity".localized(viewModel.language),
                                  index: "\(Int(weatherDetails!.humidity))",
                                  imageName: PicturesNames.dropFill.rawValue,
-                                 metric: Metrics.percent.rawValue)
+                                 metric: Metrics.percent.rawValue, viewModel: viewModel)
                     PressureView(description: "pressure".localized(viewModel.language),
                                  index: Int(weatherDetails!.pressure),
                                  imageName: PicturesNames.dialMin.rawValue,
@@ -81,12 +80,12 @@ struct DetailView: View {
                     FragmentView(description: "sunrise".localized(viewModel.language),
                                  index: "\(Date(timeIntervalSince1970: TimeInterval(weatherDetails!.sunrise)).timeIn24HourFormat())",
                                  imageName: PicturesNames.sunriseFill.rawValue,
-                                 metric: Metrics.empty.rawValue)
+                                 metric: Metrics.empty.rawValue, viewModel: viewModel)
                     FragmentView(description: "sunset".localized(viewModel.language),
                                  index: "\(Date(timeIntervalSince1970: TimeInterval(weatherDetails!.sunset)).timeIn24HourFormat())",
                                  imageName: PicturesNames.sunsetFill.rawValue,
-                                 metric: Metrics.empty.rawValue)
-                    LocationView(lat: weatherDetails!.lat, lon: weatherDetails!.lon)
+                                 metric: Metrics.empty.rawValue, viewModel: viewModel)
+                    LocationView(lat: weatherDetails!.lat, lon: weatherDetails!.lon, viewModel: viewModel)
                 }
             }
             .padding()
@@ -101,16 +100,10 @@ struct DetailView: View {
                 .edgesIgnoringSafeArea(.all)
                 .blur(radius: Constants.Blurs.detailViewBlur)
         )
-        
         .navigationBarTitle("current_info".localized(viewModel.language))
         } 
     }
    
 }
 
-struct DetailView_Previews: PreviewProvider {
-    static var previews: some View {
-        DetailView(weatherDetails: nil, isNavigationLink: true, hideSheet: .constant(true))
-        DetailView(weatherDetails: nil, isNavigationLink: true, hideSheet: .constant(true)).previewDevice("iPhone 12 Pro Max")
-    }
-}
+

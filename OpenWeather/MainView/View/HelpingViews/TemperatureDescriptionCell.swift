@@ -34,13 +34,11 @@ struct TemperatureDescriptionCell: View {
         //MARK: - View
         HStack(alignment: .center, spacing: Constants.Spacings.temperatureDescriptionViewMainHstackSpacing) {
             Text(main)
-                .font(.system(size: viewModel.calculateFont(heightClass: heightClass,
-                                                            screenHeight: UIScreen.main.bounds.height) + Constants.Fonts.plusForTemperatureDescriptionCellMainTextFont))
+                .font(.system(size: heightClass == .regular ? Constants.Fonts.weatherLabelSize1 : Constants.Fonts.weatherLabelSize2))
             
             VStack(alignment: .leading) {
                 Text(city)
-                    .font(.system(size: viewModel.calculateFont(heightClass: heightClass,
-                                                                screenHeight: UIScreen.main.bounds.height) - Constants.Fonts.plusForTemperatureDescriptionCellCityTextFont))
+                    .font(.system(size: heightClass == .regular ? Constants.Fonts.cityLabelSize1 : Constants.Fonts.cityLabelSize2))
                     .fontWeight(.bold)
                 HStack(alignment: .center, spacing: Constants.Spacings.zeroSpacing) {
                     Text("temp".localized(viewModel.language))

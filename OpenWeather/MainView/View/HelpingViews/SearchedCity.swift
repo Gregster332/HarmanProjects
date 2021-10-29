@@ -15,8 +15,7 @@ struct SearchedCity: View {
     var body: some View {
         HStack {
             Text("do_you_want_to_add".localized(viewModel.language))
-                .font(.system(size: viewModel.calculateFont(heightClass: heightClass,
-                                                            screenHeight: UIScreen.main.bounds.height)))
+                .font(.system(size: heightClass == .regular ? Constants.Fonts.cityLabelSize1 : Constants.Fonts.cityLabelSize2))
             
             Spacer()
             

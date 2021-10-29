@@ -20,10 +20,7 @@ struct MainView: View {
         } else {
             return viewModel.cities.filter { $0.name.contains(viewModel.searchItem) }
         }
-    }
-
-
-    
+    }    
     //MARK: - Init
     init() {
         UITableView.appearance().showsVerticalScrollIndicator = false
