@@ -37,6 +37,8 @@ class Constants {
         static public let settingsViewColor = Color(#colorLiteral(red: 0.2588235438, green: 0.7568627596, blue: 0.9686274529, alpha: 1))
         static public let addCityViewColor = Color.blue.opacity(0.3)
         static public let attentionForeground = Color(#colorLiteral(red: 0.832, green: 0.8, blue: 0.1, alpha: 1))
+        static public let yellowForeground: CGColor = Color(#colorLiteral(red: 0.832, green: 0.8, blue: 0.1, alpha: 1)).cgColor!
+        static public let whiteForeground: CGColor = Color(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)).cgColor!
     }
     
     class Fonts {
@@ -68,9 +70,11 @@ class Constants {
     }
     
     class AsyncSeconds {
-        static public let asyncHalfSecond: Double = 1.0
+        static public let asyncHalfSecond: Double = 0.5
         static public let asyncSecond = 1.0
         static public let asyncTwoSecond = 2.0
+        static public let successSeconds = 0.7
+        static public let successSecond2 = 1.3
     }
     
     class Blurs {
@@ -148,5 +152,10 @@ class Constants {
     class CoordinateSpans {
         static public let latDelta = 0.2
         static public let lonDelta = 0.2
+    }
+    
+    class ScaleEffects {
+        static public let defaultScale: CGFloat = 1
+        static public let successScale: CGFloat = 35
     }
 }

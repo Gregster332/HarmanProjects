@@ -16,46 +16,19 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jAy-Ok-WpJ">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                                <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="ODQ-BZ-O8z">
-                                        <rect key="frame" x="114.5" y="346" width="185" height="204"/>
-                                        <subviews>
-                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="launchScreenPicture" translatesAutoresizingMaskIntoConstraints="NO" id="JJy-jn-O7f">
-                                                <rect key="frame" x="0.0" y="0.0" width="185" height="128"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="128" id="Qjx-1X-fue"/>
-                                                    <constraint firstAttribute="width" constant="185" id="wMG-YD-qvH"/>
-                                                </constraints>
-                                            </imageView>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Open Weather" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="C3r-4m-ug1">
-                                                <rect key="frame" x="0.0" y="136" width="185" height="68"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="68" id="OHW-Ia-d46"/>
-                                                    <constraint firstAttribute="width" constant="185" id="dkF-UX-ZYa"/>
-                                                </constraints>
-                                                <fontDescription key="fontDescription" name="MarkerFelt-Wide" family="Marker Felt" pointSize="23"/>
-                                                <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                        </subviews>
-                                    </stackView>
-                                </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="sun1" translatesAutoresizingMaskIntoConstraints="NO" id="F6Z-Gl-9xT">
+                                <rect key="frame" x="167" y="413" width="80" height="80"/>
                                 <constraints>
-                                    <constraint firstItem="ODQ-BZ-O8z" firstAttribute="centerX" secondItem="jAy-Ok-WpJ" secondAttribute="centerX" id="Bz4-gO-rjo"/>
-                                    <constraint firstItem="ODQ-BZ-O8z" firstAttribute="centerY" secondItem="jAy-Ok-WpJ" secondAttribute="centerY" id="kqo-iV-fVM"/>
+                                    <constraint firstAttribute="width" constant="80" id="Emu-AU-beZ"/>
+                                    <constraint firstAttribute="height" constant="80" id="vbu-qJ-NFp"/>
                                 </constraints>
-                            </view>
+                            </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="jAy-Ok-WpJ" secondAttribute="trailing" id="8VB-ne-3Yc"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="jAy-Ok-WpJ" secondAttribute="bottom" constant="-34" id="dPr-cV-mqo"/>
-                            <constraint firstItem="jAy-Ok-WpJ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="kuC-lx-cLd"/>
-                            <constraint firstItem="jAy-Ok-WpJ" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="-44" id="lb3-58-gWI"/>
+                            <constraint firstItem="F6Z-Gl-9xT" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="0c8-KI-dk2"/>
+                            <constraint firstItem="F6Z-Gl-9xT" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" id="9JV-Yn-aQv"/>
                         </constraints>
                     </view>
                 </viewController>
@@ -65,7 +38,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="launchScreenPicture" width="490" height="490"/>
+        <image name="sun1" width="80" height="80"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

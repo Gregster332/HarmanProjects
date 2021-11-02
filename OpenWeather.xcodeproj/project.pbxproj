@@ -24,6 +24,8 @@
 		D0192D04270B119800C1C1DE /* TestDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0192D03270B119800C1C1DE /* TestDetailViewModel.swift */; };
 		D0192D06270B166900C1C1DE /* TestDateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0192D05270B166900C1C1DE /* TestDateExtension.swift */; };
 		D0361CC22729E01500532E1B /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0361CC12729E01500532E1B /* MapView.swift */; };
+		D0361CE427302D9300532E1B /* GetResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0361CE327302D9300532E1B /* GetResult.swift */; };
+		D0361CE627302DE100532E1B /* ResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0361CE527302DE100532E1B /* ResultView.swift */; };
 		D053B37326FC7CB800307F56 /* DBModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D053B37226FC7CB800307F56 /* DBModel.swift */; };
 		D053B37626FCB38800307F56 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D053B37526FCB38800307F56 /* Date+Extension.swift */; };
 		D053B37A26FF46EF00307F56 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D053B37926FF46EF00307F56 /* LocationManager.swift */; };
@@ -120,6 +122,8 @@
 		D0192D03270B119800C1C1DE /* TestDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestDetailViewModel.swift; sourceTree = "<group>"; };
 		D0192D05270B166900C1C1DE /* TestDateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestDateExtension.swift; sourceTree = "<group>"; };
 		D0361CC12729E01500532E1B /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
+		D0361CE327302D9300532E1B /* GetResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetResult.swift; sourceTree = "<group>"; };
+		D0361CE527302DE100532E1B /* ResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultView.swift; sourceTree = "<group>"; };
 		D053B37226FC7CB800307F56 /* DBModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBModel.swift; sourceTree = "<group>"; };
 		D053B37526FCB38800307F56 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		D053B37926FF46EF00307F56 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
@@ -286,6 +290,7 @@
 				D00C346827070A9E00FE6BCF /* AttentionView.swift */,
 				D0C8191B2704FABC00ECC355 /* TemperatureDescriptionCell.swift */,
 				D0A062B927239D3E00F674A0 /* SearchedCity.swift */,
+				D0361CE527302DE100532E1B /* ResultView.swift */,
 			);
 			path = HelpingViews;
 			sourceTree = "<group>";
@@ -437,6 +442,7 @@
 				D0E41F61270F13DA00110F6D /* Colors.swift */,
 				D0E5EFD42715902A004B3628 /* Metrics.swift */,
 				D0E5EFD6271591AD004B3628 /* PicturesNames.swift */,
+				D0361CE327302D9300532E1B /* GetResult.swift */,
 			);
 			path = Enums;
 			sourceTree = "<group>";
@@ -735,6 +741,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D00C34402705A12B00FE6BCF /* Emojis.swift in Sources */,
+				D0361CE427302D9300532E1B /* GetResult.swift in Sources */,
 				D0C307B12726A80900DAAFC4 /* LocationView.swift in Sources */,
 				D06A064A270DA46100E05CDA /* SettingsView.swift in Sources */,
 				D0550AE226FB4D01007E2625 /* AppDelegate.swift in Sources */,
@@ -745,6 +752,7 @@
 				D0550AE426FB4D01007E2625 /* SceneDelegate.swift in Sources */,
 				D0E41F5C270E2F3100110F6D /* String+Extension.swift in Sources */,
 				D053B37626FCB38800307F56 /* Date+Extension.swift in Sources */,
+				D0361CE627302DE100532E1B /* ResultView.swift in Sources */,
 				D0B6A8E227172C4A00DF541A /* RealmServiceSecond.swift in Sources */,
 				D0E41F62270F13DA00110F6D /* Colors.swift in Sources */,
 				D0C8191C2704FABC00ECC355 /* TemperatureDescriptionCell.swift in Sources */,

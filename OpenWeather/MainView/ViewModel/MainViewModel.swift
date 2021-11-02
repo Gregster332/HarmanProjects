@@ -28,6 +28,7 @@ class MainViewModel: ObservableObject {
     @Published var searcedCurrentCity: String = ""
     @Published var city: City? = nil
     @Published var cities: [City] = []
+    @Published var result: GetResult = .NOTHING
     @AppStorage("language") var language = LocalizationService.shared.language
     @AppStorage("color") var color = ColorChangeService.shared.color
     
@@ -140,6 +141,9 @@ class MainViewModel: ObservableObject {
                 case .success(let item):
                     self.addCityToDB(city: self.getCityFromWelcome(welcome: item)!)
                     self.fetchAllFromDB()
+                    withAnimation(.easeInOut) {
+                        self.result = .OK
+                    }
                 case .failure(let error):
                     print(error.localizedDescription)
                 }

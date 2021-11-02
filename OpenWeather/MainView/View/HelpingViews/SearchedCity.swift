@@ -26,6 +26,9 @@ struct SearchedCity: View {
                             switch(result) {
                             case .success(let item):
                                 viewModel.addCityToDB(city: viewModel.getCityFromWelcome(welcome: item))
+                                withAnimation(.easeInOut) {
+                                    viewModel.result = .OK
+                                }
                             case .failure(let error):
                                 print(error.localizedDescription)
                             }
